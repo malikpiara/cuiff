@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standup</title>
+    <link rel="stylesheet" href="/static/css/styles.css"/>
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar_logo">
+            standup
+        </div>
+        <ul class="navbar_navigation">
+            <li class="navbar_navigation_item"><a href="#" class="navbar_link">Recent</a></li>
+            <li class="navbar_navigation_item"><a href="#" class="navbar_link">Calendar</a></li>
+        </ul>
+    </header>
+    <main class="main">
+        <section>
+            <h1>What did you work on today?</h1>
+            <form class="form" method="POST">
+                <p class="form_input">
+                    <textarea name="content" id="entry" class="form_textarea" aria-label="entry contents" placeholder="Your answer..."></textarea>
+                </p>
+                <button type="submit" class="form_submit">Submit</button>
+            </form>
+        </section>
+        <section>
+            <h1>Recent updates</h1>
+            {% for entry in entries %}
+                <article class="entry">
+                        <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
+                    <p class="entry_content">
+                    {{ entry[0] }}
+                    </p>
+            </article>
+            {% endfor %}
+        </section>
+    </main>
+    <footer></footer>
+</body>
+</html>
