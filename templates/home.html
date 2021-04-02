@@ -15,11 +15,12 @@
         <ul class="navbar_navigation">
             <li class="navbar_navigation_item"><a href="#" class="navbar_link">Recent</a></li>
             <li class="navbar_navigation_item"><a href="#" class="navbar_link">Calendar</a></li>
+            <li class="navbar_navigation_item"><a href="#" class="navbar_link">Log Out</a></li>
         </ul>
     </header>
     <main class="main">
         <section>
-            <h1>What did you work on today?</h1>
+            <h1>Hi {{ session.username }}, what did you work on today?</h1>
             <form class="form" method="POST">
                 <p class="form_input">
                     <textarea name="content" id="entry" class="form_textarea" aria-label="entry contents" placeholder="Your answer..."></textarea>

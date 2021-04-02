@@ -1,6 +1,7 @@
 import os
 import datetime
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, session
+from flask_session import Session
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
@@ -9,12 +10,27 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+
+    # Session config. Followed documentation
+    app.config["SESSION_PERMANENT"] = False
+    app.config["SESSION_TYPE"] = "filesystem"
+    Session(app)
+
     client = MongoClient(os.environ.get("MONGODB_URI"),
                          ssl=True, ssl_cert_reqs='CERT_NONE')
     app.db = client.standups
 
+    @app.route("/login", methods=["GET", "POST"])
+    def login():
+        if request.method == "POST":
+            session["username"] = request.form.get("username")
+            return redirect("/")
+        return render_template("login.html")
+
     @app.route("/", methods=["GET", "POST"])
     def home():
+        if not session.get("username"):
+            return redirect("/login")
         if request.method == "POST":
             entry_content = request.form.get("content")
             formatted_date = datetime.datetime.today().strftime("%Y-%m-%d")
