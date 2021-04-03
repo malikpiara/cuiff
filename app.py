@@ -12,6 +12,7 @@ def create_app():
     app = Flask(__name__)
 
     # Session config. Followed documentation
+    # Will have to change this and connect with MongoDB to deploy
     app.config["SESSION_PERMANENT"] = False
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
@@ -27,6 +28,11 @@ def create_app():
             return redirect("/")
         return render_template("login.html")
 
+    @app.route("/logout")
+    def logout():
+        session["username"] = None
+        return redirect("/login")
+
     @app.route("/", methods=["GET", "POST"])
     def home():
         if not session.get("username"):
@@ -35,14 +41,15 @@ def create_app():
             entry_content = request.form.get("content")
             formatted_date = datetime.datetime.today().strftime("%Y-%m-%d")
             app.db.entries.insert(
-                {"content": entry_content, "date": formatted_date})
+                {"content": entry_content, "date": formatted_date, "author": session["username"]})
 
         entries_with_date = [
             (
                 entry["content"],
                 entry["date"],
                 datetime.datetime.strptime(
-                    entry["date"], "%Y-%m-%d").strftime("%b %d, %Y")
+                    entry["date"], "%Y-%m-%d").strftime("%b %d, %Y"),
+                entry["author"]
             )
             for entry in app.db.entries.find({})
         ]

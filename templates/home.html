@@ -15,7 +15,7 @@
         <ul class="navbar_navigation">
             <li class="navbar_navigation_item"><a href="#" class="navbar_link">Recent</a></li>
             <li class="navbar_navigation_item"><a href="#" class="navbar_link">Calendar</a></li>
-            <li class="navbar_navigation_item"><a href="#" class="navbar_link">Log Out</a></li>
+            <li class="navbar_navigation_item"><a href="/logout" class="navbar_link">Log Out</a></li>
         </ul>
     </header>
     <main class="main">
@@ -33,10 +33,13 @@
             {% for entry in entries %}
                 <article class="entry">
                         <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
-                    <p class="entry_content">
-                    {{ entry[0] }}
-                    </p>
-            </article>
+                        <p class="entry_author">
+                            {{ entry[3] }}
+                        </p>
+                        <p class="entry_content">
+                            {{ entry[0] }}
+                        </p>
+                </article>
             {% endfor %}
         </section>
     </main>
