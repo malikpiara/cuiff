@@ -1,6 +1,6 @@
 import os
 import datetime
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, url_for
 from flask_session import Session
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -54,5 +54,20 @@ def create_app():
             for entry in app.db.entries.find({})
         ]
         return render_template("home.html", entries=entries_with_date)
+
+    @app.route("/progress/<author>")
+    def progress(author):
+        entries_with_date = [
+            (
+                entry["content"],
+                entry["date"],
+                datetime.datetime.strptime(
+                    entry["date"], "%Y-%m-%d").strftime("%b %d, %Y"),
+                entry["author"]
+            )
+            for entry in app.db.entries.find({})
+        ]
+        return render_template("progress.html",
+                               entries=entries_with_date, author=author)
 
     return app
