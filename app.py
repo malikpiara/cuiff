@@ -53,7 +53,10 @@ def create_app():
             )
             for entry in app.db.entries.find({})
         ]
-        return render_template("home.html", entries=entries_with_date)
+        latest = sorted(entries_with_date,
+                        key=lambda entries_with_date: entries_with_date[2],
+                        reverse=True)
+        return render_template("home.html", entries=latest)
 
     @app.route("/progress/<author>")
     def progress(author):
@@ -67,7 +70,10 @@ def create_app():
             )
             for entry in app.db.entries.find({})
         ]
+        latest = sorted(entries_with_date,
+                        key=lambda entries_with_date: entries_with_date[2],
+                        reverse=True)
         return render_template("progress.html",
-                               entries=entries_with_date, author=author)
+                               entries=latest, author=author)
 
     return app
