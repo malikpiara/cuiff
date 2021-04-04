@@ -2,7 +2,7 @@
 {% block main %}
     <main class="main">
         <section>
-            <h1>Hi {{ session.username }}, what did you work on today?</h1>
+            <h1>Hi {{ session.username | capitalize }}, what did you work on today?</h1>
             <form class="form" method="POST">
                 <p class="form_input">
                     <textarea name="content" id="entry" class="form_textarea" aria-label="entry contents" placeholder="Your answer..."></textarea>
@@ -18,7 +18,7 @@
                         <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
                         <p class="entry_author">
                             <a href="{{ url_for('progress', author=entry[3]) }}">
-                            {{ entry[3] }}
+                            <strong>{{ entry[3] }}</strong>
                             </a>
                         </p>
                         <p class="entry_content">

@@ -13,9 +13,9 @@
             standup
         </div>
         <ul class="navbar_navigation">
-            <li class="navbar_navigation_item"><a href="#" class="navbar_link">Recent</a></li>
+            <li class="navbar_navigation_item"><a href="{{ url_for('home') }}" class="navbar_link">Recent</a></li>
             <li class="navbar_navigation_item"><a href="#" class="navbar_link">Calendar</a></li>
-            <li class="navbar_navigation_item"><a href="/logout" class="navbar_link">Log Out</a></li>
+            <li class="navbar_navigation_item"><a href="{{ url_for('logout') }}" class="navbar_link">Log Out</a></li>
         </ul>
     </header>
     {% block main %}

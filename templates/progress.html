@@ -2,7 +2,7 @@
 {% block main %}
     <main class="main">
         <section>
-            <h1>{{ author }}'s activity</h1>
+            <h1>{{ author | capitalize }}'s activity</h1>
         </section>
         <section>
             <h1>Recent updates</h1>
@@ -11,7 +11,7 @@
                 <article class="entry">
                         <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
                         <p class="entry_author">
-                            {{ entry[3] }}
+                            <strong>{{ entry[3] }}</strong>
                         </p>
                         <p class="entry_content">
                             {{ entry[0] }}
