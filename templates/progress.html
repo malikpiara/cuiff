@@ -1,23 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Standup</title>
-    <link rel="stylesheet" href="/static/css/styles.css"/>
-</head>
-<body>
-    <header class="navbar">
-        <div class="navbar_logo">
-            standup
-        </div>
-        <ul class="navbar_navigation">
-            <li class="navbar_navigation_item"><a href="#" class="navbar_link">Recent</a></li>
-            <li class="navbar_navigation_item"><a href="#" class="navbar_link">Calendar</a></li>
-            <li class="navbar_navigation_item"><a href="/logout" class="navbar_link">Log Out</a></li>
-        </ul>
-    </header>
+{% extends "layout.html" %}
+{% block main %}
     <main class="main">
         <section>
             <h1>{{ author }}'s activity</h1>
@@ -39,6 +21,4 @@
             {% endfor %}
         </section>
     </main>
-    <footer></footer>
-</body>
-</html>
+{% endblock %}
