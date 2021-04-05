@@ -44,17 +44,14 @@ html {
   align-items: flex-end;
 }
 
-.form_input {
-  width: 100%;
-}
-
 .form_textarea {
-  width: inherit;
   font-size: 18px;
   padding: 12px 25px;
   background-color: #faf8f7;
   border-radius: 8px;
   border: none;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .form_submit {

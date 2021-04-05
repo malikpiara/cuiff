@@ -2,13 +2,17 @@
 {% block main %}
     <main class="main">
         <section>
-            <h1>Hi {{ session.username | capitalize }}, what did you work on today?</h1>
-            <form class="form" method="POST">
-                <p class="form_input">
-                    <textarea name="content" id="entry" class="form_textarea" aria-label="entry contents" placeholder="Your answer..."></textarea>
-                </p>
-                <button type="submit" class="form_submit">Submit</button>
+            <h1>Hi {{ session.username | capitalize }},
+                what did you work on today?
+            </h1>
+
+            <form class="form" method="post" action="{{url_for('home')}}">
+            {{ form.hidden_tag() }}
+            {{ form.entry_input(class="form_textarea",
+                                placeholder="Your answer...") }}
+            {{ form.post(class="form_submit") }}
             </form>
+
         </section>
         <section>
             <h1>Recent updates</h1>

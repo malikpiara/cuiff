@@ -3,15 +3,20 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Login</title>
+    <title>Sign up</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen'
+    href='/static/css/styles.css'>
 </head>
 <body>
-    <h1>Log in</h1>
+    <main class="main">
+    <h1>Create a new account</h1>
     <form method="post">
         {{ form.hidden_tag() }}
-        {{ form.name.label }}{{ form.name() }}
+        {{ form.email_address(placeholder="email@example.com") }}
+        {{ form.name(placeholder="Ada Lovelace") }}
         {{ form.submit() }}
     </form>
+    </main>
 </body>
 </html>
