@@ -33,9 +33,23 @@ def create_app():
         # redirect user to the homepage.
         if session.get("username"):
             return redirect(url_for("home"))
+        # Se o nome submitido tiver na base de dados
+        # Store in session e redirect para a homepage.
         if form.validate_on_submit():
-            session["username"] = form.name.data
-            return redirect(url_for("home"))
+            name = form.name.data
+            people = [
+                (
+                    entry["name"]
+                )
+                for entry in app.db.users.find({})
+            ]
+            print(people[1])
+            if name in people:
+                print("Found in the database")
+                session["username"] = name
+                return redirect(url_for("home"))
+            else:
+                print("Somethings wrong")
         return render_template("login.html", form=form)
 
     @app.route("/logout")
@@ -112,5 +126,5 @@ def create_app():
                                entries=latest, author=author)
 
     if __name__ == '__main__':
-        app.run()
+        app.run(debug=True)
     return app
