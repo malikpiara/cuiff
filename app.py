@@ -14,7 +14,7 @@ def create_app():
 
     # Secret Key config for WTF forms.
     # There's a better way of doing this.
-    app.config['SECRET_KEY'] = 'mysecretkey'
+    app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
     # Session config. Followed documentation
     # Will have to change this and connect with MongoDB to deploy
@@ -37,15 +37,16 @@ def create_app():
         # Store in session e redirect para a homepage.
         if form.validate_on_submit():
             name = form.name.data
-            people = [
+            db_name = app.db.users.find({"name": name})
+            """ people = [
                 (
                     entry["name"]
                 )
                 for entry in app.db.users.find({})
-            ]
-            print(people[1])
-            if name in people:
-                print("Found in the database")
+            ] """
+            print(db_name.count())
+            if db_name.count():
+                print(name)
                 session["username"] = name
                 return redirect(url_for("home"))
             else:
