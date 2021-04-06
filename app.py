@@ -93,7 +93,7 @@ def create_app():
             return redirect(url_for('home'))
 
         # Showing entries from database on the page.
-        entries_with_date = [
+        entries = [
             (
                 entry["content"],
                 entry["date"],
@@ -101,12 +101,10 @@ def create_app():
                     entry["date"], "%Y-%m-%d").strftime("%b %d, %Y"),
                 entry["author"]
             )
-            for entry in app.db.entries.find({})
+            for entry in app.db.entries.find({}).sort([("date", -1)])
         ]
-        latest = sorted(entries_with_date,
-                        key=lambda entries_with_date: entries_with_date[2],
-                        reverse=True)
-        return render_template("home.html", entries=latest, form=form)
+
+        return render_template("home.html", entries=entries, form=form)
 
     @app.route("/progress/<author>")
     def progress(author):
