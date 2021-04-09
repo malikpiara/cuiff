@@ -1,10 +1,10 @@
+from dotenv import load_dotenv
 import os
 from forms import Entry, SignIn, SignUp
 import datetime
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_session import Session
 from pymongo import MongoClient
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -16,15 +16,19 @@ def create_app():
     # There's a better way of doing this.
     app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
+    # MongoDB Setup
+    client = MongoClient(os.environ.get("MONGODB_URI"),
+                         ssl=True, ssl_cert_reqs='CERT_NONE')
+    app.db = client.standups
+
     # Session config. Followed documentation
     # Will have to change this and connect with MongoDB to deploy
     app.config["SESSION_PERMANENT"] = False
     app.config["SESSION_TYPE"] = "filesystem"
-    Session(app)
+    # app.config["SESSION_MONGODB"] = client
+    # app.config["SESSION_MONGODB_DB"] = client.standups
 
-    client = MongoClient(os.environ.get("MONGODB_URI"),
-                         ssl=True, ssl_cert_reqs='CERT_NONE')
-    app.db = client.standups
+    Session(app)
 
     @app.route("/login", methods=["GET", "POST"])
     def login():
@@ -108,7 +112,7 @@ def create_app():
 
     @app.route("/progress/<author>")
     def progress(author):
-        entries_with_date = [
+        entries = [
             (
                 entry["content"],
                 entry["date"],
@@ -116,13 +120,10 @@ def create_app():
                     entry["date"], "%Y-%m-%d").strftime("%b %d, %Y"),
                 entry["author"]
             )
-            for entry in app.db.entries.find({})
+            for entry in app.db.entries.find({}).sort([("date", -1)])
         ]
-        latest = sorted(entries_with_date,
-                        key=lambda entries_with_date: entries_with_date[2],
-                        reverse=True)
-        return render_template("progress.html",
-                               entries=latest, author=author)
+
+        return render_template("progress.html", entries=entries, author=author)
 
     if __name__ == '__main__':
         app.run(debug=True)
