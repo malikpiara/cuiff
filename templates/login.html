@@ -10,7 +10,8 @@
     <h1>Log in</h1>
     <form method="post">
         {{ form.hidden_tag() }}
-        {{ form.name.label }}{{ form.name() }}
+        {{ form.name.label }}{{ form.name(placeholder="Your Name") }}
+        {{ form.password(placeholder="Password") }}
         {{ form.submit() }}
     </form>
 </body>

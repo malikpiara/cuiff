@@ -5,6 +5,7 @@ import datetime
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_session import Session
 from pymongo import MongoClient
+from werkzeug.security import generate_password_hash, check_password_hash
 
 load_dotenv()
 
@@ -41,18 +42,22 @@ def create_app():
         # Store in session e redirect para a homepage.
         if form.validate_on_submit():
             name = form.name.data
-            db_name = app.db.users.find({"name": name})
-            """ people = [
-                (
-                    entry["name"]
-                )
-                for entry in app.db.users.find({})
-            ] """
-            print(db_name.count())
-            if db_name.count():
+            password = form.password.data
+            db_name = app.db.users.find_one(
+                {
+                    "name": name
+                }
+            )
+
+            if db_name:
+                check = check_password_hash(db_name["password"], password)
                 print(name)
-                session["username"] = name
-                return redirect(url_for("home"))
+                print(password)
+                print(check)
+                if check_password_hash(db_name["password"], password):
+                    print(name)
+                    session["username"] = name
+                    return redirect(url_for("home"))
             else:
                 print("Somethings wrong")
         return render_template("login.html", form=form)
@@ -70,10 +75,13 @@ def create_app():
         if form.validate_on_submit():
             email_address = form.email_address.data
             name = form.name.data
+            hashed_pass = generate_password_hash(
+                form.password.data)
             app.db.users.insert(
                 {
                     "email": email_address,
-                    "name": name
+                    "name": name,
+                    "password": hashed_pass
                 }
             )
             return redirect(url_for("home"))
