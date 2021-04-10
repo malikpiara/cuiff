@@ -54,7 +54,7 @@ def create_app():
                 print(name)
                 print(password)
                 print(check)
-                if check_password_hash(db_name["password"], password):
+                if check:
                     print(name)
                     session["username"] = name
                     return redirect(url_for("home"))
