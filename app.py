@@ -25,9 +25,10 @@ def create_app():
     # Session config. Followed documentation
     # Will have to change this and connect with MongoDB to deploy
     app.config["SESSION_PERMANENT"] = False
-    app.config["SESSION_TYPE"] = "filesystem"
-    # app.config["SESSION_MONGODB"] = client
-    # app.config["SESSION_MONGODB_DB"] = client.standups
+    app.config["SESSION_TYPE"] = "mongodb"
+    app.config["SESSION_MONGODB"] = client
+    app.config["SESSION_MONGODB_DB"] = "standups"
+    app.config["SESSION_MONGODB_COLLECT"] = "sessions"
 
     Session(app)
 
@@ -51,11 +52,8 @@ def create_app():
 
             if db_name:
                 check = check_password_hash(db_name["password"], password)
-                print(name)
-                print(password)
-                print(check)
+
                 if check:
-                    print(name)
                     session["username"] = name
                     return redirect(url_for("home"))
             else:
