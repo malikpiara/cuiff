@@ -24,7 +24,7 @@ def create_app():
 
     # Session config. Followed documentation
     # Will have to change this and connect with MongoDB to deploy
-    app.config["SESSION_PERMANENT"] = False
+    app.config["SESSION_PERMANENT"] = True
     app.config["SESSION_TYPE"] = "mongodb"
     app.config["SESSION_MONGODB"] = client
     app.config["SESSION_MONGODB_DB"] = "standups"
