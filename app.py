@@ -85,6 +85,19 @@ def create_app():
             return redirect(url_for("home"))
         return render_template("signup.html", form=form)
 
+    def get_entries():
+        entries = [
+            (
+                entry["content"],
+                entry["date"],
+                datetime.datetime.strptime(
+                    entry["date"], "%Y-%m-%d %H-%M-%S").strftime("%b %d, %Y"),
+                entry["author"]
+            )
+            for entry in app.db.entries.find({}).sort([("date", -1)])
+        ]
+        return entries
+
     @app.route("/", methods=["GET", "POST"])
     def home():
         form = Entry()
@@ -103,31 +116,13 @@ def create_app():
             return redirect(url_for('home'))
 
         # Showing entries from database on the page.
-        entries = [
-            (
-                entry["content"],
-                entry["date"],
-                datetime.datetime.strptime(
-                    entry["date"], "%Y-%m-%d %H-%M-%S").strftime("%b %d, %Y"),
-                entry["author"]
-            )
-            for entry in app.db.entries.find({}).sort([("date", -1)])
-        ]
+        entries = get_entries()
 
         return render_template("home.html", entries=entries, form=form)
 
     @app.route("/progress/<author>")
     def progress(author):
-        entries = [
-            (
-                entry["content"],
-                entry["date"],
-                datetime.datetime.strptime(
-                    entry["date"], "%Y-%m-%d").strftime("%b %d, %Y"),
-                entry["author"]
-            )
-            for entry in app.db.entries.find({}).sort([("date", -1)])
-        ]
+        entries = get_entries()
 
         return render_template("progress.html", entries=entries, author=author)
 
