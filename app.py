@@ -92,7 +92,7 @@ def create_app():
             return redirect("/login")
         if form.validate_on_submit():
             entry_content = form.entry_input.data
-            formatted_date = datetime.datetime.today().strftime("%Y-%m-%d")
+            formatted_date = datetime.datetime.today().strftime("%Y-%m-%d %H-%M-%S")
             app.db.entries.insert(
                 {
                     "content": entry_content,
@@ -108,7 +108,7 @@ def create_app():
                 entry["content"],
                 entry["date"],
                 datetime.datetime.strptime(
-                    entry["date"], "%Y-%m-%d").strftime("%b %d, %Y"),
+                    entry["date"], "%Y-%m-%d %H-%M-%S").strftime("%b %d, %Y"),
                 entry["author"]
             )
             for entry in app.db.entries.find({}).sort([("date", -1)])
