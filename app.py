@@ -14,7 +14,6 @@ def create_app():
     app = Flask(__name__)
 
     # Secret Key config for WTF forms.
-    # There's a better way of doing this.
     app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
     # MongoDB Setup
@@ -23,7 +22,6 @@ def create_app():
     app.db = client.standups
 
     # Session config. Followed documentation
-    # Will have to change this and connect with MongoDB to deploy
     app.config["SESSION_PERMANENT"] = True
     app.config["SESSION_TYPE"] = "mongodb"
     app.config["SESSION_MONGODB"] = client
@@ -127,5 +125,5 @@ def create_app():
         return render_template("progress.html", entries=entries, author=author)
 
     if __name__ == '__main__':
-        app.run(debug=True)
+        app.run()
     return app
