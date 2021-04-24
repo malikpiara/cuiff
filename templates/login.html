@@ -5,14 +5,21 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Login</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen'
+    href='/static/css/styles.css'>
 </head>
 <body>
-    <h1>Log in</h1>
-    <form method="post">
-        {{ form.hidden_tag() }}
-        {{ form.name.label }}{{ form.name(placeholder="Your Name") }}
-        {{ form.password(placeholder="Password") }}
-        {{ form.submit() }}
-    </form>
+    <main class="main">
+        <h1>Log in</h1>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            {{ form.name(placeholder="Your Name") }}
+            {{ form.password(placeholder="Password") }}
+            {{ form.submit() }}
+        </form>
+        <p>
+            Don't have an account yet? <a href="{{ url_for('signup') }}">Sign up here</a>.
+        </p>
+    </main>
 </body>
 </html>

@@ -10,14 +10,17 @@
 </head>
 <body>
     <main class="main">
-    <h1>Create a new account</h1>
-    <form method="post">
-        {{ form.hidden_tag() }}
-        {{ form.email_address(placeholder="email@example.com") }}
-        {{ form.name(placeholder="Ada Lovelace") }}
-        {{ form.password(placeholder="Password") }}
-        {{ form.submit() }}
-    </form>
+        <h1>Create a new account</h1>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            {{ form.email_address(placeholder="email@example.com") }}
+            {{ form.name(placeholder="Ada Lovelace") }}
+            {{ form.password(placeholder="Password") }}
+            {{ form.submit() }}
+        </form>
+        <p>
+            Already have an account? <a href="{{ url_for('login') }}">Login here</a>.
+        </p>
     </main>
 </body>
 </html>
