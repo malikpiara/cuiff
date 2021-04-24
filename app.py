@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import os
-from forms import Entry, SignIn, SignUp
+from forms import Entry, SignIn, SignUp, UserSettings
 import datetime
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_session import Session
@@ -123,6 +123,19 @@ def create_app():
         entries = get_entries()
 
         return render_template("progress.html", entries=entries, author=author)
+
+    @app.route("/settings")
+    def settings():
+        form = UserSettings()
+        name = session["username"]
+        user_information = app.db.users.find_one(
+            {
+                "name": name
+            }
+        )
+        print(user_information["email"])
+        return render_template("settings.html",
+                               user_information=user_information, form=form)
 
     if __name__ == '__main__':
         app.run()

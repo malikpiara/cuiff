@@ -20,3 +20,8 @@ class SignUp(FlaskForm):
     name = StringField("Name", validators=([DataRequired()]))
     password = PasswordField("Password")
     submit = SubmitField("Create Account")
+
+
+class UserSettings(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email_address = EmailField("Email", validators=[DataRequired(), Email()])

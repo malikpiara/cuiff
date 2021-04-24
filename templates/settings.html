@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block main %}
+    <main class="main">
+        <section>
+            <h1>Settings</h1>
+        </section>
+        
+        <section>
+            
+            <form method="post">
+                {{ form.hidden_tag() }}
+                
+                {{ form.name.label }}
+                {{ form.name(value=user_information["name"], placeholder="Name") }}
+
+                {{ form.email_address.label }}
+                {{ form.email_address(value=user_information["email"], placeholder="Email address") }}
+            </form>
+
+        </section>
+
+    </main>
+{% endblock %}
