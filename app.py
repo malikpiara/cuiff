@@ -6,12 +6,14 @@ from flask import Flask, render_template, request, redirect, session, url_for
 from flask_session import Session
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_talisman import Talisman
 
 load_dotenv()
 
 
 def create_app():
     app = Flask(__name__)
+    Talisman(app)
 
     # Secret Key config for WTF forms.
     app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
@@ -138,5 +140,6 @@ def create_app():
                                user_information=user_information, form=form)
 
     if __name__ == '__main__':
-        app.run()
+        app.run(ssl_context='adhoc')
+
     return app

@@ -1,6 +1,8 @@
 autopep8==1.5.6
 cachelib==0.1.1
+cffi==1.14.5
 click==7.1.2
+cryptography==3.4.7
 dnspython==1.16.0
 email-validator==1.1.2
 flake8==3.9.0
@@ -9,6 +11,7 @@ Flask-Login==0.5.0
 flask-mongo-sessions==0.2.1
 Flask-PyMongo==2.3.0
 Flask-Session==0.3.2
+flask-talisman==0.7.0
 Flask-WTF==0.14.3
 gunicorn==20.1.0
 idna==3.1
@@ -17,9 +20,12 @@ Jinja2==2.11.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
 pycodestyle==2.7.0
+pycparser==2.20
 pyflakes==2.3.1
 pymongo==3.11.3
+pyOpenSSL==20.0.1
 python-dotenv==0.15.0
+six==1.15.0
 toml==0.10.2
 Werkzeug==1.0.1
 WTForms==2.3.3
