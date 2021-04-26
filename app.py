@@ -136,7 +136,7 @@ def create_app():
                 "name": name
             }
         )
-        print(user_information["email"])
+
         return render_template("settings.html",
                                user_information=user_information, form=form)
 
