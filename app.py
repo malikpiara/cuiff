@@ -13,6 +13,7 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+
     Talisman(app)
 
     # Secret Key config for WTF forms.
@@ -138,8 +139,5 @@ def create_app():
         print(user_information["email"])
         return render_template("settings.html",
                                user_information=user_information, form=form)
-
-    if __name__ == '__main__':
-        app.run(ssl_context='adhoc')
 
     return app
