@@ -7,13 +7,14 @@ from flask_session import Session
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_talisman import Talisman
+from views import test
 
 load_dotenv()
 
 
 def create_app():
     app = Flask(__name__)
-
+    app.register_blueprint(test)
     Talisman(app)
 
     # Secret Key config for WTF forms.
@@ -120,12 +121,6 @@ def create_app():
         entries = get_entries()
 
         return render_template("home.html", entries=entries, form=form)
-
-    @app.route("/progress/<author>")
-    def progress(author):
-        entries = get_entries()
-
-        return render_template("progress.html", entries=entries, author=author)
 
     @app.route("/settings")
     def settings():
