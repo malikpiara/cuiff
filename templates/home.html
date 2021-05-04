@@ -6,7 +6,7 @@
                 what did you work on today?
             </h1>
 
-            <form class="form" method="post" action="{{url_for('home')}}">
+            <form class="form" method="post" action="{{url_for('main.home')}}">
             {{ form.hidden_tag() }}
             {{ form.entry_input(class="form_textarea",
                                 placeholder="Your answer...") }}
@@ -21,7 +21,7 @@
                 <article class="entry">
                         <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
                         <p class="entry_author">
-                            <a href="{{ url_for('test.progress', author=entry[3]) }}">
+                            <a href="{{ url_for('main.progress', author=entry[3]) }}">
                             <strong>{{ entry[3] }}</strong>
                             </a>
                         </p>
