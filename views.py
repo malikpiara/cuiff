@@ -86,6 +86,12 @@ def signup():
 @bp.route("/", methods=["GET", "POST"])
 def home():
     form = Entry()
+    email = session["username"]
+    user_information = app.db.users.find_one(
+        {
+            "email": email
+        }
+    )
     if not session.get("username"):
         return redirect("/login")
     if form.validate_on_submit():
@@ -95,7 +101,7 @@ def home():
             {
                 "content": entry_content,
                 "date": formatted_date,
-                "author": session["username"]
+                "author": user_information["name"]
             }
         )
         return redirect(url_for('main.home'))
@@ -103,16 +109,16 @@ def home():
     # Showing entries from database on the page.
     entries = get_entries()
 
-    return render_template("home.html", entries=entries, form=form)
+    return render_template("home.html", entries=entries, form=form, user_information=user_information)
 
 
 @bp.route("/settings")
 def settings():
     form = UserSettings()
-    name = session["username"]
+    email = session["username"]
     user_information = app.db.users.find_one(
         {
-            "name": name
+            "email": email
         }
     )
 
