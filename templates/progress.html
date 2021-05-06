@@ -9,10 +9,13 @@
             {% for entry in entries %}
                 {% if entry[3] == author %}
                 <article class="entry">
+                    <header>
+                        <img class="profile_picture" src="{{ url_for('static', filename='default.png')}}">
                         <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
                         <p class="entry_author">
                             <strong>{{ entry[3] }}</strong>
                         </p>
+                    </header>
                         <p class="entry_content">
                             {{ entry[0] }}
                         </p>
