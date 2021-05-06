@@ -6,6 +6,7 @@ from pymongo import MongoClient
 from flask_talisman import Talisman
 from views import bp
 
+
 load_dotenv()
 
 

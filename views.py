@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 Session(app)
 
+
 # MongoDB Setup
 client = MongoClient(os.environ.get("MONGODB_URI"),
                      ssl=True, ssl_cert_reqs='CERT_NONE')
@@ -42,11 +43,11 @@ def login():
     # Se o nome submitido tiver na base de dados
     # Store in session e redirect para a homepage.
     if form.validate_on_submit():
-        name = form.name.data
+        email = form.email_address.data
         password = form.password.data
         db_name = app.db.users.find_one(
             {
-                "name": name
+                "email": email
             }
         )
 
@@ -54,7 +55,7 @@ def login():
             check = check_password_hash(db_name["password"], password)
 
             if check:
-                session["username"] = name
+                session["username"] = email
                 return redirect(url_for('main.home'))
         else:
             print("Somethings wrong")
