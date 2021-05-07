@@ -109,10 +109,11 @@ def home():
     # Showing entries from database on the page.
     entries = get_entries()
 
-    return render_template("home.html", entries=entries, form=form, user_information=user_information)
+    return render_template("home.html", entries=entries, form=form,
+                           user_information=user_information)
 
 
-@bp.route("/settings")
+@bp.route("/settings", methods=["GET", "POST"])
 def settings():
     form = UserSettings()
     email = session["username"]
@@ -121,6 +122,28 @@ def settings():
             "email": email
         }
     )
+    if form.validate_on_submit():
+        name = form.name.data
+        new_email = form.email_address.data
+
+        # I'm checking if the email submited is in the database
+        # If it is, I'm changing the value of the email in the database
+        # for the one submited. That doesn't make sense.
+        # I need to compare the email on the form with the email in the DB.
+        # I'm also using the email variable twice.
+
+        app.db.users.update_one(
+            {
+                'email': session["username"]
+            },
+            {
+                "$set": {'name': name, 'email': new_email}
+            }
+        )
+
+        session["username"] = new_email
+
+        return redirect(url_for('main.home'))
 
     return render_template("settings.html",
                            user_information=user_information, form=form)
