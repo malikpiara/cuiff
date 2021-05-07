@@ -12,7 +12,9 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+
     app.register_blueprint(bp)
+
     Talisman(app)
 
     # Secret Key config for WTF forms.
@@ -24,7 +26,6 @@ def create_app():
     app.db = client.standups
 
     # Session config. Followed documentation
-    app.config["SESSION_PERMANENT"] = True
     app.config["SESSION_TYPE"] = "mongodb"
     app.config["SESSION_MONGODB"] = client
     app.config["SESSION_MONGODB_DB"] = "standups"

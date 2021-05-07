@@ -45,14 +45,14 @@ def login():
     if form.validate_on_submit():
         email = form.email_address.data
         password = form.password.data
-        db_name = app.db.users.find_one(
+        db_email = app.db.users.find_one(
             {
                 "email": email
             }
         )
 
-        if db_name:
-            check = check_password_hash(db_name["password"], password)
+        if db_email:
+            check = check_password_hash(db_email["password"], password)
 
             if check:
                 session["username"] = email
@@ -85,6 +85,8 @@ def signup():
 
 @bp.route("/", methods=["GET", "POST"])
 def home():
+    if not session.get("username"):
+        return redirect("/login")
     form = Entry()
     email = session["username"]
     user_information = app.db.users.find_one(
@@ -92,8 +94,6 @@ def home():
             "email": email
         }
     )
-    if not session.get("username"):
-        return redirect("/login")
     if form.validate_on_submit():
         entry_content = form.entry_input.data
         formatted_date = datetime.datetime.today().strftime("%Y-%m-%d %H-%M-%S")
