@@ -23,8 +23,8 @@
                         <img class="profile_picture" src="{{ url_for('static', filename='default.png')}}">
                         <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
                         <p class="entry_author">
-                            <a href="{{ url_for('main.progress', author=entry[3]) }}">
-                            <strong>{{ entry[3] }}</strong>
+                            <a href="{{ url_for('main.progress', author=entry[5]) }}">
+                            <strong>{{ entry[5] }}</strong>
                             </a>
                         </p>
                     </header>

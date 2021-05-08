@@ -20,16 +20,25 @@ app.db = client.standups
 
 
 def get_entries():
+
     entries = [
         (
             entry["content"],
             entry["date"],
             datetime.datetime.strptime(
                 entry["date"], "%Y-%m-%d %H-%M-%S").strftime("%b %d, %Y"),
-            entry["author"]
+            entry["author"],
+            entry["user_id"],
+            # I feel there should be a easier way
+            app.db.users.find_one({"_id": entry["user_id"]})["name"]
         )
-        for entry in app.db.entries.find({}).sort([("date", -1)])
+        for entry in app.db.entries.find(
+            {
+                "user_id": {"$exists": True}
+            }
+        ).sort([("date", -1)])
     ]
+
     return entries
 
 
@@ -101,7 +110,8 @@ def home():
             {
                 "content": entry_content,
                 "date": formatted_date,
-                "author": user_information["name"]
+                "author": user_information["name"],
+                "user_id": user_information["_id"]
             }
         )
         return redirect(url_for('main.home'))
