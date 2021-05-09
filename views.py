@@ -14,8 +14,7 @@ def login():
     # redirect user to the homepage.
     if session.get("username"):
         return redirect(url_for('main.home'))
-    # Se o nome submitido tiver na base de dados
-    # Store in session e redirect para a homepage.
+
     if form.validate_on_submit():
         email = form.email_address.data
         password = form.password.data
@@ -23,7 +22,7 @@ def login():
 
         if user:
             check = check_password_hash(user["password"], password)
-
+            # If user is found, store the email in session
             if check:
                 session["username"] = email
                 return redirect(url_for('main.home'))
@@ -67,7 +66,7 @@ def home():
 @bp.route("/settings", methods=["GET", "POST"])
 def settings():
     form = UserSettings()
-    form2 = DeleteUser()
+    delete_user_button = DeleteUser()
     email = session["username"]
     user_information = find_user_by_email(email)
 
@@ -81,15 +80,15 @@ def settings():
 
         return redirect(url_for('main.home'))
 
-    if form2.validate_on_submit():
+    if delete_user_button.validate_on_submit():
         delete_user(user_id=user_information["_id"], email_address=email)
-        session["username"] = ''
+        session["username"] = None
 
         return redirect(url_for('main.login'))
 
     return render_template("settings.html",
                            user_information=user_information, form=form,
-                           form2=form2)
+                           delete_user_button=delete_user_button)
 
 
 @bp.route("/logout")

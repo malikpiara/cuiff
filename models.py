@@ -4,7 +4,6 @@ from database import client
 
 
 def get_entries():
-
     entries = [
         {
             "content": entry["content"],
@@ -32,6 +31,8 @@ def find_user_by_email(email):
 
 
 def create_user(email_address, name, password):
+    # TODO: Check if email address already exists before
+    # letting people create a new account.
     hashed_pass = generate_password_hash(
         password)
     client.standups.users.insert(
@@ -55,13 +56,11 @@ def update_user(email_address, name, new_email):
 
 
 def delete_user(user_id, email_address):
-
     client.standups.entries.delete_many(
         {
             'user_id': user_id
         }
     )
-
     client.standups.users.delete_one(
         {
             'email': email_address

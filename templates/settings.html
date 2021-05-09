@@ -19,9 +19,10 @@
                 {{ form.save() }}
             </form>
 
+            <!-- TODO: Add a warning, an alert and let the user confirm -->
             <form method="post">
-                {{ form2.hidden_tag() }}
-                {{ form2.delete_account() }}
+                {{ delete_user_button.hidden_tag() }}
+                {{ delete_user_button.delete_account() }}
             </form>
 
         </section>
