@@ -1,8 +1,8 @@
 from flask import Flask, Blueprint, render_template, redirect, url_for, session
 from flask_session import Session
-from forms import Entry, SignIn, SignUp, UserSettings
+from forms import Entry, SignIn, SignUp, UserSettings, DeleteUser
 from werkzeug.security import check_password_hash
-from models import get_entries, find_user_by_email, create_user, create_entry, update_user
+from models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user
 
 bp = Blueprint('main', __name__)
 
@@ -67,8 +67,10 @@ def home():
 @bp.route("/settings", methods=["GET", "POST"])
 def settings():
     form = UserSettings()
+    form2 = DeleteUser()
     email = session["username"]
     user_information = find_user_by_email(email)
+
     if form.validate_on_submit():
         new_email = form.email_address.data
 
@@ -79,8 +81,15 @@ def settings():
 
         return redirect(url_for('main.home'))
 
+    if form2.validate_on_submit():
+        delete_user(user_id=user_information["_id"], email_address=email)
+        session["username"] = ''
+
+        return redirect(url_for('main.login'))
+
     return render_template("settings.html",
-                           user_information=user_information, form=form)
+                           user_information=user_information, form=form,
+                           form2=form2)
 
 
 @bp.route("/logout")

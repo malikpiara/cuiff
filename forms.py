@@ -26,3 +26,7 @@ class UserSettings(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     email_address = EmailField("Email", validators=[DataRequired(), Email()])
     save = SubmitField("Save")
+
+
+class DeleteUser(FlaskForm):
+    delete_account = SubmitField("Delete Account")

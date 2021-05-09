@@ -19,6 +19,11 @@
                 {{ form.save() }}
             </form>
 
+            <form method="post">
+                {{ form2.hidden_tag() }}
+                {{ form2.delete_account() }}
+            </form>
+
         </section>
 
     </main>

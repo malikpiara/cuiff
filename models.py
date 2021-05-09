@@ -54,6 +54,21 @@ def update_user(email_address, name, new_email):
     )
 
 
+def delete_user(user_id, email_address):
+
+    client.standups.entries.delete_many(
+        {
+            'user_id': user_id
+        }
+    )
+
+    client.standups.users.delete_one(
+        {
+            'email': email_address
+        }
+    )
+
+
 def create_entry(content, user_id):
     formatted_date = datetime.datetime.today().strftime("%Y-%m-%d %H-%M-%S")
     client.standups.entries.insert(
