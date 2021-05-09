@@ -21,15 +21,15 @@
                 <article class="entry">
                     <header>
                         <img class="profile_picture" src="{{ url_for('static', filename='default.png')}}">
-                        <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
+                        <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
                         <p class="entry_author">
-                            <a href="{{ url_for('main.progress', author=entry[5]) }}">
-                            <strong>{{ entry[5] }}</strong>
+                            <a href="{{ url_for('main.progress', author=entry.user_name) }}">
+                            <strong>{{ entry.user_name }}</strong>
                             </a>
                         </p>
                     </header>
                         <p class="entry_content">
-                            {{ entry[0] }}
+                            {{ entry.content }}
                         </p>
                 </article>
             {% endfor %}
