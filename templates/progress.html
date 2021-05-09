@@ -7,17 +7,17 @@
         <section>
             <h1>Recent updates</h1>
             {% for entry in entries %}
-                {% if entry[4] == author %}
+                {% if entry.user_name == author %}
                 <article class="entry">
                     <header>
                         <img class="profile_picture" src="{{ url_for('static', filename='default.png')}}">
-                        <time class="entry_date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
+                        <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
                         <p class="entry_author">
-                            <strong>{{ entry[4] }}</strong>
+                            <strong>{{ entry.user_name }}</strong>
                         </p>
                     </header>
                         <p class="entry_content">
-                            {{ entry[0] }}
+                            {{ entry.content }}
                         </p>
                 </article>
                 {% endif %}
