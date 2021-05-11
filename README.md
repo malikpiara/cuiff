@@ -28,7 +28,7 @@ $ flask run
 
 The app will only work locally when the debug is enabled due to [Flask-talisman](https://github.com/GoogleCloudPlatform/flask-talisman), which forces all connects to https.
 
-The default content security policy is extremely strict and will prevent loading any resources that are not in the same domain as the application. [Here are some examples on how to change the default policy.](https://github.com/GoogleCloudPlatform/flask-talisman#content-security-policy).
+The default content security policy is extremely strict and will prevent loading any resources that are not in the same domain as the application. [Here are some examples on how to change the default policy](https://github.com/GoogleCloudPlatform/flask-talisman#content-security-policy).
 
 ## Setting up the database
 

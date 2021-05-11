@@ -11,6 +11,9 @@
 <body>
     <main class="main">
         <h1>Create a new account</h1>
+        {% for message in get_flashed_messages() %}
+            {{ message }}
+        {% endfor %}
         <form method="post">
             {{ form.hidden_tag() }}
             {{ form.email_address(placeholder="email@example.com") }}
