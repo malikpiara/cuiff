@@ -3,9 +3,10 @@
     <main class="main">
         <section>
             <h1>Settings</h1>
-        </section>
-        
-        <section>
+
+            {% for message in get_flashed_messages() %}
+                {{ message }}
+            {% endfor %}
             
             <form method="post">
                 {{ form.hidden_tag() }}
@@ -14,7 +15,7 @@
                 {{ form.name(value=user_information["name"], placeholder="Name") }}
 
                 {{ form.email_address.label }}
-                {{ form.email_address(value=user_information["email"], placeholder="Email address") }}
+                {{ form.email_address(value=email, placeholder="Email address") }}
 
                 {{ form.save() }}
             </form>
@@ -22,6 +23,7 @@
             <!-- TODO: Add a warning, an alert and let the user confirm -->
             <form method="post">
                 {{ delete_user_button.hidden_tag() }}
+                {{ delete_user_button.something(placeholder="Confirm email address") }}
                 {{ delete_user_button.delete_account() }}
             </form>
 

@@ -5,13 +5,11 @@ from flask_talisman import Talisman
 from views import bp
 from database import client
 
-
 load_dotenv()
 
 
 def create_app():
     app = Flask(__name__)
-
     app.register_blueprint(bp)
 
     Talisman(app)

@@ -26,8 +26,7 @@ def login():
             if check:
                 session["username"] = email
                 return redirect(url_for('main.home'))
-        else:
-            print("Somethings wrong")
+
     return render_template("login.html", form=form)
 
 
@@ -67,10 +66,12 @@ def home():
 def settings():
     form = UserSettings()
     delete_user_button = DeleteUser()
+
     email = session["username"]
     user_information = find_user_by_email(email)
 
     if form.validate_on_submit():
+        email = session["username"]
         new_email = form.email_address.data
 
         update_user(email_address=email,
@@ -88,7 +89,7 @@ def settings():
 
     return render_template("settings.html",
                            user_information=user_information, form=form,
-                           delete_user_button=delete_user_button)
+                           delete_user_button=delete_user_button, email=email)
 
 
 @bp.route("/logout")
