@@ -1,5 +1,4 @@
-from flask import Flask, Blueprint, render_template, redirect, url_for, session
-from flask_session import Session
+from flask import Blueprint, render_template, redirect, url_for, session
 from forms import Entry, SignIn, SignUp, UserSettings, DeleteUser
 from werkzeug.security import check_password_hash
 from models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user

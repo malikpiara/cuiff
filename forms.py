@@ -1,4 +1,5 @@
-from flask import flash
+from flask import flash, session
+from flask_session import Session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField, ValidationError
 from wtforms.fields.html5 import EmailField
@@ -37,11 +38,9 @@ class UserSettings(FlaskForm):
     email_address = EmailField("Email", validators=[DataRequired(), Email()])
     save = SubmitField("Save")
 
-    # Users are not able to change their name without changing their
-    # email address. I don't know how to solve that.
     def validate_email_address(self, field):
         email_address = field.data
-        if find_user_by_email(email=email_address):
+        if find_user_by_email(email=email_address) and email_address != session.get("username"):
             flash("Email already being used.")
             raise ValidationError('Email already registered.')
 
