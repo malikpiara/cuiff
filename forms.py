@@ -1,5 +1,4 @@
 from flask import flash, session
-from flask_session import Session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField, ValidationError
 from wtforms.fields.html5 import EmailField

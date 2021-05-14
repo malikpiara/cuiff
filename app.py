@@ -25,7 +25,7 @@ app.config["SESSION_MONGODB"] = client
 app.config["SESSION_MONGODB_DB"] = "standups"
 app.config["SESSION_MONGODB_COLLECT"] = "sessions"
 
-app.config["FUZZBOARD_ADMIN"] = os.environ.get("FUZZBOARD_ADMIN")
+""" app.config["FUZZBOARD_ADMIN"] = os.environ.get("FUZZBOARD_ADMIN")
 
 # Email setup
 app.config["MAIL_SERVER"] = "smtp.googlemail.com"
@@ -34,7 +34,7 @@ app.config["MAIL_USE_TLS"] = True
 app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
 app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
 
-mail = Mail(app)
+mail = Mail(app) """
 
 if __name__ == '__main__':
     app.run()

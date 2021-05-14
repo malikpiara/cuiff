@@ -2,7 +2,7 @@ import os
 import datetime
 from werkzeug.security import generate_password_hash
 from database import client
-from flask import current_app
+#from flask import current_app
 #from email import send_email
 
 
