@@ -39,13 +39,19 @@ def signup():
     if session.get("username"):
         return redirect(url_for('main.home'))
     if form.validate_on_submit():
-        create_user(email_address=form.email_address.data,
-                    name=form.name.data, password=form.password.data)
+        user_email = form.email_address.data
+        user_name = form.name.data
+        create_user(user_email,
+                    user_name, password=form.password.data)
+        # Email notification start. TODO: replace with function.
         msg = Message("Hello",
                       recipients=["malikpiara@gmail.com"])
-        msg.body = "testing"
-        msg.html = form.email_address.data
+        msg.body = render_template(
+            "email" + ".html", user_email=user_email, user_name=user_name)
+        msg.html = render_template(
+            "email" + ".html", user_name=user_name, user_email=user_email)
         mail.send(msg)
+        # Email notification end.
         return redirect(url_for('main.home'))
     return render_template("signup.html", form=form)
 
