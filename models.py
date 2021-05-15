@@ -1,9 +1,7 @@
-import os
 import datetime
 from werkzeug.security import generate_password_hash
 from database import client
-#from flask import current_app
-#from email import send_email
+from flask import current_app
 
 
 def get_entries():
@@ -43,10 +41,8 @@ def create_user(email_address, name, password):
             "password": hashed_pass
         }
     )
-    """ if current_app.config["FUZZBOARD_ADMIN"]:
-        send_email(current_app.config["FUZZBOARD_ADMIN"],
-                   "New User", "New User signed up")
- """
+    """ send_email(current_app.config["FUZZBOARD_ADMIN"],
+               "New User", "New User signed up") """
 
 
 def update_user(email_address, name, new_email):

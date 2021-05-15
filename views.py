@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, session
 from forms import Entry, SignIn, SignUp, UserSettings, DeleteUser
 from werkzeug.security import check_password_hash
 from models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user
+from flask_mail import Mail
+from flask_mail import Message
 
 bp = Blueprint('main', __name__)
 
@@ -31,12 +33,19 @@ def login():
 
 @bp.route("/signup", methods=["GET", "POST"])
 def signup():
+    mail = Mail()
+
     form = SignUp()
     if session.get("username"):
         return redirect(url_for('main.home'))
     if form.validate_on_submit():
         create_user(email_address=form.email_address.data,
                     name=form.name.data, password=form.password.data)
+        msg = Message("Hello",
+                      recipients=["malikpiara@gmail.com"])
+        msg.body = "testing"
+        msg.html = form.email_address.data
+        mail.send(msg)
         return redirect(url_for('main.home'))
     return render_template("signup.html", form=form)
 
