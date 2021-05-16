@@ -4,7 +4,7 @@ from flask import Flask
 from flask_talisman import Talisman
 from .views import bp
 from .database import client
-from .email import mail
+from .emails import mail
 
 load_dotenv()
 

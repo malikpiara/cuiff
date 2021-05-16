@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, session
 from .forms import Entry, SignIn, SignUp, UserSettings, DeleteUser
 from werkzeug.security import check_password_hash
 from .models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user
-from .email import send_email
+from .emails import send_email
 
 bp = Blueprint('main', __name__)
 
