@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField, ValidationError
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo
-from models import find_user_by_email
+from .models import find_user_by_email
 
 
 class Entry(FlaskForm):

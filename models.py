@@ -1,7 +1,6 @@
 import datetime
 from werkzeug.security import generate_password_hash
-from database import client
-from flask import current_app
+from .database import client
 
 
 def get_entries():

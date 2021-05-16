@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, session
-from forms import Entry, SignIn, SignUp, UserSettings, DeleteUser
+from .forms import Entry, SignIn, SignUp, UserSettings, DeleteUser
 from werkzeug.security import check_password_hash
-from models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user
-from flask_mail import Mail
-from flask_mail import Message
+from .models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user
+from .email import send_email
 
 bp = Blueprint('main', __name__)
 
@@ -33,8 +32,6 @@ def login():
 
 @bp.route("/signup", methods=["GET", "POST"])
 def signup():
-    mail = Mail()
-
     form = SignUp()
     if session.get("username"):
         return redirect(url_for('main.home'))
@@ -43,15 +40,8 @@ def signup():
         user_name = form.name.data
         create_user(user_email,
                     user_name, password=form.password.data)
-        # Email notification start. TODO: replace with function.
-        msg = Message("Hello",
-                      recipients=["malikpiara@gmail.com"])
-        msg.body = render_template(
-            "email" + ".html", user_email=user_email, user_name=user_name)
-        msg.html = render_template(
-            "email" + ".html", user_name=user_name, user_email=user_email)
-        mail.send(msg)
-        # Email notification end.
+
+        send_email("malikpiara@gmail.com", user_email, user_name)
         return redirect(url_for('main.home'))
     return render_template("signup.html", form=form)
 
