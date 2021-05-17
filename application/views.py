@@ -41,7 +41,10 @@ def signup():
         create_user(user_email,
                     user_name, password=form.password.data)
 
-        send_email("malikpiara@gmail.com", user_email, user_name)
+        send_email("Fuzzboard | New signup", "malikpiara@gmail.com",
+                   "email", user_email, user_name)
+        send_email("Welcome to Fuzzboard", user_email,
+                   "new_signup", user_email, user_name)
         return redirect(url_for('main.home'))
     return render_template("signup.html", form=form)
 
