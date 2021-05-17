@@ -44,6 +44,28 @@ def create_user(email_address, name, password):
                "New User", "New User signed up") """
 
 
+def update_name(email_address, name):
+    client.standups.users.update_one(
+        {
+            'email': email_address
+        },
+        {
+            "$set": {'name': name}
+        }
+    )
+
+
+def update_email(email_address, new_email):
+    client.standups.users.update_one(
+        {
+            'email': email_address
+        },
+        {
+            "$set": {'email': new_email}
+        }
+    )
+
+
 def update_user(email_address, name, new_email):
     client.standups.users.update_one(
         {

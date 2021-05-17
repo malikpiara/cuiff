@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, session
-from .forms import Entry, SignIn, SignUp, UserSettings, DeleteUser
+from .forms import Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword
 from werkzeug.security import check_password_hash
-from .models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user
+from .models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user, update_email, update_name
 from .emails import send_email
 
 bp = Blueprint('main', __name__)
@@ -70,13 +70,36 @@ def home():
 
 
 @bp.route("/settings", methods=["GET", "POST"])
+# TODO: Add ajax and change password validation.
 def settings():
     form = UserSettings()
+    change_name = ChangeName()
+    change_email = ChangeEmail()
+    change_password = ChangePassword()
     delete_user_button = DeleteUser()
 
     email = session["username"]
     user_information = find_user_by_email(email)
 
+    # New name field
+    if change_name.validate_on_submit():
+        update_name(email_address=email,
+                    name=change_name.name.data)
+
+        return redirect(url_for('main.settings'))
+
+    # New email field
+    if change_email.validate_on_submit():
+        new_email = change_email.email_address.data
+
+        update_email(email_address=email,
+                     new_email=new_email)
+
+        session["username"] = new_email
+
+        return redirect(url_for('main.settings'))
+
+    """ # Old form
     if form.validate_on_submit():
         email = session["username"]
         new_email = form.email_address.data
@@ -86,7 +109,7 @@ def settings():
 
         session["username"] = new_email
 
-        return redirect(url_for('main.home'))
+        return redirect(url_for('main.home')) """
 
     if delete_user_button.validate_on_submit():
         delete_user(user_id=user_information["_id"], email_address=email)
@@ -96,7 +119,9 @@ def settings():
 
     return render_template("settings.html",
                            user_information=user_information, form=form,
-                           delete_user_button=delete_user_button, email=email)
+                           delete_user_button=delete_user_button, email=email,
+                           change_name=change_name, change_email=change_email,
+                           change_password=change_password)
 
 
 @bp.route("/logout")

@@ -32,9 +32,32 @@ class SignUp(FlaskForm):
             raise ValidationError('Email already registered.')
 
 
+class ChangeName(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    save = SubmitField("Save")
+
+
+class ChangeEmail(FlaskForm):
+    email_address = EmailField("Email", validators=[DataRequired(), Email()])
+    save = SubmitField("Save")
+
+    def validate_email_address(self, field):
+        email_address = field.data
+        if find_user_by_email(email=email_address) and email_address != session.get("username"):
+            flash("Email already being used.")
+            raise ValidationError('Email already registered.')
+
+
+class ChangePassword(FlaskForm):
+    # TODO: Implement class properly.
+    password_field = StringField("Password")
+    save = SubmitField("Save")
+
+
 class UserSettings(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     email_address = EmailField("Email", validators=[DataRequired(), Email()])
+    password_field = StringField("Password")
     save = SubmitField("Save")
 
     def validate_email_address(self, field):
