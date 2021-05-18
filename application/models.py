@@ -1,6 +1,8 @@
 import datetime
 from werkzeug.security import generate_password_hash
 from .database import client
+from werkzeug.security import check_password_hash
+from flask import flash
 
 
 def get_entries():
@@ -64,6 +66,24 @@ def update_email(email_address, new_email):
             "$set": {'email': new_email}
         }
     )
+
+
+def update_password(email_address, old_password, new_password):
+    hashed_pass = generate_password_hash(
+        new_password)
+
+    user = find_user_by_email(email_address)
+    check_password = check_password_hash(user["password"], old_password)
+
+    if check_password:
+        client.standups.users.update_one(
+            {
+                'email': email_address
+            },
+            {
+                "$set": {'password': hashed_pass}
+            }
+        )
 
 
 def update_user(email_address, name, new_email):

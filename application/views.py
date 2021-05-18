@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, session
-from .forms import Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword
+from flask import Blueprint, render_template, redirect, url_for, session, flash
+from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal
 from werkzeug.security import check_password_hash
-from .models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user, update_email, update_name
+from .models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user, update_email, update_name, update_password
 from .emails import send_email
 
 bp = Blueprint('main', __name__)
@@ -70,12 +70,12 @@ def home():
 
 
 @bp.route("/settings", methods=["GET", "POST"])
-# TODO: Add ajax and change password validation.
 def settings():
     form = UserSettings()
     change_name = ChangeName()
     change_email = ChangeEmail()
     change_password = ChangePassword()
+    change_password_real = ChangePasswordReal()
     delete_user_button = DeleteUser()
 
     email = session["username"]
@@ -85,6 +85,7 @@ def settings():
     if change_name.validate_on_submit():
         update_name(email_address=email,
                     name=change_name.name.data)
+        flash("Your name was changed successfully.")
 
         return redirect(url_for('main.settings'))
 
@@ -94,8 +95,20 @@ def settings():
 
         update_email(email_address=email,
                      new_email=new_email)
+        flash("Your email was changed successfully.")
 
         session["username"] = new_email
+
+        return redirect(url_for('main.settings'))
+
+    # Change password old, new field
+    if change_password_real.validate_on_submit():
+        old_password = change_password_real.old_password.data
+        new_password = change_password_real.new_password.data
+
+        update_password(email_address=email,
+                        old_password=old_password, new_password=new_password)
+        flash("Your password was changed successfully.")
 
         return redirect(url_for('main.settings'))
 
@@ -121,7 +134,8 @@ def settings():
                            user_information=user_information, form=form,
                            delete_user_button=delete_user_button, email=email,
                            change_name=change_name, change_email=change_email,
-                           change_password=change_password)
+                           change_password=change_password,
+                           change_password_real=change_password_real)
 
 
 @bp.route("/logout")

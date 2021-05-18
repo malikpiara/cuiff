@@ -28,15 +28,24 @@
 
             <br>
 
-            <form method="POST">
+            <form>
                 {{ change_password.hidden_tag() }}
                 {{ change_password.password_field.label }}
-                {{ change_password.password_field(id="password-field", placeholder="••••••••", type="password", disabled=True) }}
+                {{ change_password.password_field(id="password-field", placeholder="••••••••", type="text", disabled=True) }}
                 <button id="edit-password-button" type="button">Change</button>
-                {{ change_password.save() }}
             </form>
 
             <br>
+
+            <form method="POST">
+                {{ change_password_real.hidden_tag() }}
+                {{ change_password_real.old_password.label }}
+                {{ change_password_real.old_password(placeholder="Old password") }}
+                {{ change_password_real.new_password.label }}
+                {{ change_password_real.new_password(placeholder="New password") }}
+                
+                {{ change_password_real.save() }}
+            </form>
 
             <!-- <form method="post">
                 {{ form.hidden_tag() }}

@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField, ValidationError
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo
+from werkzeug.security import check_password_hash
 from .models import find_user_by_email
 
 
@@ -49,9 +50,23 @@ class ChangeEmail(FlaskForm):
 
 
 class ChangePassword(FlaskForm):
-    # TODO: Implement class properly.
     password_field = StringField("Password")
+
+
+class ChangePasswordReal(FlaskForm):
+    old_password = PasswordField("Old password", validators=[DataRequired()])
+    new_password = PasswordField("New password", validators=[DataRequired()])
     save = SubmitField("Save")
+
+    def validate_old_password(self, field):
+        email_address = session.get("username")
+        user = find_user_by_email(email_address)
+        check_password = check_password_hash(user["password"], field.data)
+        if not check_password:
+            flash(
+                "The old password doesn't match the one in our database. Please try again.")
+            raise ValidationError(
+                "Password does not match the one stored in the database.")
 
 
 class UserSettings(FlaskForm):
