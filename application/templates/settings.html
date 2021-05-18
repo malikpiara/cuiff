@@ -39,15 +39,20 @@
 
             <br>
 
-            <form method="POST">
-                {{ change_password_real.hidden_tag() }}
-                {{ change_password_real.old_password.label }}
-                {{ change_password_real.old_password(placeholder="Old password") }}
-                {{ change_password_real.new_password.label }}
-                {{ change_password_real.new_password(placeholder="New password") }}
-                
-                {{ change_password_real.save() }}
-            </form>
+            <div id="password-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <form method="POST">
+                        {{ change_password_real.hidden_tag() }}
+                        {{ change_password_real.old_password.label }}
+                        {{ change_password_real.old_password(placeholder="Old password") }}
+                        {{ change_password_real.new_password.label }}
+                        {{ change_password_real.new_password(placeholder="New password") }}
+                        
+                        {{ change_password_real.save() }}
+                    </form>
+                </div>
+            </div>
 
             <!-- <form method="post">
                 {{ form.hidden_tag() }}
