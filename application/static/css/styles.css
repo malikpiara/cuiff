@@ -8,6 +8,13 @@ html {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
+#save-name-button,
+#cancel-name-button,
+#save-email-button,
+#cancel-email-button {
+  visibility: hidden;
+}
+
 .navbar {
   max-width: 720px;
   margin: 50px auto;

@@ -13,7 +13,8 @@
                 {{ change_name.name.label }}
                 {{ change_name.name(id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
                 <button id="edit-name-button" type="button">Edit</button>
-                {{ change_name.save() }}
+                {{ change_name.save(id="save-name-button") }}
+                <button id="cancel-name-button" type="button">Cancel</button>
             </form>
 
             <br>
@@ -23,7 +24,8 @@
                 {{ change_email.email_address.label }}
                 {{ change_email.email_address(id="email-field", value=email, placeholder="Email address", disabled=True) }}
                 <button id="edit-email-button" type="button">Edit</button>
-                {{ change_email.save() }}
+                {{ change_email.save(id="save-email-button") }}
+                <button id="cancel-email-button" type="button">Cancel</button>
             </form>
 
             <br>
