@@ -13,25 +13,25 @@
                     {{ change_name.hidden_tag() }}
                     {{ change_name.name.label }}
                     {{ change_name.name(id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
-                    <button id="edit-name-button" type="button">Edit</button>
-                    {{ change_name.save(id="save-name-button") }}
-                    <button id="cancel-name-button" type="button">Cancel</button>
+                    <button class="form-btn" id="edit-name-button" type="button">Edit</button>
+                    {{ change_name.save(class="form-btn", id="save-name-button") }}
+                    <button class="form-btn" id="cancel-name-button" type="button">Cancel</button>
                 </form>
 
                 <form method="POST">
                     {{ change_email.hidden_tag() }}
                     {{ change_email.email_address.label }}
                     {{ change_email.email_address(id="email-field", value=email, placeholder="Email address", disabled=True) }}
-                    <button id="edit-email-button" type="button">Edit</button>
-                    {{ change_email.save(id="save-email-button") }}
-                    <button id="cancel-email-button" type="button">Cancel</button>
+                    <button class="form-btn" id="edit-email-button" type="button">Edit</button>
+                    {{ change_email.save(class="form-btn", id="save-email-button") }}
+                    <button class="form-btn" id="cancel-email-button" type="button">Cancel</button>
                 </form>
 
                 <form>
                     {{ change_password.hidden_tag() }}
                     {{ change_password.password_field.label }}
                     {{ change_password.password_field(id="password-field", placeholder="••••••••", type="text", disabled=True) }}
-                    <button id="edit-password-button" type="button">Change</button>
+                    <button class="form-btn" id="edit-password-button" type="button">Change</button>
                 </form>
             </div>
 
@@ -45,7 +45,7 @@
                         {{ change_password_real.new_password.label }}
                         {{ change_password_real.new_password(placeholder="New password") }}
                         
-                        {{ change_password_real.save() }}
+                        {{ change_password_real.save(class="form-btn") }}
                     </form>
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <form method="post">
                 {{ delete_user_button.hidden_tag() }}
                 {{ delete_user_button.something(placeholder="Confirm email address") }}
-                {{ delete_user_button.delete_account() }}
+                {{ delete_user_button.delete_account(class="form-btn") }}
             </form>
         </div>
 
