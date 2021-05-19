@@ -1,39 +1,37 @@
-document.getElementById("edit-name-button").addEventListener("click", changeName);
-document.getElementById("cancel-name-button").addEventListener("click", changeNameSave);
+document.getElementById("edit-name-button").addEventListener("click", ()=> activateEditState("name"));
+document.getElementById("cancel-name-button").addEventListener("click", ()=> disableEditState("name"));
 
-document.getElementById("edit-email-button").addEventListener("click", changeEmail);
-document.getElementById("cancel-email-button").addEventListener("click", changeEmailSave);
+document.getElementById("edit-email-button").addEventListener("click", ()=> activateEditState("email"));
+document.getElementById("cancel-email-button").addEventListener("click", ()=> disableEditState("email"));
 
-function changeName() {
-    var bt = document.getElementById("name-field");
-    if (bt.disabled = true) {
-        bt.disabled = false;
-    }
-    document.getElementById("save-name-button").style.visibility = "visible";
-    document.getElementById("cancel-name-button").style.visibility = "visible";
+function enableField(id) {
+  var field = document.getElementById(id)
+  field.disabled = false;
 }
 
-function changeNameSave() {
-    var bt = document.getElementById("name-field");
-    bt.disabled = true
-    document.getElementById("save-name-button").style.visibility = "hidden";
-    document.getElementById("cancel-name-button").style.visibility = "hidden";
+function disableField(id) {
+  var field = document.getElementById(id)
+  field.disabled = true;
 }
 
-function changeEmail() {
-    var bt = document.getElementById("email-field");
-    if (bt.disabled = true) {
-        bt.disabled = false;
-    }
-    document.getElementById("save-email-button").style.visibility = "visible";
-    document.getElementById("cancel-email-button").style.visibility = "visible";
+function showButton(id) {
+  document.getElementById(id).style.visibility = "visible";
 }
 
-function changeEmailSave() {
-    var bt = document.getElementById("email-field");
-    bt.disabled = true
-    document.getElementById("save-email-button").style.visibility = "hidden";
-    document.getElementById("cancel-email-button").style.visibility = "hidden";
+function hideButton(id) {
+  document.getElementById(id).style.visibility = "hidden";
+}
+
+function activateEditState(fieldName) {
+  enableField(fieldName + "-field")
+  showButton("save-"+fieldName+"-button")
+  showButton("cancel-"+fieldName+"-button")
+}
+
+function disableEditState(fieldName) {
+  disableField(fieldName + "-field")
+  hideButton("save-" + fieldName + "-button")
+  hideButton("cancel-" + fieldName + "-button")
 }
 
 // Get the modal
