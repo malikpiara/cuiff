@@ -2,42 +2,38 @@
 {% block main %}
     <main class="main">
         <section>
-            <h1>Account Settings</h1>
+            <h2 class="section">Account Settings</h2>
 
             {% for message in get_flashed_messages() %}
                 {{ message }}
             {% endfor %}
 
-            <form method="POST">
-                {{ change_name.hidden_tag() }}
-                {{ change_name.name.label }}
-                {{ change_name.name(id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
-                <button id="edit-name-button" type="button">Edit</button>
-                {{ change_name.save(id="save-name-button") }}
-                <button id="cancel-name-button" type="button">Cancel</button>
-            </form>
+            <div class="form-group-container">
+                <form method="POST">
+                    {{ change_name.hidden_tag() }}
+                    {{ change_name.name.label }}
+                    {{ change_name.name(id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
+                    <button id="edit-name-button" type="button">Edit</button>
+                    {{ change_name.save(id="save-name-button") }}
+                    <button id="cancel-name-button" type="button">Cancel</button>
+                </form>
 
-            <br>
+                <form method="POST">
+                    {{ change_email.hidden_tag() }}
+                    {{ change_email.email_address.label }}
+                    {{ change_email.email_address(id="email-field", value=email, placeholder="Email address", disabled=True) }}
+                    <button id="edit-email-button" type="button">Edit</button>
+                    {{ change_email.save(id="save-email-button") }}
+                    <button id="cancel-email-button" type="button">Cancel</button>
+                </form>
 
-            <form method="POST">
-                {{ change_email.hidden_tag() }}
-                {{ change_email.email_address.label }}
-                {{ change_email.email_address(id="email-field", value=email, placeholder="Email address", disabled=True) }}
-                <button id="edit-email-button" type="button">Edit</button>
-                {{ change_email.save(id="save-email-button") }}
-                <button id="cancel-email-button" type="button">Cancel</button>
-            </form>
-
-            <br>
-
-            <form>
-                {{ change_password.hidden_tag() }}
-                {{ change_password.password_field.label }}
-                {{ change_password.password_field(id="password-field", placeholder="••••••••", type="text", disabled=True) }}
-                <button id="edit-password-button" type="button">Change</button>
-            </form>
-
-            <br>
+                <form>
+                    {{ change_password.hidden_tag() }}
+                    {{ change_password.password_field.label }}
+                    {{ change_password.password_field(id="password-field", placeholder="••••••••", type="text", disabled=True) }}
+                    <button id="edit-password-button" type="button">Change</button>
+                </form>
+            </div>
 
             <div id="password-modal" class="modal">
                 <div class="modal-content">
@@ -54,32 +50,15 @@
                 </div>
             </div>
 
-            <!-- <form method="post">
-                {{ form.hidden_tag() }}
-                
-                {{ form.name.label }}
-                {{ form.name(id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
-                <button id="edit-name-button" type="button">Edit</button>
+        <h2 class="section">Delete account</h2>
 
-                {{ form.email_address.label }}
-                {{ form.email_address(id="email-field", value=email, placeholder="Email address", disabled=True) }}
-                <button id="edit-email-button" type="button">Edit</button>
-
-                {{ form.password_field.label }}
-                {{ form.password_field(id="password-field", placeholder="••••••••", type="password", disabled=True)}}
-                <button id="edit-password-button" type="button">Change</button>
-
-                {{ form.save() }}
-            </form> -->
-
-            <h3>Delete account</h3>
-
-            <!-- TODO: Add a warning, an alert and let the user confirm -->
+        <div class="form-group-container">
             <form method="post">
                 {{ delete_user_button.hidden_tag() }}
                 {{ delete_user_button.something(placeholder="Confirm email address") }}
                 {{ delete_user_button.delete_account() }}
             </form>
+        </div>
 
         </section>
 
