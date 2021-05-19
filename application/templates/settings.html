@@ -9,25 +9,25 @@
             {% endfor %}
 
             <div class="form-group-container">
-                <form method="POST">
+                <form class="settings-form" method="POST">
                     {{ change_name.hidden_tag() }}
                     {{ change_name.name.label }}
                     {{ change_name.name(id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
                     <button class="form-btn" id="edit-name-button" type="button">Edit</button>
-                    {{ change_name.save(class="form-btn", id="save-name-button") }}
                     <button class="form-btn" id="cancel-name-button" type="button">Cancel</button>
+                    {{ change_name.save(class="form-btn", id="save-name-button") }}
                 </form>
 
-                <form method="POST">
+                <form class="settings-form" method="POST">
                     {{ change_email.hidden_tag() }}
                     {{ change_email.email_address.label }}
                     {{ change_email.email_address(id="email-field", value=email, placeholder="Email address", disabled=True) }}
                     <button class="form-btn" id="edit-email-button" type="button">Edit</button>
-                    {{ change_email.save(class="form-btn", id="save-email-button") }}
                     <button class="form-btn" id="cancel-email-button" type="button">Cancel</button>
+                    {{ change_email.save(class="form-btn", id="save-email-button") }}
                 </form>
 
-                <form>
+                <form class="settings-form">
                     {{ change_password.hidden_tag() }}
                     {{ change_password.password_field.label }}
                     {{ change_password.password_field(id="password-field", placeholder="••••••••", type="text", disabled=True) }}
@@ -53,7 +53,7 @@
         <h2 class="section">Delete account</h2>
 
         <div class="form-group-container">
-            <form method="post">
+            <form class="settings-form" method="post">
                 {{ delete_user_button.hidden_tag() }}
                 {{ delete_user_button.something(placeholder="Confirm email address") }}
                 {{ delete_user_button.delete_account(class="form-btn") }}

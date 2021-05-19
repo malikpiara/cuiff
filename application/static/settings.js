@@ -7,6 +7,7 @@ document.getElementById("cancel-email-button").addEventListener("click", ()=> di
 function enableField(id) {
   var field = document.getElementById(id)
   field.disabled = false;
+  document.getElementById(id).focus();
 }
 
 function disableField(id) {

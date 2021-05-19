@@ -5,7 +5,7 @@
 }
 
 html {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: sans-serif;
 }
 
 html,
@@ -78,14 +78,25 @@ td {
   background: transparent;
 }
 
+a {
+  text-decoration: none;
+  color: mediumslateblue;
+}
+
+/* TODO: Create wrapper for the app and remove this.  */
+body {
+  margin: 0px 10px;
+}
+
 label {
   display: block;
   font-weight: 500;
+  font-size: 14px;
 }
 
 .form-group-container {
   margin-bottom: 20px;
-  background-color: #faf8f7;
+  background-color: #f9f9f9;
   border-radius: 10px;
   padding: 20px;
 }
@@ -109,6 +120,7 @@ h2.section {
 
 .form-btn {
   display: inline-block;
+  float: right;
   padding: 8px 12px;
   cursor: pointer;
   border: none;
@@ -117,9 +129,13 @@ h2.section {
   position: relative;
   font-weight: 500;
   text-align: center;
-  background-color: rgb(171, 171, 173);
-  color: white;
+  background-color: #e8e8e8;
+  color: #828282;
   font-size: 14px;
+}
+
+form.settings-form {
+  margin: 10px;
 }
 
 #save-name-button,
@@ -127,6 +143,7 @@ h2.section {
 #save-email-button,
 #cancel-email-button {
   visibility: hidden;
+  margin-right: 10px;
 }
 
 /* The Modal (background) */
@@ -181,6 +198,7 @@ h2.section {
 
 .navbar_navigation_item {
   margin-left: 20px;
+  font-size: 16px;
 }
 
 .navbar_link {
