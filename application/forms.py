@@ -70,7 +70,7 @@ class ChangePasswordReal(FlaskForm):
 
 
 class UserSettings(FlaskForm):
-    name = StringField("Name", validators=[DataRequired()])
+    name = StringField(label="Display name", validators=[DataRequired()])
     email_address = EmailField("Email", validators=[DataRequired(), Email()])
     password_field = StringField("Password")
     save = SubmitField("Save")

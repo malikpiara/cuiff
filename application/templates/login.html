@@ -13,11 +13,11 @@
 <body>
     <main class="main">
         <h1>Log in</h1>
-        <form method="post">
+        <form class="block mb15" method="post">
             {{ form.hidden_tag() }}
             {{ form.email_address(placeholder="Your email") }}
             {{ form.password(placeholder="Password") }}
-            {{ form.submit() }}
+            {{ form.submit(class="primary") }}
         </form>
         <p>
             Don't have an account yet? <a href="{{ url_for('main.signup') }}">Sign up here</a>.

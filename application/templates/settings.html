@@ -12,7 +12,7 @@
                 <form class="settings-form" method="POST">
                     {{ change_name.hidden_tag() }}
                     {{ change_name.name.label }}
-                    {{ change_name.name(id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
+                    {{ change_name.name(class="settings-field", id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
                     <button class="form-btn" id="edit-name-button" type="button">Edit</button>
                     <button class="form-btn" id="cancel-name-button" type="button">Cancel</button>
                     {{ change_name.save(class="form-btn", id="save-name-button") }}
@@ -21,7 +21,7 @@
                 <form class="settings-form" method="POST">
                     {{ change_email.hidden_tag() }}
                     {{ change_email.email_address.label }}
-                    {{ change_email.email_address(id="email-field", value=email, placeholder="Email address", disabled=True) }}
+                    {{ change_email.email_address(class="settings-field", id="email-field", value=email, placeholder="Email address", disabled=True) }}
                     <button class="form-btn" id="edit-email-button" type="button">Edit</button>
                     <button class="form-btn" id="cancel-email-button" type="button">Cancel</button>
                     {{ change_email.save(class="form-btn", id="save-email-button") }}
@@ -30,7 +30,7 @@
                 <form class="settings-form">
                     {{ change_password.hidden_tag() }}
                     {{ change_password.password_field.label }}
-                    {{ change_password.password_field(id="password-field", placeholder="••••••••", type="text", disabled=True) }}
+                    {{ change_password.password_field(class="settings-field", id="password-field", placeholder="••••••••", type="text", disabled=True) }}
                     <button class="form-btn" id="edit-password-button" type="button">Change</button>
                 </form>
             </div>

@@ -111,12 +111,26 @@ label {
 }
 
 input {
-  padding: 10px 0px;
-  outline: none;
+  padding: 15px 17px;
+  background-color: rgba(0, 0, 0, 0.04);
   border-radius: 8px;
+  outline: none;
   border: 1px solid transparent;
-  background-color: transparent;
   font-size: 16px;
+}
+
+.block input {
+  display: block;
+}
+
+.mb15 input {
+  margin-bottom: 15px;
+  width: 300px;
+}
+
+.settings-field {
+  padding: 10px 0px;
+  background-color: transparent;
 }
 
 textarea,
@@ -131,6 +145,16 @@ input:disabled {
 
 h2.section {
   margin: 0 0 15px;
+}
+
+.primary {
+  background-color: #c196d8;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 14px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .form-btn {
