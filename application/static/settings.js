@@ -27,12 +27,14 @@ function activateEditState(fieldName) {
   enableField(fieldName + "-field")
   showButton("save-"+fieldName+"-button")
   showButton("cancel-"+fieldName+"-button")
+  hideButton("edit-" + fieldName + "-button")
 }
 
 function disableEditState(fieldName) {
   disableField(fieldName + "-field")
   hideButton("save-" + fieldName + "-button")
   hideButton("cancel-" + fieldName + "-button")
+  showButton("edit-" + fieldName + "-button")
 }
 
 // Get the modal

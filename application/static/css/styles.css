@@ -5,7 +5,7 @@
 }
 
 html {
-  font-family: sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 html,
@@ -78,9 +78,18 @@ td {
   background: transparent;
 }
 
+body {
+  color: #283c46;
+}
+
+h1 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
 a {
   text-decoration: none;
-  color: mediumslateblue;
+  color: #c196d8;
 }
 
 /* TODO: Create wrapper for the app and remove this.  */
@@ -90,7 +99,7 @@ body {
 
 label {
   display: block;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 14px;
 }
 
@@ -107,6 +116,12 @@ input {
   border-radius: 8px;
   border: 1px solid transparent;
   background-color: transparent;
+  font-size: 16px;
+}
+
+textarea,
+input {
+  font-family: "Open Sans", sans-serif;
 }
 
 input:disabled {
@@ -127,7 +142,7 @@ h2.section {
   border-radius: 5px;
   outline: none;
   position: relative;
-  font-weight: 500;
+  font-weight: 700;
   text-align: center;
   background-color: #e8e8e8;
   color: #828282;
@@ -225,26 +240,33 @@ form.settings-form {
   border: none;
   width: 100%;
   margin-bottom: 10px;
+  transition: background-color 0.25s ease 0s;
+}
+
+.form_textarea:hover {
+  background-color: #f0edec;
 }
 
 .form_submit {
-  background-color: lightpink;
-  border-radius: 8px;
+  background-color: #c196d8;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 14px;
   border: none;
   padding: 10px 30px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
 }
 
 .form_submit:hover {
-  background-color: mediumslateblue;
+  background-color: #c196d8f0;
 }
 
 .entry {
   margin-top: 25px;
   background-color: #faf8f7;
   border-radius: 8px;
-  padding: 25px;
+  padding: 25px 30px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -260,7 +282,7 @@ form.settings-form {
 }
 
 .entry_content {
-  font-size: 19px;
+  font-size: 17px;
   line-height: 150%;
 }
 
