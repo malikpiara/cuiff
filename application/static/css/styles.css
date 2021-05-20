@@ -212,8 +212,14 @@ form.settings-form {
 }
 
 .navbar_navigation_item {
-  margin-left: 20px;
+  margin-left: 5px;
   font-size: 16px;
+  padding: 8px 12px;
+}
+
+.navbar_navigation_item:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
 }
 
 .navbar_link {
@@ -230,12 +236,14 @@ form.settings-form {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  color: red;
 }
 
 .form_textarea {
   font-size: 18px;
   padding: 12px 25px;
-  background-color: #faf8f7;
+  background-color: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 1);
   border-radius: 8px;
   border: none;
   width: 100%;
@@ -244,7 +252,7 @@ form.settings-form {
 }
 
 .form_textarea:hover {
-  background-color: #f0edec;
+  background-color: rgba(0, 0, 0, 0.06);
 }
 
 .form_submit {
@@ -262,9 +270,13 @@ form.settings-form {
   background-color: #c196d8f0;
 }
 
+*::placeholder {
+  color: rgb(152 152 152);
+}
+
 .entry {
   margin-top: 25px;
-  background-color: #faf8f7;
+  background-color: #f9f9ff;
   border-radius: 8px;
   padding: 25px 30px;
   display: flex;
