@@ -123,9 +123,17 @@ input {
   display: block;
 }
 
+.mb15 {
+  margin-bottom: 15px;
+}
+
 .mb15 input {
   margin-bottom: 15px;
-  width: 300px;
+  width: 100%;
+}
+
+.mb50 {
+  margin-bottom: 50px;
 }
 
 .settings-field {
@@ -290,7 +298,7 @@ form.settings-form {
   cursor: pointer;
 }
 
-.form_submit:hover {
+.primary:hover {
   background-color: #c196d8f0;
 }
 
@@ -329,4 +337,14 @@ form.settings-form {
   border-radius: 50%;
   width: 50px;
   height: 50px;
+}
+
+.container {
+  max-width: 400px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.big-text {
+  font-size: 42px;
 }
