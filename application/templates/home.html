@@ -2,7 +2,7 @@
 {% block main %}
     <main class="main">
         <section>
-            <h1>Hi {{ user_information["name"] | capitalize }},
+            <h1>Hi {{ user_information["name"].split()[0] | capitalize }},
                 what did you work on today?
             </h1>
 
@@ -20,7 +20,11 @@
             {% for entry in entries %}
                 <article class="entry">
                     <header>
-                        <img class="profile_picture" src="{{ url_for('static', filename='default.png')}}">
+                        <div class="profile-picture">
+                            <a href="{{ url_for('main.progress', author=entry.user_name) }}">
+                                <div class="profile-picture-initials">{{ entry.first_name_initial | capitalize }}{{ entry.second_name_initial | capitalize }}</div>
+                            </a>
+                        </div>
                         <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
                         <p class="entry_author">
                             <a href="{{ url_for('main.progress', author=entry.user_name) }}">

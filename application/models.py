@@ -6,6 +6,7 @@ from flask import flash
 
 
 def get_entries():
+
     entries = [
         {
             "content": entry["content"],
@@ -13,7 +14,9 @@ def get_entries():
             "formatted_date": datetime.datetime.strptime(
                 entry["date"], "%Y-%m-%d %H-%M-%S").strftime("%b %d, %Y"),
             "user_id": entry["user_id"],
-            "user_name": client.standups.users.find_one({"_id": entry["user_id"]})["name"]
+            "user_name": client.standups.users.find_one({"_id": entry["user_id"]})["name"],
+            "first_name_initial": client.standups.users.find_one({"_id": entry["user_id"]})["name"][0],
+            "second_name_initial": client.standups.users.find_one({"_id": entry["user_id"]})["name"].split()[1][0] if len(client.standups.users.find_one({"_id": entry["user_id"]})["name"].split()) > 1 else ""
         }
         for entry in client.standups.entries.find(
             {

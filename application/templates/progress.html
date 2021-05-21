@@ -2,7 +2,7 @@
 {% block main %}
     <main class="main">
         <section>
-            <h1>{{ author | capitalize }}'s activity</h1>
+            <h1>{{ author | title }}'s activity</h1>
         </section>
         <section>
             <h1>Recent updates</h1>
@@ -10,7 +10,11 @@
                 {% if entry.user_name == author %}
                 <article class="entry">
                     <header>
-                        <img class="profile_picture" src="{{ url_for('static', filename='default.png')}}">
+                        <div class="profile-picture">
+                            <a href="{{ url_for('main.progress', author=entry.user_name) }}">
+                                <div class="profile-picture-initials">{{ entry.first_name_initial | capitalize }}{{ entry.second_name_initial | capitalize }}</div>
+                            </a>
+                        </div>
                         <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
                         <p class="entry_author">
                             <strong>{{ entry.user_name }}</strong>

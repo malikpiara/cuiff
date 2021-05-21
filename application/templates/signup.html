@@ -17,7 +17,7 @@
             {% for message in get_flashed_messages() %}
                 {{ message }}
             {% endfor %}
-            <form class="block mb15" method="post">
+            <form class="block mb15" autocomplete="off" method="post">
                 {{ form.hidden_tag() }}
                 {{ form.email_address(placeholder="email@example.com", autocomplete="off") }}
                 {{ form.name(placeholder="Your name", autocomplete="off") }}

@@ -8,7 +8,8 @@ from .models import find_user_by_email
 
 
 class Entry(FlaskForm):
-    entry_input = TextAreaField("Your answer...", validators=[DataRequired()])
+    entry_input = TextAreaField(
+        "Your answer...", validators=[DataRequired()])
     post = SubmitField("Post")
 
 

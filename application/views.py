@@ -56,6 +56,7 @@ def home():
     form = Entry()
     email = session["username"]
     user_information = find_user_by_email(email)
+
     if form.validate_on_submit():
 
         create_entry(content=form.entry_input.data,

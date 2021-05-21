@@ -268,12 +268,12 @@ form.settings-form {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  color: red;
 }
 
 .form_textarea {
+  height: 100px;
   font-size: 18px;
-  padding: 12px 25px;
+  padding: 20px 25px;
   background-color: rgba(0, 0, 0, 0.04);
   color: rgba(0, 0, 0, 1);
   border-radius: 8px;
@@ -347,4 +347,31 @@ form.settings-form {
 
 .big-text {
   font-size: 42px;
+}
+
+.profile-picture {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  z-index: 0;
+  position: absolute;
+  display: block;
+  background-color: #f4e0ff;
+  top: 0.75em;
+  left: -2rem;
+}
+
+.profile-picture-initials {
+  font-size: 22px;
+  overflow: hidden;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  position: absolute;
+  text-align: center;
+  color: #c196d8;
+  font-weight: 500;
 }
