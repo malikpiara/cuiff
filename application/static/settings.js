@@ -16,11 +16,12 @@ function disableField(id) {
 }
 
 function showButton(id) {
+  document.getElementById(id).style.display = "inline-block";
   document.getElementById(id).style.visibility = "visible";
 }
 
 function hideButton(id) {
-  document.getElementById(id).style.visibility = "hidden";
+  document.getElementById(id).style.display = "none";
 }
 
 function activateEditState(fieldName) {
