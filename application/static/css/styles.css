@@ -375,3 +375,13 @@ form.settings-form {
   color: #c196d8;
   font-weight: 500;
 }
+
+.board-add {
+  background-color: #f9f9ff;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 100px;
+  width: 200px;
+  height: 100px;
+  cursor: pointer;
+}

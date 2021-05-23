@@ -2,23 +2,21 @@
 {% block main %}
     <main class="main">
         <section>
-            <h1>Hi {{ user_information["name"].split()[0] | capitalize }},
-                what did you work on today?
-            </h1>
+            {% for board in boards %}
+            <h1>{{ board.question }}</h1>
+            {% endfor %}
 
-            <form class="form" method="post" action="{{url_for('main.home')}}">
+            <form class="form" method="post" action="{{url_for('main.board', board_number=board_number)}}">
             {{ form.hidden_tag() }}
             {{ form.entry_input(class="form_textarea",
                                 placeholder="Your answer...") }}
             {{ form.post(class="primary form_submit") }}
             </form>
-
         </section>
         <section>
-            <h2>Recent updates</h2>
-            
+            <h1>Recent updates</h1>
             {% for entry in entries %}
-                {% if entry.board_id == "1" %}
+                {% if entry.board_id == board_number %}
                 <article class="entry">
                     <header>
                         <div class="profile-picture">
@@ -28,9 +26,7 @@
                         </div>
                         <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
                         <p class="entry_author">
-                            <a href="{{ url_for('main.progress', author=entry.user_name) }}">
                             <strong>{{ entry.user_name }}</strong>
-                            </a>
                         </p>
                     </header>
                         <p class="entry_content">

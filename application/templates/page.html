@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block main %}
+    <main class="main">
+        <div class="board-add">
+            <a href="{{ url_for('main.new') }}">
+            Create new board
+            </a>
+        </div>
+
+        <section>
+            <h1>Personal Boards</h1>
+            
+            {% for board in boards %}
+            <!-- Change board_number to dynamically generated board number -->
+            <a href="{{ url_for('main.board', board_number='2') }}">
+                <h2>{{ board.question }}</h2>
+            </a>
+                      
+            {% endfor %}
+        </section>
+    </main>
+{% endblock %}

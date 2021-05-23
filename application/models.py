@@ -9,6 +9,7 @@ def get_entries():
 
     entries = [
         {
+            "board_id": entry["board_id"],
             "content": entry["content"],
             "date": entry["date"],
             "formatted_date": datetime.datetime.strptime(
@@ -35,6 +36,19 @@ def find_user_by_email(email):
     )
 
 
+def create_board(owner, question, visibility):
+    # Build a view function and try create new boards
+    # without real data first
+    client.standups.boards.insert(
+        {
+            "owner": owner,
+            "question": question,
+            "visibility": visibility,
+            "id": "3"
+        }
+    )
+
+
 def create_user(email_address, name, password):
     hashed_pass = generate_password_hash(
         password)
@@ -45,8 +59,6 @@ def create_user(email_address, name, password):
             "password": hashed_pass
         }
     )
-    """ send_email(current_app.config["FUZZBOARD_ADMIN"],
-               "New User", "New User signed up") """
 
 
 def update_name(email_address, name):
@@ -113,12 +125,44 @@ def delete_user(user_id, email_address):
     )
 
 
-def create_entry(content, user_id):
+def create_entry(content, user_id, board_id):
     formatted_date = datetime.datetime.today().strftime("%Y-%m-%d %H-%M-%S")
     client.standups.entries.insert(
         {
             "content": content,
             "date": formatted_date,
-            "user_id": user_id
+            "user_id": user_id,
+            "board_id": board_id
         }
     )
+
+
+def get_board(board_id):
+    boards = [
+        {
+            "board_id": board["id"],
+            "question": board["question"],
+            "owner": board["owner"]
+        }
+        for board in client.standups.boards.find(
+            {
+                "id": board_id
+            }
+        )
+    ]
+    return boards
+
+
+def get_boards():
+    boards = [
+        {
+            "question": board["question"],
+            "owner": board["owner"]
+        }
+        for board in client.standups.boards.find(
+            {
+                "owner": {"$exists": True}
+            }
+        )
+    ]
+    return boards

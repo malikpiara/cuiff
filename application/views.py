@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, session, flash
 from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal
 from werkzeug.security import check_password_hash
-from .models import get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user, update_email, update_name, update_password
+from .models import create_board, get_boards, get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user, update_email, update_name, update_password, get_board
 from .emails import send_email
 
 bp = Blueprint('main', __name__)
@@ -60,7 +60,8 @@ def home():
     if form.validate_on_submit():
 
         create_entry(content=form.entry_input.data,
-                     user_id=user_information["_id"])
+                     user_id=user_information["_id"],
+                     board_id="1")
         return redirect(url_for('main.home'))
 
     # Showing entries from database on the page.
@@ -113,18 +114,6 @@ def settings():
 
         return redirect(url_for('main.settings'))
 
-    """ # Old form
-    if form.validate_on_submit():
-        email = session["username"]
-        new_email = form.email_address.data
-
-        update_user(email_address=email,
-                    name=form.name.data, new_email=new_email)
-
-        session["username"] = new_email
-
-        return redirect(url_for('main.home')) """
-
     if delete_user_button.validate_on_submit():
         delete_user(user_id=user_information["_id"], email_address=email)
         session["username"] = None
@@ -143,6 +132,36 @@ def settings():
 def logout():
     session["username"] = None
     return redirect("/login")
+
+
+@bp.route("/page")
+def page():
+    boards = get_boards()
+    return render_template("page.html", boards=boards)
+
+
+@bp.route("/new")
+def new():
+    create_board(session["username"],
+                 "What will you be working on this week?", "private")
+    return redirect("/")
+
+
+@bp.route("/boards/<board_number>", methods=["GET", "POST"])
+def board(board_number):
+    form = Entry()
+    email = session["username"]
+    user_information = find_user_by_email(email)
+
+    if form.validate_on_submit():
+        create_entry(content=form.entry_input.data,
+                     user_id=user_information["_id"],
+                     board_id=board_number)
+
+    entries = get_entries()
+    boards = get_board(board_number)
+    return render_template("board.html", entries=entries, board_number=board_number,
+                           form=form, user_information=user_information, boards=boards)
 
 
 @bp.route("/progress/<author>")
