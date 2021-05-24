@@ -385,3 +385,7 @@ form.settings-form {
   height: 100px;
   cursor: pointer;
 }
+
+.navbar_navigation_item {
+  transition: background-color 0.25s ease 0.05s;
+}
