@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash
 from .database import client
 from werkzeug.security import check_password_hash
 from flask import flash
+from bson.objectid import ObjectId
 
 
 def get_entries():
@@ -37,15 +38,54 @@ def find_user_by_email(email):
     )
 
 
-def create_board(owner, question, visibility):
-    # Build a view function and try create new boards
-    # without real data first
+def find_board_by_id(id):
+    return client.standups.boards.find_one(
+        {
+            "id": id
+        }
+    )
+
+
+def get_board(board_id):
+    boards = [
+        {
+            "_id": board["_id"],
+            "question": board["question"],
+            "owner_id": board["owner_id"]
+        }
+        for board in client.standups.boards.find(
+            {
+                "_id": ObjectId(board_id)
+            }
+        )
+    ]
+    return boards
+
+
+def get_boards():
+    boards = [
+        {
+            "_id": board["_id"],
+            "question": board["question"],
+            "owner_id": board["owner_id"],
+            "visibility": board["visibility"]
+        }
+        for board in client.standups.boards.find(
+            {
+                "owner_id": {"$exists": True}
+            }
+        )
+    ]
+    return boards
+
+
+def create_board(owner_id, question, visibility):
+
     client.standups.boards.insert(
         {
-            "owner": owner,
+            "owner_id": owner_id,
             "question": question,
             "visibility": visibility,
-            "id": "3"
         }
     )
 
@@ -136,34 +176,3 @@ def create_entry(content, user_id, board_id):
             "board_id": board_id
         }
     )
-
-
-def get_board(board_id):
-    boards = [
-        {
-            "board_id": board["id"],
-            "question": board["question"],
-            "owner": board["owner"]
-        }
-        for board in client.standups.boards.find(
-            {
-                "id": board_id
-            }
-        )
-    ]
-    return boards
-
-
-def get_boards():
-    boards = [
-        {
-            "question": board["question"],
-            "owner": board["owner"]
-        }
-        for board in client.standups.boards.find(
-            {
-                "owner": {"$exists": True}
-            }
-        )
-    ]
-    return boards

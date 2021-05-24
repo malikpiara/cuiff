@@ -11,11 +11,25 @@
             <h1>Personal Boards</h1>
             
             {% for board in boards %}
+                {% if board.owner_id == user_information["_id"] %}
             <!-- Change board_number to dynamically generated board number -->
-            <a href="{{ url_for('main.board', board_number='2') }}">
+            <a href="{{ url_for('main.board', board_number=board._id) }}">
                 <h2>{{ board.question }}</h2>
             </a>
-                      
+                {% endif %}
+            {% endfor %}
+        </section>
+
+        <section>
+            <h1>Public boards</h1>
+
+            {% for board in boards %}
+                {% if board.visibility == "public" %}
+            <!-- Change board_number to dynamically generated board number -->
+            <a href="{{ url_for('main.board', board_number=board._id) }}">
+                <h2>{{ board.question }}</h2>
+            </a>
+                {% endif %}
             {% endfor %}
         </section>
     </main>

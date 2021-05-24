@@ -136,14 +136,21 @@ def logout():
 
 @bp.route("/page")
 def page():
+    email = session["username"]
+    user_information = find_user_by_email(email)
     boards = get_boards()
-    return render_template("page.html", boards=boards)
+    return render_template("page.html", boards=boards,
+                           user_information=user_information)
 
 
 @bp.route("/new")
 def new():
-    create_board(session["username"],
-                 "What will you be working on this week?", "private")
+    email = session["username"]
+    user_information = find_user_by_email(email)
+
+    create_board(user_information["_id"],
+                 "What will you be working on this week?",
+                 "private")
     return redirect("/")
 
 
