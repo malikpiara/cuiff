@@ -149,7 +149,9 @@ def board(board_number):
         create_entry(content=form.entry_input.data,
                      user_id=user_information["_id"],
                      board_id=board_number)
+        return redirect(url_for('main.board', board_number=board_number))
 
+    # Showing entries from database on the page.
     entries = get_entries()
     boards = get_board(board_number)
 
