@@ -1,5 +1,6 @@
 import datetime
 from werkzeug.security import generate_password_hash
+from werkzeug.utils import redirect
 from .database import client
 from werkzeug.security import check_password_hash
 from flask import flash
@@ -47,6 +48,7 @@ def find_board_by_id(id):
 
 
 def get_board(board_id):
+
     boards = [
         {
             "_id": board["_id"],

@@ -49,28 +49,6 @@ def signup():
     return render_template("signup.html", form=form)
 
 
-@bp.route("/", methods=["GET", "POST"])
-def home():
-    if not session.get("username"):
-        return redirect("/login")
-    form = Entry()
-    email = session["username"]
-    user_information = find_user_by_email(email)
-
-    if form.validate_on_submit():
-
-        create_entry(content=form.entry_input.data,
-                     user_id=user_information["_id"],
-                     board_id="1")
-        return redirect(url_for('main.home'))
-
-    # Showing entries from database on the page.
-    entries = get_entries()
-
-    return render_template("home.html", entries=entries, form=form,
-                           user_information=user_information)
-
-
 @bp.route("/settings", methods=["GET", "POST"])
 def settings():
     form = UserSettings()
@@ -134,8 +112,11 @@ def logout():
     return redirect("/login")
 
 
-@bp.route("/page")
-def page():
+@bp.route("/")
+def home():
+    if not session.get("username"):
+        return redirect("/login")
+
     email = session["username"]
     user_information = find_user_by_email(email)
     boards = get_boards()
@@ -156,6 +137,10 @@ def new():
 
 @bp.route("/boards/<board_number>", methods=["GET", "POST"])
 def board(board_number):
+    # Temporary fix for application error.
+    if len(board_number) != 24:
+        return redirect("/")
+
     form = Entry()
     email = session["username"]
     user_information = find_user_by_email(email)
@@ -167,6 +152,7 @@ def board(board_number):
 
     entries = get_entries()
     boards = get_board(board_number)
+
     return render_template("board.html", entries=entries, board_number=board_number,
                            form=form, user_information=user_information, boards=boards)
 
