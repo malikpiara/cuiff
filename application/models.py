@@ -38,9 +38,9 @@ def find_user_by_email(email):
 
 
 def find_board_by_id(id):
-    return client.standups.boards.find_one(
+    return client.standups.users.find_one(
         {
-            "id": id
+            "_id": id
         }
     )
 
@@ -173,6 +173,6 @@ def create_entry(content, user_id, board_id):
             "content": content,
             "date": formatted_date,
             "user_id": user_id,
-            "board_id": board_id
+            "board_id": ObjectId(board_id)
         }
     )

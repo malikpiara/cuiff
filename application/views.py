@@ -4,6 +4,7 @@ from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, Dele
 from werkzeug.security import check_password_hash
 from .models import create_board, get_boards, get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user, update_email, update_name, update_password, get_board
 from .emails import send_email
+from bson.objectid import ObjectId
 
 bp = Blueprint('main', __name__)
 
@@ -138,6 +139,7 @@ def new():
 
 @bp.route("/boards/<board_number>", methods=["GET", "POST"])
 def board(board_number):
+    board_number = ObjectId(board_number)
     form = Entry()
     email = session["username"]
     user_information = find_user_by_email(email)
