@@ -11,8 +11,15 @@ load_dotenv()
 app = Flask(__name__)
 app.register_blueprint(bp)
 
-
-Talisman(app)
+csp = {
+    'default-src': [
+        '\'self\'',
+        '*.googleapis.com',
+        '*.gstatic.com',
+        'cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'
+    ]
+}
+Talisman(app, content_security_policy=csp)
 
 # Secret Key config for WTF forms.
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
