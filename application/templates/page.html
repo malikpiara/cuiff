@@ -1,21 +1,22 @@
 {% extends "layout.html" %}
 {% block main %}
     <main class="main">
-        <div class="board-add">
+        <div class="board-add mb15">
             <a href="{{ url_for('main.new') }}">
             Create new board
             </a>
         </div>
 
-        <section>
+        <section class="mb15">
             <h1>Personal Boards</h1>
             
             {% for board in boards %}
                 {% if board.owner_id == user_information["_id"] %}
-            <!-- Change board_number to dynamically generated board number -->
-            <a href="{{ url_for('main.board', board_number=board._id) }}">
-                <h2>{{ board.question }}</h2>
-            </a>
+                <div class="board-page-item mb15">
+                    <a href="{{ url_for('main.board', board_number=board._id) }}">
+                        <h2>{{ board.question }}</h2>
+                    </a>
+                </div>
                 {% endif %}
             {% endfor %}
         </section>
@@ -25,10 +26,11 @@
 
             {% for board in boards %}
                 {% if board.visibility == "public" %}
-            <!-- Change board_number to dynamically generated board number -->
-            <a href="{{ url_for('main.board', board_number=board._id) }}">
-                <h2>{{ board.question }}</h2>
-            </a>
+                <div class="board-page-item">
+                    <a href="{{ url_for('main.board', board_number=board._id) }}">
+                        <h2>{{ board.question }}</h2>
+                    </a>
+                </div>
                 {% endif %}
             {% endfor %}
         </section>

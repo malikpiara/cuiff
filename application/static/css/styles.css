@@ -389,3 +389,13 @@ form.settings-form {
 .navbar_navigation_item {
   transition: background-color 0.25s ease 0.05s;
 }
+
+.board-page-item {
+  background-color: #f9f9fe;
+  padding: 20px 22px;
+  border-radius: 8px;
+  transition: background-color 0.8s ease 0.1s;
+}
+
+.board-page-item:hover {
+  background-color: #f4e0ff;
