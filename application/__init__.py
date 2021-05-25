@@ -17,7 +17,8 @@ csp = {
         '*.googleapis.com',
         '*.gstatic.com',
         'cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'
-    ]
+    ],
+    'img-src': '*',
 }
 Talisman(app, content_security_policy=csp)
 

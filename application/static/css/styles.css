@@ -262,6 +262,8 @@ form.settings-form {
 .main {
   max-width: 720px;
   margin: 50px auto;
+  animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 1s; /* don't forget to set a duration! */
 }
 
 .form {
@@ -399,3 +401,4 @@ form.settings-form {
 
 .board-page-item:hover {
   background-color: #f4e0ff;
+}
