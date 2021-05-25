@@ -8,8 +8,6 @@ from bson.objectid import ObjectId
 
 
 def get_entries():
-    # Assign client.standups.users.find_one({"_id": entry["user_id"]})["name"]
-    # to a variable.
     entries = [
         {
             "board_id": entry["board_id"],

@@ -1,3 +1,4 @@
+from bson.errors import BSONError
 from flask import Blueprint, render_template, redirect, url_for, session, flash
 from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal
 from werkzeug.security import check_password_hash
@@ -137,10 +138,6 @@ def new():
 
 @bp.route("/boards/<board_number>", methods=["GET", "POST"])
 def board(board_number):
-    # Temporary fix for application error.
-    if len(board_number) != 24:
-        return redirect("/")
-
     form = Entry()
     email = session["username"]
     user_information = find_user_by_email(email)
@@ -153,7 +150,11 @@ def board(board_number):
 
     # Showing entries from database on the page.
     entries = get_entries()
-    boards = get_board(board_number)
+    try:
+        boards = get_board(board_number)
+        # TODO: check if board is empty
+    except BSONError:
+        return redirect("/")
 
     return render_template("board.html", entries=entries, board_number=board_number,
                            form=form, user_information=user_information, boards=boards)
