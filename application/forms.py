@@ -1,6 +1,7 @@
 from flask import flash, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField, ValidationError
+from wtforms.fields.core import SelectField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo
 from werkzeug.security import check_password_hash
@@ -86,3 +87,10 @@ class UserSettings(FlaskForm):
 class DeleteUser(FlaskForm):
     something = EmailField("Email", validators=[DataRequired(), Email()])
     delete_account = SubmitField("Delete Account")
+
+
+class NewBoard(FlaskForm):
+    question = StringField("Question", validators=[DataRequired()])
+    visibility = SelectField("Visibility", validators=[
+                             DataRequired()], choices=['Private', 'Public'])
+    create = SubmitField("Create new board")

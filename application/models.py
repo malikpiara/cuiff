@@ -37,14 +37,6 @@ def find_user_by_email(email):
     )
 
 
-def find_board_by_id(id):
-    return client.standups.users.find_one(
-        {
-            "_id": id
-        }
-    )
-
-
 def get_board(board_id):
 
     boards = [

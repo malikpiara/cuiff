@@ -1,10 +1,20 @@
 {% extends "layout.html" %}
 {% block main %}
     <main class="main">
-        <div class="board-add mb15">
-            <a href="{{ url_for('main.new') }}">
-            Create new board
-            </a>
+        <div id="board-add" class="mb15">Create new board</div>
+
+        <div id="new-board-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    {{ form.question.label }}
+                    {{ form.question }}
+                    {{ form.visibility.label }}
+                    {{ form.visibility }}
+                    {{ form.create(class="form-btn") }}
+                </form>
+            </div>
         </div>
 
         <section class="mb15">
@@ -35,4 +45,5 @@
             {% endfor %}
         </section>
     </main>
+    <script src="{{url_for('static', filename='main.js')}}"></script>
 {% endblock %}

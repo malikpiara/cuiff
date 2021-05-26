@@ -1,6 +1,6 @@
 from bson.errors import BSONError
 from flask import Blueprint, render_template, redirect, url_for, session, flash
-from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal
+from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard
 from werkzeug.security import check_password_hash
 from .models import create_board, get_boards, get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user, update_email, update_name, update_password, get_board
 from .emails import send_email
@@ -114,16 +114,25 @@ def logout():
     return redirect("/login")
 
 
-@bp.route("/")
+@bp.route("/", methods=["GET", "POST"])
 def home():
+    form = NewBoard()
     if not session.get("username"):
         return redirect("/login")
 
     email = session["username"]
     user_information = find_user_by_email(email)
     boards = get_boards()
+
+    if form.validate_on_submit():
+        create_board(user_information["_id"],
+                     form.question.data,
+                     form.visibility.data.lower())
+        return redirect("/")
+
     return render_template("page.html", boards=boards,
-                           user_information=user_information)
+                           user_information=user_information,
+                           form=form)
 
 
 @bp.route("/new")
@@ -139,6 +148,7 @@ def new():
 
 @bp.route("/boards/<board_number>", methods=["GET", "POST"])
 def board(board_number):
+    # NOTE: converting board_number from string to ObjectId
     board_number = ObjectId(board_number)
     form = Entry()
     email = session["username"]

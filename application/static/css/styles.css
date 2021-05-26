@@ -212,8 +212,11 @@ form.settings-form {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  border-radius: 5px;
+  border: none;
+  width: 50%;
+  animation: zoomIn;
+  animation-duration: 1s;
 }
 
 .close {
@@ -378,7 +381,7 @@ form.settings-form {
   font-weight: 500;
 }
 
-.board-add {
+#board-add {
   background-color: #f9f9ff;
   border-radius: 8px;
   text-align: center;
@@ -386,6 +389,13 @@ form.settings-form {
   width: 200px;
   height: 100px;
   cursor: pointer;
+  color: #c196d8;
+  font-weight: 700;
+  transition: background-color 0.8s ease 0.1s;
+}
+
+#board-add:hover {
+  background-color: #f4e0ff;
 }
 
 .navbar_navigation_item {
