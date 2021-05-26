@@ -214,7 +214,7 @@ form.settings-form {
   padding: 20px;
   border-radius: 5px;
   border: none;
-  width: 50%;
+  width: 600px;
   animation: zoomIn;
   animation-duration: 1s;
 }
@@ -411,4 +411,29 @@ form.settings-form {
 
 .board-page-item:hover {
   background-color: #f4e0ff;
+}
+
+.modal-form {
+  padding: 10px 15px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.modal-form > input {
+  margin-bottom: 15px;
+}
+
+.modal-header {
+  padding: 0px 15px;
+}
+
+.button {
+  display: block;
+  padding: 10px 25px;
+  align-self: flex-end;
+}
+
+#question {
+  width: 100%;
 }

@@ -6,13 +6,14 @@
         <div id="new-board-modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <form method="POST">
+                <h1 class="modal-header">Create new board</h1>
+                <form class="modal-form" method="POST">
                     {{ form.hidden_tag() }}
                     {{ form.question.label }}
-                    {{ form.question }}
+                    {{ form.question(placeholder="What did you work on today?") }}
                     {{ form.visibility.label }}
-                    {{ form.visibility }}
-                    {{ form.create(class="form-btn") }}
+                    {{ form.visibility(class="mb15") }}
+                    {{ form.create(class="primary button") }}
                 </form>
             </div>
         </div>

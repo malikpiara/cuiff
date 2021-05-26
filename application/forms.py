@@ -93,4 +93,4 @@ class NewBoard(FlaskForm):
     question = StringField("Question", validators=[DataRequired()])
     visibility = SelectField("Visibility", validators=[
                              DataRequired()], choices=['Private', 'Public'])
-    create = SubmitField("Create new board")
+    create = SubmitField("Create")

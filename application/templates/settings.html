@@ -38,14 +38,15 @@
             <div id="password-modal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <form method="POST">
+                    <h1 class="modal-header">Change password</h1>
+                    <form class="modal-form" method="POST">
                         {{ change_password_real.hidden_tag() }}
                         {{ change_password_real.old_password.label }}
                         {{ change_password_real.old_password(placeholder="Old password") }}
                         {{ change_password_real.new_password.label }}
                         {{ change_password_real.new_password(placeholder="New password") }}
                         
-                        {{ change_password_real.save(class="form-btn") }}
+                        {{ change_password_real.save(class="primary button") }}
                     </form>
                 </div>
             </div>
