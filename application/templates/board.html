@@ -26,12 +26,10 @@
                         </div>
                         <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
                         <p class="entry_author">
-                            <strong>{{ entry.user_name }}</strong>
+                            {{ entry.user_name }}
                         </p>
                     </header>
-                        <p class="entry_content">
-                            {{ entry.content }}
-                        </p>
+                        <pre class="entry_content">{{ entry.content }}</pre>
                 </article>
                 {% endif %}
             {% endfor %}
