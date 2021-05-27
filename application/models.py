@@ -10,6 +10,7 @@ from bson.objectid import ObjectId
 def get_entries():
     entries = [
         {
+            "_id": entry["_id"],
             "board_id": entry["board_id"],
             "content": entry["content"],
             "date": entry["date"],
@@ -166,5 +167,13 @@ def create_entry(content, user_id, board_id):
             "date": formatted_date,
             "user_id": user_id,
             "board_id": ObjectId(board_id)
+        }
+    )
+
+
+def delete_entry(_id):
+    client.standups.entries.delete_one(
+        {
+            "_id": ObjectId(_id)
         }
     )
