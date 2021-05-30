@@ -353,6 +353,7 @@ form.settings-form {
 
 .entry-options {
   color: rgb(91, 112, 131);
+  pointer-events: none;
 }
 
 .entry_content {
@@ -463,4 +464,19 @@ form.settings-form {
 
 #question {
   width: 100%;
+}
+
+.dropdown-content {
+  visibility: hidden;
+}
+
+.window {
+  position: absolute;
+  width: 50px;
+  height: 150px;
+  background-color: red;
+}
+
+.pointer {
+  cursor: pointer;
 }

@@ -171,7 +171,17 @@ def create_entry(content, user_id, board_id):
     )
 
 
+def get_entry(_id):
+    entry = client.standups.entries.find_one(
+        {
+            "_id": _id
+        }
+    )
+    return entry
+
+
 def delete_entry(_id):
+    # You should only be able to delete if your id is the author id
     client.standups.entries.delete_one(
         {
             "_id": ObjectId(_id)

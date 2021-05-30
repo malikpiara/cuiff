@@ -24,6 +24,8 @@
                                 <div class="profile-picture-initials">{{ entry.first_name_initial | capitalize }}{{ entry.second_name_initial | capitalize }}</div>
                             </a>
                         </div>
+
+                        {% if entry.user_id == user_id %}
                         <div class="entry-options-container">
                             <svg class="entry-options" viewBox="0 0 24 24" width="20" height="auto">
                                 <g>
@@ -32,7 +34,17 @@
                                     <circle cx="19" cy="12" r="2" />
                                 </g>
                             </svg> 
+                            <div class="dropdown-content">
+                                <!-- <a href="{{ url_for('main.deleteEntry', entry_id=entry._id) }}">Delete</a> -->
+                                <form action="{{ url_for('main.deleteEntry', entry_id=entry._id) }}" method="post">
+                                    <input class="pointer" type="submit" value="Delete"/>
+                                </form>
+                            </div>
                         </div>
+                        
+                        
+                        {% endif %}
+
                         <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
                         
                         <p class="entry_author">{{ entry.user_name }}</p>
@@ -43,4 +55,5 @@
             {% endfor %}
         </section>
     </main>
+    <script src="{{url_for('static', filename='boards.js')}}"></script>
 {% endblock %}

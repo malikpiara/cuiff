@@ -22,7 +22,7 @@
             <h1>Personal Boards</h1>
             
             {% for board in boards %}
-                {% if board.owner_id == user_information["_id"] %}
+                {% if board.owner_id == user_id %}
                 <div class="board-page-item mb15">
                     <a href="{{ url_for('main.board', board_number=board._id) }}">
                         <h2>{{ board.question }}</h2>

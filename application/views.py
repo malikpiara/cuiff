@@ -2,7 +2,7 @@ from bson.errors import BSONError
 from flask import Blueprint, render_template, redirect, url_for, session, flash
 from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard
 from werkzeug.security import check_password_hash
-from .models import create_board, get_boards, get_entries, find_user_by_email, create_user, create_entry, update_user, delete_user, update_email, update_name, update_password, get_board
+from .models import create_board, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board
 from .emails import send_email
 from bson.objectid import ObjectId
 
@@ -27,6 +27,7 @@ def login():
             # If user is found, store the email in session
             if check:
                 session["username"] = email
+                session["user_id"] = str(user["_id"])
                 return redirect(url_for('main.home'))
 
     return render_template("login.html", form=form)
@@ -117,33 +118,34 @@ def logout():
 @bp.route("/", methods=["GET", "POST"])
 def home():
     form = NewBoard()
-    if not session.get("username"):
+    if not session.get("user_id"):
         return redirect("/login")
 
-    email = session["username"]
-    user_information = find_user_by_email(email)
+    user_id = ObjectId(session["user_id"])
     boards = get_boards()
 
     if form.validate_on_submit():
-        create_board(user_information["_id"],
+        create_board(user_id,
                      form.question.data,
                      form.visibility.data.lower())
         return redirect("/")
 
-    return render_template("page.html", boards=boards,
-                           user_information=user_information,
+    return render_template("page.html", boards=boards, user_id=user_id,
                            form=form)
 
 
-@bp.route("/new")
-def new():
-    email = session["username"]
-    user_information = find_user_by_email(email)
+@bp.route("/entries/<entry_id>", methods=["DELETE", "POST"])
+def deleteEntry(entry_id):
+    user_id = ObjectId(session["user_id"])
+    entry = get_entry(ObjectId(entry_id))
 
-    create_board(user_information["_id"],
-                 "What will you be working on this week?",
-                 "private")
-    return redirect("/")
+    if entry["user_id"] == user_id:
+        delete_entry(entry_id)
+
+    else:
+        return redirect(url_for('main.home'))
+
+    return redirect(url_for('main.home'))
 
 
 @bp.route("/boards/<board_number>", methods=["GET", "POST"])
@@ -151,14 +153,17 @@ def board(board_number):
     # NOTE: converting board_number from string to ObjectId
     board_number = ObjectId(board_number)
     form = Entry()
-    email = session["username"]
-    user_information = find_user_by_email(email)
+    user_id = ObjectId(session["user_id"])
 
     if form.validate_on_submit():
         create_entry(content=form.entry_input.data,
-                     user_id=user_information["_id"],
+                     user_id=user_id,
                      board_id=board_number)
         return redirect(url_for('main.board', board_number=board_number))
+
+    # if the email of the entry author is the same as the one stored in session
+    # make the options and the delete appear. And let the user delete the entry.
+    # otherwise, throw an error or redirect the user to the homepage.
 
     # Showing entries from database on the page.
     entries = get_entries()
@@ -169,7 +174,7 @@ def board(board_number):
         return redirect("/")
 
     return render_template("board.html", entries=entries, board_number=board_number,
-                           form=form, user_information=user_information, boards=boards)
+                           form=form, boards=boards, user_id=user_id)
 
 
 @bp.route("/progress/<author>")
