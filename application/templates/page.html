@@ -17,27 +17,28 @@
                 </form>
             </div>
         </div>
-
-        <section class="mb15">
-            <h1>Personal Boards</h1>
             
+        {% for space in spaces %}
+        <section class="mb15">
+            <h1>{{ space.name }}</h1>
             {% for board in boards %}
-                {% if board.owner_id == user_id %}
-                <div class="board-page-item mb15">
-                    <a href="{{ url_for('main.board', board_number=board._id) }}">
-                        <h2>{{ board.question }}</h2>
-                    </a>
-                </div>
-                {% endif %}
+                {% if board.owner_id == space.owner_id and board.space_id == space._id %}
+                        <div class="board-page-item mb15">
+                            <a href="{{ url_for('main.board', board_number=board._id) }}">
+                                <h2>{{ board.question }}</h2>
+                            </a>
+                        </div>
+            </section>
+            {% endif %}
             {% endfor %}
-        </section>
+        {% endfor %}
 
         <section>
             <h1>Public boards</h1>
 
             {% for board in boards %}
                 {% if board.visibility == "public" %}
-                <div class="board-page-item">
+                <div class="board-page-item mb15">
                     <a href="{{ url_for('main.board', board_number=board._id) }}">
                         <h2>{{ board.question }}</h2>
                     </a>

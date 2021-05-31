@@ -1,9 +1,7 @@
 import datetime
 from werkzeug.security import generate_password_hash
-from werkzeug.utils import redirect
 from .database import client
 from werkzeug.security import check_password_hash
-from flask import flash
 from bson.objectid import ObjectId
 
 
@@ -30,6 +28,24 @@ def get_entries(board_id):
 
         entries.append(post)
     return sorted(entries, key=lambda post: post["date"], reverse=True)
+
+
+def get_spaces(user_id):
+    spaces = []
+    for space in client.standups.spaces.find(
+        {
+            "owner_id": user_id
+        }
+    ):
+        workspace = {
+            "_id": space["_id"],
+            "name": space["name"],
+            "members": space["members"],
+            "owner_id": space["owner_id"],
+            "type": space["type"]
+        }
+        spaces.append(workspace)
+    return spaces
 
 
 def find_user_by_email(email):
@@ -72,7 +88,8 @@ def get_boards():
             "_id": board["_id"],
             "question": board["question"],
             "owner_id": board["owner_id"],
-            "visibility": board["visibility"]
+            "visibility": board["visibility"],
+            "space_id": board["space_id"]
         }
         for board in client.standups.boards.find(
             {
