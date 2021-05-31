@@ -24,7 +24,7 @@ def login():
 
         if user:
             check = check_password_hash(user["password"], password)
-            # If user is found, store the email in session
+            # If user is found, store the email and id in session.
             if check:
                 session["username"] = email
                 session["user_id"] = str(user["_id"])
@@ -150,8 +150,11 @@ def deleteEntry(entry_id):
 
 @bp.route("/boards/<board_number>", methods=["GET", "POST"])
 def board(board_number):
-    # NOTE: converting board_number from string to ObjectId
-    board_number = ObjectId(board_number)
+    try:
+        # NOTE: converting board_number from string to ObjectId
+        board_number = ObjectId(board_number)
+    except BSONError:
+        return redirect("/")
     form = Entry()
     user_id = ObjectId(session["user_id"])
 
@@ -161,24 +164,21 @@ def board(board_number):
                      board_id=board_number)
         return redirect(url_for('main.board', board_number=board_number))
 
-    # if the email of the entry author is the same as the one stored in session
-    # make the options and the delete appear. And let the user delete the entry.
-    # otherwise, throw an error or redirect the user to the homepage.
-
     # Showing entries from database on the page.
-    entries = get_entries()
+    entries = get_entries(board_number)
     try:
         boards = get_board(board_number)
         # TODO: check if board is empty
     except BSONError:
         return redirect("/")
 
-    return render_template("board.html", entries=entries, board_number=board_number,
-                           form=form, boards=boards, user_id=user_id)
+    return render_template("board.html", entries=entries,
+                           board_number=board_number, form=form,
+                           boards=boards, user_id=user_id)
 
 
-@bp.route("/progress/<author>")
+""" @bp.route("/progress/<author>")
 def progress(author):
     entries = get_entries()
 
-    return render_template("progress.html", entries=entries, author=author)
+    return render_template("progress.html", entries=entries, author=author) """

@@ -16,11 +16,11 @@
         <section>
             <h1>Recent updates</h1>
             {% for entry in entries %}
-                {% if entry.board_id == board_number %}
+                
                 <article class="entry">
                     <header>
                         <div class="profile-picture">
-                            <a href="{{ url_for('main.progress', author=entry.user_name) }}">
+                            <a href="#">
                                 <div class="profile-picture-initials">{{ entry.first_name_initial | capitalize }}{{ entry.second_name_initial | capitalize }}</div>
                             </a>
                         </div>
@@ -51,7 +51,7 @@
                     </header>
                         <pre class="entry_content">{{ entry.content }}</pre>
                 </article>
-                {% endif %}
+                
             {% endfor %}
         </section>
     </main>

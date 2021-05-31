@@ -7,27 +7,29 @@ from flask import flash
 from bson.objectid import ObjectId
 
 
-def get_entries():
-    entries = [
+def get_entries(board_id):
+    entries = []
+    for entry in client.standups.entries.find(
         {
-            "_id": entry["_id"],
-            "board_id": entry["board_id"],
-            "content": entry["content"],
-            "date": entry["date"],
-            "formatted_date": datetime.datetime.strptime(
-                entry["date"], "%Y-%m-%d %H-%M-%S").strftime("%b %d, %Y"),
-            "user_id": entry["user_id"],
-            "user_name": client.standups.users.find_one({"_id": entry["user_id"]})["name"],
-            "first_name_initial": client.standups.users.find_one({"_id": entry["user_id"]})["name"][0],
-            "second_name_initial": client.standups.users.find_one({"_id": entry["user_id"]})["name"].split()[1][0] if len(client.standups.users.find_one({"_id": entry["user_id"]})["name"].split()) > 1 else ""
+            "board_id": board_id
         }
-        for entry in client.standups.entries.find(
-            {
-                "user_id": {"$exists": True}
-            }
-        ).sort([("date", -1)])
-    ]
-    return entries
+    ):
+        getName = client.standups.users.find_one(
+            {"_id": entry["user_id"]})["name"]
+
+        post = {"_id": entry["_id"],
+                "board_id": entry["board_id"],
+                "content": entry["content"],
+                "date": entry["date"],
+                "formatted_date": datetime.datetime.strptime(
+                    entry["date"], "%Y-%m-%d %H-%M-%S").strftime("%b %d, %Y"),
+                "user_id": entry["user_id"],
+                "user_name": getName,
+                "first_name_initial": getName[0],
+                "second_name_initial": getName.split()[1][0] if len(getName.split()) > 1 else ""}
+
+        entries.append(post)
+    return sorted(entries, key=lambda post: post["date"], reverse=True)
 
 
 def find_user_by_email(email):
