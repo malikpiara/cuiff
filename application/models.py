@@ -40,6 +40,15 @@ def find_user_by_email(email):
     )
 
 
+def find_space_by_owner_id(owner_id, type):
+    return client.standups.spaces.find_one(
+        {
+            "owner_id": owner_id,
+            "type": type
+        }
+    )
+
+
 def get_board(board_id):
 
     boards = [
@@ -74,13 +83,24 @@ def get_boards():
     return boards
 
 
-def create_board(owner_id, question, visibility):
-
+def create_board(owner_id, question, visibility, space_id):
     client.standups.boards.insert(
         {
             "owner_id": owner_id,
             "question": question,
             "visibility": visibility,
+            "space_id": space_id,
+        }
+    )
+
+
+def create_space(owner_id, type):
+    client.standups.spaces.insert(
+        {
+            "name": "Personal Boards",
+            "members": owner_id,
+            "owner_id": owner_id,
+            "type": type
         }
     )
 
@@ -88,13 +108,15 @@ def create_board(owner_id, question, visibility):
 def create_user(email_address, name, password):
     hashed_pass = generate_password_hash(
         password)
-    client.standups.users.insert(
+    new_user = client.standups.users.insert(
         {
             "email": email_address,
             "name": name,
             "password": hashed_pass
         }
     )
+
+    create_space(new_user, "personal")
 
 
 def update_name(email_address, name):
