@@ -48,19 +48,6 @@
             {% endfor %}
         {% endfor %}
 
-        <section>
-            <h1>Public boards</h1>
-
-            {% for board in boards %}
-                {% if board.visibility == "public" %}
-                <div class="board-page-item mb15">
-                    <a href="{{ url_for('main.board', board_number=board._id) }}">
-                        <h2>{{ board.question }}</h2>
-                    </a>
-                </div>
-                {% endif %}
-            {% endfor %}
-        </section>
     </main>
     <script src="{{url_for('static', filename='main.js')}}"></script>
 {% endblock %}

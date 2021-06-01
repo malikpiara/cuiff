@@ -125,16 +125,18 @@ def home():
     user_id = ObjectId(session["user_id"])
     boards = get_boards()
 
-    #space = find_space_by_owner_id(user_id, "personal")
+    # TODO: Replace space_ function with spaces.
+    space_ = find_space_by_owner_id(user_id, "personal")
     spaces = get_space_by_member_id(user_id)
 
     #spaces = get_spaces(user_id)
 
     if form.validate_on_submit():
+        # TODO: Replace space_["_id"] with spaces
         create_board(user_id,
                      form.question.data,
                      form.visibility.data.lower(),
-                     space["_id"])
+                     space_["_id"])
         return redirect("/")
 
     if new_space_form.validate_on_submit():
