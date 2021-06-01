@@ -409,7 +409,7 @@ form.settings-form {
   font-weight: 500;
 }
 
-#board-add {
+.add-box {
   background-color: #f9f9ff;
   border-radius: 8px;
   text-align: center;
@@ -422,7 +422,7 @@ form.settings-form {
   transition: background-color 0.8s ease 0.1s;
 }
 
-#board-add:hover {
+.add-box:hover {
   background-color: #f4e0ff;
 }
 

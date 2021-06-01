@@ -111,11 +111,13 @@ def create_board(owner_id, question, visibility, space_id):
     )
 
 
-def create_space(owner_id, type):
+def create_space(name, owner_id, type):
     client.standups.spaces.insert(
         {
-            "name": "Personal Boards",
-            "members": owner_id,
+            "name": name,
+            "members": [
+                owner_id
+            ],
             "owner_id": owner_id,
             "type": type
         }

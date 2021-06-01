@@ -94,3 +94,8 @@ class NewBoard(FlaskForm):
     visibility = SelectField("Visibility", validators=[
                              DataRequired()], choices=['Private', 'Public'])
     create = SubmitField("Create")
+
+
+class NewSpace(FlaskForm):
+    name = StringField("Workspace Name", validators=[DataRequired()])
+    create = SubmitField("Create")

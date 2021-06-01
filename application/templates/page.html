@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block main %}
     <main class="main">
-        <div id="board-add" class="mb15">Create new board</div>
+        <div id="board-add" class="add-box mb15">Create new board</div>
 
         <div id="new-board-modal" class="modal">
             <div class="modal-content">
@@ -17,12 +17,27 @@
                 </form>
             </div>
         </div>
+
+        <div id="space-add" class="add-box mb15">Create new space</div>
+
+        <div id="new-space-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1 class="modal-header">Create new space</h1>
+                <form class="modal-form" method="POST">
+                    {{ new_space_form.hidden_tag() }}
+                    {{ new_space_form.name.label }}
+                    {{ new_space_form.name(placeholder="Team name") }}
+                    {{ new_space_form.create(class="primary button") }}
+                </form>
+            </div>
+        </div>
             
         {% for space in spaces %}
         <section class="mb15">
             <h1>{{ space.name }}</h1>
             {% for board in boards %}
-                {% if board.owner_id == space.owner_id and board.space_id == space._id %}
+                {% if board.owner_id == space.owner_id and board.space_id == space._id or user_id in space.members and board.space_id == space._id %}
                         <div class="board-page-item mb15">
                             <a href="{{ url_for('main.board', board_number=board._id) }}">
                                 <h2>{{ board.question }}</h2>

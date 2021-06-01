@@ -1,6 +1,6 @@
 from bson.errors import BSONError
 from flask import Blueprint, render_template, redirect, url_for, session, flash
-from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard
+from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard, NewSpace
 from werkzeug.security import check_password_hash
 from .models import create_board, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces
 from .emails import send_email
@@ -118,6 +118,7 @@ def logout():
 @bp.route("/", methods=["GET", "POST"])
 def home():
     form = NewBoard()
+    new_space_form = NewSpace()
     if not session.get("user_id"):
         return redirect("/login")
 
@@ -136,8 +137,15 @@ def home():
                      space["_id"])
         return redirect("/")
 
-    return render_template("page.html", boards=boards, user_id=user_id,
-                           form=form, spaces=spaces)
+    if new_space_form.validate_on_submit():
+        create_space(new_space_form.name.data,
+                     user_id,
+                     "team",)
+        return redirect("/")
+
+    return render_template("page.html", user_id=user_id,
+                           boards=boards, spaces=spaces,
+                           form=form, new_space_form=new_space_form)
 
 
 @bp.route("/entries/<entry_id>", methods=["DELETE", "POST"])
@@ -193,5 +201,7 @@ def progress(author):
 @bp.route("/newSpace")
 def newSpace():
     user_id = ObjectId(session["user_id"])
-    create_space(user_id, "team")
+    create_space(name="Personal Boards",
+                 owner_id=user_id,
+                 type="team")
     return redirect("/")
