@@ -2,7 +2,7 @@ from bson.errors import BSONError
 from flask import Blueprint, render_template, redirect, url_for, session, flash
 from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard, NewSpace
 from werkzeug.security import check_password_hash
-from .models import create_board, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces
+from .models import create_board, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id
 from .emails import send_email
 from bson.objectid import ObjectId
 
@@ -125,10 +125,10 @@ def home():
     user_id = ObjectId(session["user_id"])
     boards = get_boards()
 
-    space = find_space_by_owner_id(user_id, "personal")
+    #space = find_space_by_owner_id(user_id, "personal")
+    spaces = get_space_by_member_id(user_id)
 
-    print(user_id)
-    spaces = get_spaces(user_id)
+    #spaces = get_spaces(user_id)
 
     if form.validate_on_submit():
         create_board(user_id,

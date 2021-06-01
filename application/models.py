@@ -30,6 +30,41 @@ def get_entries(board_id):
     return sorted(entries, key=lambda post: post["date"], reverse=True)
 
 
+def find_user_by_email(email):
+    return client.standups.users.find_one(
+        {
+            "email": email
+        }
+    )
+
+
+def find_space_by_owner_id(owner_id, type):
+    return client.standups.spaces.find_one(
+        {
+            "owner_id": owner_id,
+            "type": type
+        }
+    )
+
+
+def get_space_by_member_id(member_id):
+    spaces = []
+    for space in client.standups.spaces.find(
+        {
+            "members": member_id
+        }
+    ):
+        workspace = {
+            "_id": space["_id"],
+            "name": space["name"],
+            "members": space["members"],
+            "owner_id": space["owner_id"],
+            "type": space["type"]
+        }
+        spaces.append(workspace)
+    return spaces
+
+
 def get_spaces(user_id):
     spaces = []
     for space in client.standups.spaces.find(
@@ -46,23 +81,6 @@ def get_spaces(user_id):
         }
         spaces.append(workspace)
     return spaces
-
-
-def find_user_by_email(email):
-    return client.standups.users.find_one(
-        {
-            "email": email
-        }
-    )
-
-
-def find_space_by_owner_id(owner_id, type):
-    return client.standups.spaces.find_one(
-        {
-            "owner_id": owner_id,
-            "type": type
-        }
-    )
 
 
 def get_board(board_id):
