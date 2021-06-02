@@ -118,12 +118,12 @@ def get_boards():
     return boards
 
 
-def create_board(owner_id, question, visibility, space_id):
+def create_board(owner_id, question, space_id):
     client.standups.boards.insert(
         {
             "owner_id": owner_id,
             "question": question,
-            "visibility": visibility,
+            "visibility": "private",
             "space_id": space_id,
         }
     )
@@ -153,7 +153,7 @@ def create_user(email_address, name, password):
         }
     )
 
-    create_space(new_user, "personal")
+    create_space("Personal Boards", new_user, "personal")
 
 
 def update_name(email_address, name):

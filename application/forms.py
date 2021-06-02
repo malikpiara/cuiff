@@ -5,7 +5,7 @@ from wtforms.fields.core import SelectField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo
 from werkzeug.security import check_password_hash
-from .models import find_user_by_email
+from .models import find_user_by_email, find_space_by_owner_id
 
 
 class Entry(FlaskForm):
@@ -91,8 +91,8 @@ class DeleteUser(FlaskForm):
 
 class NewBoard(FlaskForm):
     question = StringField("Question", validators=[DataRequired()])
-    visibility = SelectField("Visibility", validators=[
-                             DataRequired()], choices=['Private', 'Public'])
+    # visibility = SelectField("Visibility", choices=['Private', 'Public'])
+    space = SelectField("Space")
     create = SubmitField("Create")
 
 

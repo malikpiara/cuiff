@@ -1,5 +1,6 @@
 from bson.errors import BSONError
 from flask import Blueprint, render_template, redirect, url_for, session, flash
+from flask.globals import request
 from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard, NewSpace
 from werkzeug.security import check_password_hash
 from .models import create_board, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id
@@ -111,14 +112,12 @@ def settings():
 
 @bp.route("/logout")
 def logout():
-    session["username"] = None
+    session.clear()
     return redirect("/login")
 
 
 @bp.route("/", methods=["GET", "POST"])
 def home():
-    form = NewBoard()
-    new_space_form = NewSpace()
     if not session.get("user_id"):
         return redirect("/login")
 
@@ -126,17 +125,33 @@ def home():
     boards = get_boards()
 
     # TODO: Replace space_ function with spaces.
-    space_ = find_space_by_owner_id(user_id, "personal")
+    #space_ = find_space_by_owner_id(user_id, "personal")
     spaces = get_space_by_member_id(user_id)
 
-    #spaces = get_spaces(user_id)
+    new_list = []
+
+    for s in range(len(spaces)):
+        if spaces[s]["name"]:
+            new_list.append(
+                (
+                    spaces[s]["_id"],
+                    spaces[s]["name"]
+                )
+            )
+
+    form = NewBoard()
+    new_space_form = NewSpace()
+
+    #form.space.choices = values_of_name
+    form.space.choices = new_list
+
+    # spaces = get_spaces(user_id)
 
     if form.validate_on_submit():
         # TODO: Replace space_["_id"] with spaces
         create_board(user_id,
                      form.question.data,
-                     form.visibility.data.lower(),
-                     space_["_id"])
+                     ObjectId(form.space.data))
         return redirect("/")
 
     if new_space_form.validate_on_submit():
@@ -150,7 +165,7 @@ def home():
                            form=form, new_space_form=new_space_form)
 
 
-@bp.route("/entries/<entry_id>", methods=["DELETE", "POST"])
+@ bp.route("/entries/<entry_id>", methods=["DELETE", "POST"])
 def deleteEntry(entry_id):
     user_id = ObjectId(session["user_id"])
     entry = get_entry(ObjectId(entry_id))
@@ -164,7 +179,7 @@ def deleteEntry(entry_id):
     return redirect(url_for('main.home'))
 
 
-@bp.route("/boards/<board_number>", methods=["GET", "POST"])
+@ bp.route("/boards/<board_number>", methods=["GET", "POST"])
 def board(board_number):
     try:
         # NOTE: converting board_number from string to ObjectId
@@ -198,12 +213,3 @@ def progress(author):
     entries = get_entries()
 
     return render_template("progress.html", entries=entries, author=author) """
-
-
-@bp.route("/newSpace")
-def newSpace():
-    user_id = ObjectId(session["user_id"])
-    create_space(name="Personal Boards",
-                 owner_id=user_id,
-                 type="team")
-    return redirect("/")
