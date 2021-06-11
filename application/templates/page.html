@@ -1,7 +1,16 @@
 {% extends "layout.html" %}
 {% block main %}
     <main class="main">
-        <div id="board-add" class="add-box mb15">Create new board</div>
+        <div class="mb15">
+            <div id="create-btn">
+            <span class="purple">&#43;</span>
+            <span>Create</span>
+            </div>
+            <ul class="nav-dropdown">
+                <li id="board-add" class="nav-dropdown-create">Create Board</li>
+                <li id="space-add" class="nav-dropdown-create">Create Workspace</li>
+            </ul>
+        </div>
 
         <div id="new-board-modal" class="modal">
             <div class="modal-content">
@@ -17,8 +26,6 @@
                 </form>
             </div>
         </div>
-
-        <div id="space-add" class="add-box mb15">Create new space</div>
 
         <div id="new-space-modal" class="modal">
             <div class="modal-content">

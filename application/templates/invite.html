@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block main %}
+    <main class="main">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.email.label }}
+            {{ form.email }}
+            {{ form.send }}
+        </form>
+    </main>
+{% endblock %}

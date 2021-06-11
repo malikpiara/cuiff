@@ -156,6 +156,21 @@ def create_user(email_address, name, password):
     create_space("Personal Boards", new_user, "personal")
 
 
+def check_invites(email_address):
+    invites = []
+    for invite in client.standups.user_invites.find(
+        {
+            "invite_recipient": email_address
+        }
+    ):
+        space_invites = {
+            "space": invite["space_id"],
+            "invite_recipient": invite["invite_recipient"]
+        }
+        invites.append(space_invites)
+    return invites
+
+
 def update_name(email_address, name):
     client.standups.users.update_one(
         {
@@ -246,5 +261,15 @@ def delete_entry(_id):
     client.standups.entries.delete_one(
         {
             "_id": ObjectId(_id)
+        }
+    )
+
+
+def create_invite_to_space(space_id, sender_id, recipient_email):
+    client.standups.user_invites.insert(
+        {
+            "space_id": space_id,
+            "invite_sender": sender_id,
+            "invite_recipient": recipient_email,
         }
     )

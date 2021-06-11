@@ -205,7 +205,7 @@ form.settings-form {
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  background-color: rgba(0, 0, 0, 0.19); /* Black w/ opacity */
 }
 
 .modal-content {
@@ -479,4 +479,44 @@ form.settings-form {
 
 .pointer {
   cursor: pointer;
+}
+
+#create-btn {
+  color: #838383;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.nav-dropdown {
+  margin-top: 10px;
+  display: none;
+  list-style: none;
+  position: absolute;
+  width: 220px;
+  padding: 15px;
+  border-radius: 8px;
+  color: #838383;
+  background-color: #ffffff;
+  box-shadow: 0px 10px 50px rgb(0 0 0 / 10%);
+}
+
+.nav-dropdown-create {
+  display: flex;
+  padding: 8px 8px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.nav-dropdown-create:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
+  transition: background-color 0.25s ease 0.05s;
+}
+
+.js-is-hidden {
+  display: none !important;
+}
+
+.purple {
+  color: #c196d8;
 }

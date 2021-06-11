@@ -99,3 +99,8 @@ class NewBoard(FlaskForm):
 class NewSpace(FlaskForm):
     name = StringField("Workspace Name", validators=[DataRequired()])
     create = SubmitField("Create")
+
+
+class InviteToSpace(FlaskForm):
+    email = EmailField("Invite people", validators=[DataRequired(), Email()])
+    send = SubmitField("Send invite")

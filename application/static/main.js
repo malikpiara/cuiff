@@ -37,3 +37,20 @@ window.onclick = function(event) {
     new_space_modal.style.display = "none";
   }
 }
+
+// Navigation Dropdown
+var nav_dropdown = document.getElementsByClassName("nav-dropdown")[0];
+
+var box = document.querySelector(".nav-dropdown");
+
+// Detect all clicks on the document
+document.addEventListener("click", function(event) {
+	// If user clicks on the button, display dropdown
+	if (event.target.closest("#create-btn"))
+    nav_dropdown.style.display = "block";
+    box.classList.remove("js-is-hidden");
+
+  if (!event.target.closest("#create-btn"))
+    box.classList.add("js-is-hidden");
+  return;
+});
