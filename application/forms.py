@@ -26,6 +26,9 @@ class SignUp(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired(), EqualTo(
         "password2", message="Passwords must match.")])
     password2 = PasswordField("Confirm password", validators=[DataRequired()])
+    # Have to build the invite code properly!
+    invite_code = StringField("Invite code", validators=[DataRequired(), EqualTo(
+        "password2", message="Passwords must match.")])
     submit = SubmitField("Create Account")
 
     def validate_email_address(self, field):
