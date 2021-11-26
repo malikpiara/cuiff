@@ -3,9 +3,10 @@ from flask import Blueprint, render_template, redirect, url_for, session, flash
 from flask.globals import request
 from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard, NewSpace, InviteToSpace
 from werkzeug.security import check_password_hash
-from .models import create_board, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id, create_invite_to_space, check_invites
+from .models import create_board, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id, create_invite_to_space, check_invites, get_user
 from .emails import send_email
 from bson.objectid import ObjectId
+import datetime
 
 bp = Blueprint('main', __name__)
 
@@ -207,7 +208,7 @@ def invitePeople():
     return render_template("invite.html", form=form)
 
 
-@ bp.route("/entries/<entry_id>", methods=["DELETE", "POST"])
+@bp.route("/entries/<entry_id>", methods=["DELETE", "POST"])
 def deleteEntry(entry_id):
     user_id = ObjectId(session["user_id"])
     entry = get_entry(ObjectId(entry_id))
@@ -221,7 +222,7 @@ def deleteEntry(entry_id):
     return redirect(url_for('main.home'))
 
 
-@ bp.route("/boards/<board_number>", methods=["GET", "POST"])
+@bp.route("/boards/<board_number>", methods=["GET"])
 def board(board_number):
     try:
         # NOTE: converting board_number from string to ObjectId
@@ -230,12 +231,6 @@ def board(board_number):
         return redirect("/")
     form = Entry()
     user_id = ObjectId(session["user_id"])
-
-    if form.validate_on_submit():
-        create_entry(content=form.entry_input.data,
-                     user_id=user_id,
-                     board_id=board_number)
-        return redirect(url_for('main.board', board_number=board_number))
 
     # Showing entries from database on the page.
     entries = get_entries(board_number)
@@ -255,3 +250,64 @@ def progress(author):
     entries = get_entries()
 
     return render_template("progress.html", entries=entries, author=author) """
+
+
+@bp.route("/boards/<board_number>", methods=["POST"])
+def name_create(board_number):
+
+    form = Entry()
+    user_id = ObjectId(session["user_id"])
+    board_number = ObjectId(board_number)
+
+    formatted_date = datetime.datetime.today().strftime("%b %d, %Y")
+
+    get_board(board_number)
+
+    var = ObjectId()
+
+    create_entry(_id=var, content=form.entry_input.data,
+                 user_id=user_id, board_id=board_number)
+
+    print(var)
+
+    print(get_entry(var))
+
+    post_info = get_entry(var)["content"]
+
+    real_user_id = get_entry(var)["user_id"]
+    print(post_info)
+
+    print(get_user(real_user_id)["name"])
+
+    user_name = get_user(real_user_id)["name"]
+    first_name_initial = user_name[0]
+    second_name_initial = user_name.split()[1][0] if len(
+        user_name.split()) > 1 else ""
+
+    response = f"""
+    <article class="entry">
+    <header>
+                        <div class="profile-picture">
+                            <a href="#">
+                                <div class="profile-picture-initials">
+                                { first_name_initial.capitalize() }
+                                { second_name_initial.capitalize() }
+                                </div>
+                            </a>
+                        </div>
+
+                        
+                        
+
+                        <time class="entry_date" datetime="{{ entry.date }}">{ formatted_date }</time>
+                        
+                        <p class="entry_author">{ user_name }</p>
+                    </header>
+        
+        
+        {post_info}
+    </article>
+    """
+    return response
+
+# board_number=board_number

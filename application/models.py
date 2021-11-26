@@ -235,16 +235,26 @@ def delete_user(user_id, email_address):
     )
 
 
-def create_entry(content, user_id, board_id):
+def create_entry(_id, content, user_id, board_id):
     formatted_date = datetime.datetime.today().strftime("%Y-%m-%d %H-%M-%S")
     client.standups.entries.insert(
         {
+            "_id": _id,
             "content": content,
             "date": formatted_date,
             "user_id": user_id,
             "board_id": ObjectId(board_id)
         }
     )
+
+
+def get_user(_id):
+    user = client.standups.users.find_one(
+        {
+            "_id": ObjectId(_id)
+        }
+    )
+    return user
 
 
 def get_entry(_id):
