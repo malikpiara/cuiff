@@ -290,8 +290,7 @@ def name_create(board_number):
                         <div class="profile-picture">
                             <a href="#">
                                 <div class="profile-picture-initials">
-                                { first_name_initial.capitalize() }
-                                { second_name_initial.capitalize() }
+                                { first_name_initial.capitalize() }{ second_name_initial.capitalize() }
                                 </div>
                             </a>
                         </div>
