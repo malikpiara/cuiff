@@ -245,11 +245,25 @@ def board(board_number):
                            boards=boards, user_id=user_id)
 
 
-""" @bp.route("/progress/<author>")
-def progress(author):
-    entries = get_entries()
+@bp.route("/boards/<board_number>/<author>")
+def progress(author, board_number):
+    try:
+        # NOTE: converting board_number from string to ObjectId
+        board_number = ObjectId(board_number)
+    except BSONError:
+        return redirect("/")
 
-    return render_template("progress.html", entries=entries, author=author) """
+    # Showing entries from database on the page.
+    entries = get_entries(board_number)
+    try:
+        boards = get_board(board_number)
+        # TODO: check if board is empty
+    except BSONError:
+        return redirect("/")
+
+    return render_template("progress.html", entries=entries, author=author,
+                           board_number=board_number,
+                           boards=boards)
 
 
 @bp.route("/boards/<board_number>", methods=["POST"])
