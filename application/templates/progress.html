@@ -11,14 +11,14 @@
                 <article class="entry">
                     <header>
                         <div class="profile-picture">
-                            <a href="{{ url_for('main.progress', author=entry.user_name) }}">
+                            
                                 <div class="profile-picture-initials">{{ entry.first_name_initial | capitalize }}{{ entry.second_name_initial | capitalize }}</div>
-                            </a>
+                            
                         </div>
                         <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
                         <p class="entry_author">{{ entry.user_name }}</p>
                     </header>
-                        <pre class="entry_content">{{ entry.content }}</pre>
+                        <pre class="entry_content">{{ entry.content|safe }}</pre>
                 </article>
                 {% endif %}
             {% endfor %}

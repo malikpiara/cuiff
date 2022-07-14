@@ -37,7 +37,7 @@
                       <article class="entry">
                         <header>
                             <div class="profile-picture">
-                                <a href="#">
+                                <a href="{{ url_for('main.progress', author=entry.user_name, board_number=board_number) }}">
                                     <div class="profile-picture-initials">{{ entry.first_name_initial | capitalize }}{{ entry.second_name_initial | capitalize }}</div>
                                 </a>
                             </div>
@@ -65,7 +65,7 @@
                             <p class="entry_author">{{ entry.user_name }}</p>
                         </header>
                         
-                        {{entry.content}}
+                        <pre class="entry_content">{{entry.content|safe}}</pre>
                       </article>
                       
                       
