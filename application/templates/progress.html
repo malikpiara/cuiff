@@ -5,7 +5,7 @@
             <h1>{{ author | title }}'s activity</h1>
         </section>
         <section>
-            <h1>Recent updates</h1>
+            
             {% for entry in entries %}
                 {% if entry.user_name == author %}
                 <article class="entry">
