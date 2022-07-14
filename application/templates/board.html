@@ -6,54 +6,79 @@
             <h1>{{ board.question }}</h1>
             {% endfor %}
 
-            <form class="form" method="post" action="{{url_for('main.board', board_number=board_number)}}">
-            {{ form.hidden_tag() }}
-            {{ form.entry_input(class="form_textarea",
-                                placeholder="Your answer...") }}
-            {{ form.post(class="primary form_submit") }}
-            </form>
         </section>
         <section>
             <h1>Recent updates</h1>
-            {% for entry in entries %}
-                
-                <article class="entry">
-                    <header>
-                        <div class="profile-picture">
-                            <a href="#">
-                                <div class="profile-picture-initials">{{ entry.first_name_initial | capitalize }}{{ entry.second_name_initial | capitalize }}</div>
-                            </a>
-                        </div>
-
-                        {% if entry.user_id == user_id %}
-                        <div class="entry-options-container">
-                            <svg class="entry-options" viewBox="0 0 24 24" width="20" height="auto">
-                                <g>
-                                    <circle cx="5" cy="12" r="2" />
-                                    <circle cx="12" cy="12" r="2" />
-                                    <circle cx="19" cy="12" r="2" />
-                                </g>
-                            </svg> 
-                            <div class="dropdown-content">
-                                <!-- <a href="{{ url_for('main.deleteEntry', entry_id=entry._id) }}">Delete</a> -->
-                                <form action="{{ url_for('main.deleteEntry', entry_id=entry._id) }}" method="post">
-                                    <input class="pointer" type="submit" value="Delete"/>
-                                </form>
-                            </div>
-                        </div>
-                        
-                        
-                        {% endif %}
-
-                        <time class="entry_date" datetime="{{ entry.date }}">{{ entry.formatted_date }}</time>
-                        
-                        <p class="entry_author">{{ entry.user_name }}</p>
-                    </header>
-                        <pre class="entry_content">{{ entry.content }}</pre>
-                </article>
-                
-            {% endfor %}
+            
         </section>
+
+        <!-- Start of HTMX -->
+
+        <div class="section">
+            <div>
+
+                <form class="form-inline" hx-post="/boards/{{board_number}}" hx-swap="afterbegin" hx-target="#newName">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        
+                        {{ form.entry_input(class="form_textarea form-control",
+                                        placeholder="Your answer...",
+                                        ) }}
+                        {{ form.create(class="primary form_submit") }}
+                    </div>
+                    
+                </form>
+                
+              <div>
+                  <div>
+                    <div id="newName"></div>
+                    
+                      {% for entry in entries %}
+                      <article class="entry">
+                        <header>
+                            <div class="profile-picture">
+                                <a href="#">
+                                    <div class="profile-picture-initials">{{ entry.first_name_initial | capitalize }}{{ entry.second_name_initial | capitalize }}</div>
+                                </a>
+                            </div>
+    
+                           
+                            <div class="entry-options-container">
+                                <svg class="entry-options" viewBox="0 0 24 24" width= '100%' height= 'auto'>
+                                    <g>
+                                        <circle cx="5" cy="12" r="2" />
+                                        <circle cx="12" cy="12" r="2" />
+                                        <circle cx="19" cy="12" r="2" />
+                                    </g>
+                                </svg> 
+                                <div class="dropdown-content">
+                                    
+                                    <form action="{{ url_for('main.deleteEntry', entry_id=entry._id) }}" method="post">
+                                        <input class="pointer" type="submit" value="Delete"/>
+                                    </form>
+                                </div>
+                            </div>
+                            
+    
+                            <time class="entry_date" datetime="{{ date }}">{{ entry.formatted_date }}</time>
+                            
+                            <p class="entry_author">{{ entry.user_name }}</p>
+                        </header>
+                        
+                        {{entry.content}}
+                      </article>
+                      
+                      
+                      {% endfor %}
+                      
+                  </div>
+              </div>
+            </div>
+            <div>
+              
+            </div>
+        </div>
     </main>
     <script src="{{url_for('static', filename='boards.js')}}"></script>
+    <script src="{{url_for('static', filename='htmx.min.js')}}"></script>
 {% endblock %}

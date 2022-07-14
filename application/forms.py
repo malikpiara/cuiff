@@ -11,7 +11,7 @@ from .models import find_user_by_email, find_space_by_owner_id
 class Entry(FlaskForm):
     entry_input = TextAreaField(
         "Your answer...", validators=[DataRequired()])
-    post = SubmitField("Post")
+    create = SubmitField("Post")
 
 
 class SignIn(FlaskForm):
