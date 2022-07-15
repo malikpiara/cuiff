@@ -87,15 +87,18 @@ h1 {
   margin-bottom: 15px;
 }
 
+h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
 a {
   text-decoration: none;
   color: #c196d8;
 }
 
 /* TODO: Create wrapper for the app and remove this.  */
-body {
-  margin: 0px 10px;
-}
+
 
 label {
   display: block;
@@ -231,12 +234,17 @@ form.settings-form {
 }
 
 .navbar {
-  max-width: 720px;
-  margin: 50px auto;
+  padding: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-size: 20px;
+  position: fixed;
+  width: 100%;
+  height: max-content;
+  background-color: white;
+  top: 0;
+  z-index: 99;
 }
 
 .navbar_navigation {
@@ -265,6 +273,7 @@ form.settings-form {
 .main {
   max-width: 720px;
   margin: 50px auto;
+  margin-top: 80px;
   animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
   animation-duration: 1s; /* don't forget to set a duration! */
 }

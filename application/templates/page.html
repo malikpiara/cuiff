@@ -42,12 +42,12 @@
             
         {% for space in spaces %}
         <section class="mb15">
-            <h1>{{ space.name }}</h1>
+            <h2>{{ space.name }}</h2>
             {% for board in boards %}
                 {% if user_id in space.members and board.space_id == space._id %}
                         <div class="board-page-item mb15">
                             <a href="{{ url_for('main.board', board_number=board._id) }}">
-                                <h2>{{ board.question }}</h2>
+                                <h3>{{ board.question }}</h3>
                             </a>
                         </div>
             </section>

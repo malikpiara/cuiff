@@ -323,4 +323,10 @@ def name_create(board_number):
     """
     return response
 
-# board_number=board_number
+
+@bp.route("/menu")
+def menu():
+    response = f"""
+    <h1>This will be a fancy search.</h1>
+    """
+    return response
