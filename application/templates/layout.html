@@ -17,19 +17,30 @@
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
 </head>
 <body>
-    <header class="navbar">
-        <div class="navbar_logo">
-            <p class="navbar_navigation"><a href="{{ url_for('main.home') }}">Cuiff</a></p>
-        </div>
-        
-        <ul class="navbar_navigation">
-            <li class="navbar_navigation_item"><a href="{{ url_for('main.settings') }}" class="navbar_link">Settings</a></li>
-            <li class="navbar_navigation_item"><a href="{{ url_for('main.logout') }}" class="navbar_link">Log Out</a></li>
-        </ul>
-    </header>
+    <div class="wrapper">
+        <nav class="vertical-nav">
+            <div class="navbar_logo">
+                <p class="navbar_navigation"><a href="{{ url_for('main.home') }}">Cuiff</a></p>
+            </div>
+            <ul class="navbar_navigation">
+                <li class="navbar_navigation_item"><a href="{{ url_for('main.settings') }}" class="navbar_link">Settings</a></li>
+                <li class="navbar_navigation_item"><a href="{{ url_for('main.logout') }}" class="navbar_link">Log Out</a></li>
+            </ul>
+        </nav>
+        <header class="navbar">
+            <div class="navbar_logo">
+                <p class="navbar_navigation"><a href="{{ url_for('main.home') }}">Cuiff</a></p>
+            </div>
+            
+            <ul class="navbar_navigation">
+                <li class="navbar_navigation_item"><a href="{{ url_for('main.settings') }}" class="navbar_link">Settings</a></li>
+                <li class="navbar_navigation_item"><a href="{{ url_for('main.logout') }}" class="navbar_link">Log Out</a></li>
+            </ul>
+        </header>
+    
     {% block main %}
     {% endblock %}
-
+    </div>
     <footer></footer>
 </body>
 </html>
