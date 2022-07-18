@@ -94,8 +94,17 @@ h2 {
 
 a {
   text-decoration: none;
+}
+
+a:visited {
+  color: #838383;
+}
+
+
+.primary-link, .primary-link:visited {
   color: #c196d8;
 }
+
 
 /* TODO: Create wrapper for the app and remove this.  */
 
@@ -244,7 +253,11 @@ form.settings-form {
   height: max-content;
   background-color: white;
   top: 0;
-  z-index: 99;
+  z-index: 2;
+}
+
+.navbar_logo {
+  font-size: 20px;
 }
 
 .navbar_navigation {
@@ -271,8 +284,10 @@ form.settings-form {
 }
 
 .main {
+  flex-basis: 800px;
   max-width: 720px;
   margin: 50px auto;
+  margin-left: 300px;
   margin-top: 80px;
   animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
   animation-duration: 1s; /* don't forget to set a duration! */
@@ -528,4 +543,30 @@ form.settings-form {
 
 .purple {
   color: #c196d8;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.workspace-header div {
+  color: #838383;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.vertical-nav {
+  display: flex;
+  background-color: rgb(247, 246, 243);
+  position: fixed;
+  height: 100%;
+  width: 230px;
+  padding: 20px;
+  z-index: 3;
+  flex-direction: column;
+  justify-content: space-between;
 }

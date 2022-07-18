@@ -100,6 +100,10 @@ def get_board(board_id):
     return boards
 
 
+def get_space(space_id):
+    return client.standups.spaces.find_one({'_id': ObjectId(space_id)})
+
+
 def get_boards():
     boards = [
         {
