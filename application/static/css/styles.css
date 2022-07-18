@@ -336,13 +336,12 @@ form.settings-form {
 }
 
 .entry {
-  margin-top: 25px;
-  background-color: #f9f9ff;
-  border-radius: 8px;
+  
   padding: 25px 30px;
   display: flex;
   flex-direction: column;
   position: relative;
+  border-bottom: 1px solid #f9f9f9;
 }
 
 .entry_author {
@@ -569,4 +568,8 @@ form.settings-form {
   z-index: 3;
   flex-direction: column;
   justify-content: space-between;
+}
+
+textarea:focus, input:focus{
+  outline: none;
 }
