@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, session, flash
 from flask.globals import request
 from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard, NewSpace, InviteToSpace
 from werkzeug.security import check_password_hash
-from .models import create_board, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id, create_invite_to_space, check_invites, get_user
+from .models import create_board, get_space, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id, create_invite_to_space, check_invites, get_user
 from .emails import send_email
 from bson.objectid import ObjectId
 import datetime
@@ -324,9 +324,22 @@ def name_create(board_number):
     return response
 
 
-@bp.route("/menu")
-def menu():
-    response = f"""
-    <h1>This will be a fancy search.</h1>
-    """
-    return response
+@bp.route("/<space_id>/settings", methods=["GET"])
+def space_settings(space_id):
+    try:
+        # NOTE: converting board_number from string to ObjectId
+        space_id = ObjectId(space_id)
+
+    except BSONError:
+        return redirect("/")
+
+    user_id = ObjectId(session["user_id"])
+
+    # Showing boards from database on the page.
+    boards = get_boards()
+
+    space = get_space(space_id)
+
+    return render_template("space_settings.html",
+                           boards=boards, user_id=user_id, space_id=space_id,
+                           space=space)

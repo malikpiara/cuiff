@@ -94,8 +94,17 @@ h2 {
 
 a {
   text-decoration: none;
+}
+
+a:visited {
+  color: #838383;
+}
+
+
+.primary-link, .primary-link:visited {
   color: #c196d8;
 }
+
 
 /* TODO: Create wrapper for the app and remove this.  */
 
@@ -528,4 +537,14 @@ form.settings-form {
 
 .purple {
   color: #c196d8;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.workspace-header div {
+  color: #838383;
 }
