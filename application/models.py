@@ -31,11 +31,7 @@ def get_entries(board_id):
 
 
 def find_user_by_email(email):
-    return client.standups.users.find_one(
-        {
-            "email": email
-        }
-    )
+    return client.standups.users.find_one({"email": email})
 
 
 def find_space_by_owner_id(owner_id, type):
@@ -121,12 +117,10 @@ def create_board(owner_id, question, space_id):
 
 
 def create_space(name, owner_id, type):
-    client.standups.spaces.insert(
+    client.standups.spaces.insert_one(
         {
             "name": name,
-            "members": [
-                owner_id
-            ],
+            "members": [owner_id],
             "owner_id": owner_id,
             "type": type
         }
@@ -214,21 +208,15 @@ def update_user(email_address, name, new_email):
 
 
 def delete_user(user_id, email_address):
-    client.standups.entries.delete_many(
-        {
-            'user_id': user_id
-        }
-    )
-    client.standups.users.delete_one(
-        {
-            'email': email_address
-        }
-    )
+    # Deleting all of the entries posted by the user.
+    # Then, deleting the user from the DB.
+    client.standups.entries.delete_many({'user_id': user_id})
+    client.standups.users.delete_one({'email': email_address})
 
 
 def create_entry(_id, content, user_id, board_id):
     formatted_date = datetime.datetime.today().strftime("%Y-%m-%d %H-%M-%S")
-    client.standups.entries.insert(
+    client.standups.entries.insert_one(
         {
             "_id": _id,
             "content": content,
