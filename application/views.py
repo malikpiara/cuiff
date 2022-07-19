@@ -181,11 +181,9 @@ def home():
                      "team",)
         return redirect("/")
 
-    var = "banana"
-
     return render_template("page.html", user_id=user_id,
                            boards=boards, spaces=spaces,
-                           form=form, new_space_form=new_space_form, var=var)
+                           form=form, new_space_form=new_space_form)
 
 
 @bp.route("/invite", methods=["GET", "POST"])
