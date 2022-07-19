@@ -181,9 +181,11 @@ def home():
                      "team",)
         return redirect("/")
 
+    var = "banana"
+
     return render_template("page.html", user_id=user_id,
                            boards=boards, spaces=spaces,
-                           form=form, new_space_form=new_space_form)
+                           form=form, new_space_form=new_space_form, var=var)
 
 
 @bp.route("/invite", methods=["GET", "POST"])
@@ -235,14 +237,14 @@ def board(board_number):
     # Showing entries from database on the page.
     entries = get_entries(board_number)
     try:
-        boards = get_board(board_number)
+        board = get_board(board_number)
         # TODO: check if board is empty
     except BSONError:
         return redirect("/")
 
     return render_template("board.html", entries=entries,
                            board_number=board_number, form=form,
-                           boards=boards, user_id=user_id)
+                           board=board, user_id=user_id)
 
 
 @bp.route("/boards/<board_number>/<author>")

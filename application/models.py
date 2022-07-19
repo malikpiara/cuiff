@@ -84,20 +84,7 @@ def get_spaces(user_id):
 
 
 def get_board(board_id):
-
-    boards = [
-        {
-            "_id": board["_id"],
-            "question": board["question"],
-            "owner_id": board["owner_id"]
-        }
-        for board in client.standups.boards.find(
-            {
-                "_id": ObjectId(board_id)
-            }
-        )
-    ]
-    return boards
+    return client.standups.boards.find_one({'_id': ObjectId(board_id)})
 
 
 def get_space(space_id):
@@ -253,30 +240,16 @@ def create_entry(_id, content, user_id, board_id):
 
 
 def get_user(_id):
-    user = client.standups.users.find_one(
-        {
-            "_id": ObjectId(_id)
-        }
-    )
-    return user
+    return client.standups.users.find_one({"_id": ObjectId(_id)})
 
 
 def get_entry(_id):
-    entry = client.standups.entries.find_one(
-        {
-            "_id": _id
-        }
-    )
-    return entry
+    return client.standups.entries.find_one({"_id": _id})
 
 
 def delete_entry(_id):
     # You should only be able to delete if your id is the author id
-    client.standups.entries.delete_one(
-        {
-            "_id": ObjectId(_id)
-        }
-    )
+    client.standups.entries.delete_one({"_id": ObjectId(_id)})
 
 
 def create_invite_to_space(space_id, sender_id, recipient_email):
