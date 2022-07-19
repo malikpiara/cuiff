@@ -285,7 +285,6 @@ form.settings-form {
 
 .main {
   flex-basis: 800px;
-  max-width: 720px;
   margin: 50px auto;
   margin-left: 300px;
   margin-top: 80px;
@@ -335,17 +334,21 @@ form.settings-form {
   color: rgb(152 152 152);
 }
 
+.posting-area {
+  margin-bottom: 50px;
+}
+
 .entry {
-  
-  padding: 25px 30px;
+  padding: 30px 30px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   position: relative;
-  border-bottom: 1px solid #f9f9f9;
+  border-bottom: 1px solid #ebebeb;
 }
 
 .entry_author {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-weight: 700;
 }
 
@@ -355,13 +358,13 @@ form.settings-form {
   align-self: flex-end;
   position: absolute;
   right: 2.6rem;
-  top: 1.3rem;
+  top: 2.3rem;
 }
 
 .entry-options-container {
   position: absolute;
   right: 0.5rem;
-  top: 1rem;
+  top: 2rem;
   width: 30px;
   height: 30px;
   cursor: pointer;
@@ -380,7 +383,7 @@ form.settings-form {
 }
 
 .entry_content {
-  font-size: 17px;
+  font-size: 18px;
   line-height: 150%;
   font-family: "Open Sans", sans-serif;
   white-space: pre-wrap;
@@ -388,7 +391,7 @@ form.settings-form {
 
 .profile_picture {
   position: absolute;
-  top: 0.75em;
+  top: 1.75em;
   left: -2rem;
   border-radius: 50%;
   width: 50px;
@@ -413,7 +416,7 @@ form.settings-form {
   position: absolute;
   display: block;
   background-color: #f4e0ff;
-  top: 0.75em;
+  top: 1.75em;
   left: -2rem;
 }
 
@@ -560,7 +563,7 @@ form.settings-form {
 
 .vertical-nav {
   display: flex;
-  background-color: rgb(247, 246, 243);
+  border-right: 1px solid #ebebeb;
   position: fixed;
   height: 100%;
   width: 230px;

@@ -1,38 +1,35 @@
 {% extends "layout.html" %}
 {% block main %}
     <main class="main">
-        <section>
+        <section class="posting-area">
             {% for board in boards %}
             <h1>{{ board.question }}</h1>
             {% endfor %}
 
+            <div class="section">
+                <div>
+    
+                    <form class="form-inline" hx-post="/boards/{{board_number}}" hx-swap="afterbegin" hx-target="#newName">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            
+                            {{ form.entry_input(class="form_textarea form-control",
+                                            placeholder="Your answer...",
+                                            ) }}
+                            {{ form.create(class="primary form_submit") }}
+                        </div>
+                        
+                    </form>
         </section>
         
 
         <!-- Start of HTMX -->
-
-        <div class="section">
-            <div>
-
-                <form class="form-inline" hx-post="/boards/{{board_number}}" hx-swap="afterbegin" hx-target="#newName">
-                    {{ form.hidden_tag() }}
-                    <div class="form-group">
-                        
-                        {{ form.entry_input(class="form_textarea form-control",
-                                        placeholder="Your answer...",
-                                        ) }}
-                        {{ form.create(class="primary form_submit") }}
-                    </div>
-                    
-                </form>
                 
               <div>
                 
                   <div>
                     <section>
-                        <br/>
                         <h1>Recent updates</h1>
-                        
                     </section>
                     <div id="newName"></div>
                     
