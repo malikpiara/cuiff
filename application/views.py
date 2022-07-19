@@ -235,14 +235,14 @@ def board(board_number):
     # Showing entries from database on the page.
     entries = get_entries(board_number)
     try:
-        boards = get_board(board_number)
+        board = get_board(board_number)
         # TODO: check if board is empty
     except BSONError:
         return redirect("/")
 
     return render_template("board.html", entries=entries,
                            board_number=board_number, form=form,
-                           boards=boards, user_id=user_id)
+                           board=board, user_id=user_id)
 
 
 @bp.route("/boards/<board_number>/<author>")

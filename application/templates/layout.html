@@ -22,6 +22,17 @@
             <div class="navbar_logo">
                 <p class="navbar_navigation"><a href="{{ url_for('main.home') }}">Cuiff</a></p>
             </div>
+
+           <!--  <section class="vertical-nav-items">
+                {% for space in spaces %}
+                    <p class="navbar_navigation nav-title">{{ space.name }}</p>
+                    {% for board in boards %}
+                        {% if user_id in space.members and board.space_id == space._id %}
+                            <p class="navbar_navigation">{{ board.question }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </section> -->
             
             <ul class="navbar_navigation">
                 <li class="navbar_navigation_item"><a href="{{ url_for('main.settings') }}" class="navbar_link">Settings</a></li>
