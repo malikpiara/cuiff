@@ -4,7 +4,8 @@
         <section class="posting-area">
             
             <h1>{{ board.question }}</h1>
-           
+
+            <header>
 
             <div class="section">
                 <div>
@@ -13,10 +14,10 @@
                         {{ form.hidden_tag() }}
                         <div class="form-group">
                             
-                            {{ form.entry_input(class="form_textarea form-control",
+                            {{ form.entry_input(class="form_textarea form-control text-editor",
                                             placeholder="Your answer...",
                                             ) }}
-                            {{ form.create(class="primary form_submit") }}
+                            {{ form.create(class="primary form_submit text-editor-btn") }}
                         </div>
                         
                     </form>
