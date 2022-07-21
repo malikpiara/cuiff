@@ -82,6 +82,11 @@ body {
   color: #283c46;
 }
 
+::selection {
+  background-color: rgb(56 191 121);
+  color: #ffffff;
+}
+
 h1 {
   font-size: 22px;
   margin-bottom: 15px;
@@ -179,7 +184,6 @@ h2.section {
 
 .form-btn {
   display: inline-block;
-  float: right;
   padding: 8px 12px;
   cursor: pointer;
   border: none;
@@ -335,7 +339,7 @@ form.settings-form {
 }
 
 .posting-area {
-  margin-bottom: 50px;
+  margin-bottom: 0px;
 }
 
 .entry {
@@ -348,6 +352,7 @@ form.settings-form {
 }
 
 .entry_author {
+  font-size: 17px;
   margin-bottom: 10px;
   font-weight: 700;
 }
@@ -387,6 +392,7 @@ form.settings-form {
   line-height: 150%;
   font-family: "Open Sans", sans-serif;
   white-space: pre-wrap;
+  color: #3f3c3c;
 }
 
 .profile_picture {
@@ -592,4 +598,35 @@ textarea:focus, input:focus{
   font-size: 14px;
   margin-bottom: 10px;
   margin-top: 20px;
+}
+
+.text-editor {
+  background-color: white;
+  border: 1px solid #dcdcdc;
+  height: 150px;
+}
+
+.text-editor:hover {
+  background-color: white;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.text-editor-btn {
+  background-color: rgb(56 191 121);
+  border-radius: 6px;
+  width: fit-content;
+  padding: 10px 25px;
+  align-self: flex-end;
+  position: relative;
+  bottom: 60px;
+  right: 10px;
+}
+
+.text-editor-btn:hover {
+  background-color: rgb(56 191 121);
+  opacity: 0.5;
 }
