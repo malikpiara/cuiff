@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block main %}
+    <main class="main">
+            
+        
+      
+        <section class="mb15">
+            <div class="workspace-header">
+                <h2>{{ space.name }}</h2>
+                <div><a href="{{ url_for('main.space_settings', space_id=space._id) }}">Settings</a></div>
+            </div>
+            
+            {% for board in boards %}
+                {% if user_id in space.members and board.space_id == space._id %}
+                        <div class="board-page-item mb15">
+                            <a class="primary-link" href="{{ url_for('main.board', board_number=board._id) }}">
+                                <h3>{{ board.question }}</h3>
+                            </a>
+                        </div>
+            </section>
+            {% endif %}
+            {% endfor %}
+        
+
+    </main>
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+{% endblock %}

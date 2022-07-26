@@ -324,6 +324,27 @@ def name_create(board_number):
     return response
 
 
+@bp.route("/<space_id>", methods=["GET"])
+def workspace_home(space_id):
+    try:
+        # NOTE: converting board_number from string to ObjectId
+        space_id = ObjectId(space_id)
+
+    except BSONError:
+        return redirect("/")
+
+    user_id = ObjectId(session["user_id"])
+
+    # Showing boards from database on the page.
+    boards = get_boards()
+
+    space = get_space(space_id)
+
+    return render_template("workspace_home.html",
+                           boards=boards, user_id=user_id, space_id=space_id,
+                           space=space)
+
+
 @bp.route("/<space_id>/settings", methods=["GET"])
 def space_settings(space_id):
     try:
