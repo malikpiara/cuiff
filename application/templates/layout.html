@@ -23,7 +23,16 @@
                 <p class="navbar_navigation"><a href="{{ url_for('main.home') }}">Cuiff</a></p>
             </div>
 
+            
              <section class="vertical-nav-items">
+                {% if space %}
+                <div class="workspace-selector navbar_navigation nav-title">
+                    <a href="{{ url_for('main.workspace_home', space_id=space._id) }}">
+                    {{ space.name }}</a>
+                    <small>1 member</small>
+                </div>
+                {% endif %}
+
                 {% for space in spaces %}
                     <div class="workspace-selector navbar_navigation nav-title">
                         <a href="{{ url_for('main.workspace_home', space_id=space._id) }}">
