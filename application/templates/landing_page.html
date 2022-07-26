@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuiff</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css"/>
+    
+    <!-- Web app manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+</head>
+<body>
+<main class="landing">
+    <nav class="nav-landing">
+        <div>
+            <p>Cuiff</p>
+        </div>
+        <div>
+            <ul>
+                <li>Why?</li>
+                <li>Login</li>
+            </ul>
+        </div>
+    </nav>
+    <section class="landing-header">
+        <div>
+            <h1 class="headline">Know what your team is up to. Anywhere. Anytime.</h1>
+            <div>
+                <input type="email" placeholder="Your email address">
+                <input class="landing-cta" type="submit" value="Get updates">
+            </div>
+        </div>
+        <div class="landing-screnshot">
+            <img src="{{ url_for('static', filename='images/cuiff_screen1.png') }}">
+        </div>
+        
+    </section>
+</main>
+</body>

@@ -1,3 +1,4 @@
+from crypt import methods
 from bson.errors import BSONError
 from flask import Blueprint, render_template, redirect, url_for, session, flash
 from flask.globals import request
@@ -366,3 +367,8 @@ def space_settings(space_id):
     return render_template("space_settings.html",
                            boards=boards, user_id=user_id, space_id=space_id,
                            space=space)
+
+
+@bp.route("/landing", methods=['GET', 'POST'])
+def landing_page():
+    return render_template('landing_page.html')
