@@ -240,9 +240,11 @@ def board(board_number):
     except BSONError:
         return redirect("/")
 
+    space = get_space(board['space_id'])
+
     return render_template("board.html", entries=entries,
                            board_number=board_number, form=form,
-                           board=board, user_id=user_id)
+                           board=board, user_id=user_id, space=space)
 
 
 @bp.route("/boards/<board_number>/<author>")
