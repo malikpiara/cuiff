@@ -83,12 +83,12 @@ body {
 }
 
 ::selection {
-  background-color: rgb(56 191 121);
-  color: #ffffff;
+  background-color: #BDFBB4;
 }
 
 h1 {
   font-size: 22px;
+  font-weight: 500;
   margin-bottom: 15px;
 }
 
@@ -615,13 +615,15 @@ textarea:focus, input:focus{
 }
 
 .text-editor-btn {
-  background-color: rgb(56 191 121);
+  background-color: #90ee90;
+  color: #000000;
+  font-weight: 400;
   border-radius: 6px;
   width: fit-content;
-  padding: 10px 25px;
+  padding: 8px 20px;
   align-self: flex-end;
   position: relative;
-  bottom: 60px;
+  bottom: 55px;
   right: 10px;
 }
 
@@ -640,4 +642,63 @@ textarea:focus, input:focus{
 
 .workspace-selector small {
   font-size: 12px;
+}
+
+.landing {
+  background-color: rgb(247 253 243);
+  color: #021411;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.nav-landing {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-landing ul {
+  list-style: none;
+  display: flex;
+  column-gap: 20px;
+  font-weight: 500;
+}
+
+.headline {
+  font-size: 40px;
+  padding: 80px 0px 40px;
+  font-weight: 800;
+}
+
+.landing-header {
+  display: flex;
+  column-gap: 90px;
+  margin-top: 100px;
+  margin-bottom: 300px;
+}
+
+.landing-header div:first-child {
+  max-width: 1000px;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-screnshot {
+  border-radius: 8px;
+}
+
+.landing-screnshot img {
+  width: 500px;
+  border-radius: 8px;
+  box-shadow: 0px 5px 5px #e3e3e3;
+}
+
+.landing::after {
+  height: 200px;
+  background-color: red;
+}
+
+.landing-cta {
+  background-color: #90ee90;
 }
