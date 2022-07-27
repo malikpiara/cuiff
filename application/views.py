@@ -145,7 +145,7 @@ def logout():
 @bp.route("/", methods=["GET", "POST"])
 def home():
     if not session.get("user_id"):
-        return redirect("/login")
+        return redirect("/landing")
 
     user_id = ObjectId(session["user_id"])
     boards = get_boards()

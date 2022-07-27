@@ -666,7 +666,7 @@ textarea:focus, input:focus{
 
 .headline {
   font-size: 40px;
-  padding: 80px 0px 40px;
+  padding: 80px 0px 10px;
   font-weight: 800;
 }
 
@@ -701,4 +701,20 @@ textarea:focus, input:focus{
 
 .landing-cta {
   background-color: #90ee90;
+}
+
+.headline-sub {
+  color: gray;
+  font-size: 18px;
+}
+
+.landing-screnshot img:nth-of-type(1) {
+  filter: blur(1px);
+  position: relative;
+}
+
+.landing-screnshot img:nth-of-type(2) {
+  position: relative;
+  right: 50px;
+  top: -40px;
 }
