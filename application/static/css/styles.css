@@ -315,10 +315,6 @@ form.settings-form {
   transition: background-color 0.25s ease 0s;
 }
 
-.form_textarea:hover {
-  background-color: rgba(0, 0, 0, 0.06);
-}
-
 .form_submit {
   background-color: #c196d8;
   color: #ffffff;
@@ -605,10 +601,6 @@ textarea:focus, input:focus{
   height: 150px;
 }
 
-.text-editor:hover {
-  background-color: white;
-}
-
 .form-group {
   display: flex;
   flex-direction: column;
@@ -674,7 +666,7 @@ textarea:focus, input:focus{
   display: flex;
   column-gap: 90px;
   margin-top: 100px;
-  margin-bottom: 300px;
+  margin-bottom: 100px;
 }
 
 .landing-header div:first-child {
@@ -717,4 +709,21 @@ textarea:focus, input:focus{
   position: relative;
   right: 50px;
   top: -40px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 25px;
+}
+
+.feature-grid div {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.feature-grid p {
+  color: gray;
+  margin-top: 10px;
 }
