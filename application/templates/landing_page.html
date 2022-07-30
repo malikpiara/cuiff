@@ -13,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/styles.css"/>
+
+    <link rel="icon" href="/static/images/icon.svg"/>
     
     <!-- Web app manifest -->
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
@@ -43,7 +45,50 @@
             <img src="{{ url_for('static', filename='images/cuiff_screen1.png') }}">
             <img src="{{ url_for('static', filename='images/cuiff_screen2.png') }}">
         </div>
-        
+    </section>
+    <section class="feature-grid" id="features">
+        <div>
+            <svg width="30" height="30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="15" r="10" stroke="lightgreen" fill="transparent" stroke-width="3"/>
+            </svg>
+            <h3>Connect Cuiff with Slack and Notion for better team organisation.</h3>
+            <p>Send updates from Slack to Cuiff. Turn a post into a Notion page.</p>
+        </div>
+        <div>
+            <svg width="30" height="30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="15" r="10" stroke="lightgreen" fill="transparent" stroke-width="3"/>
+            </svg>
+            <h3>Find everything you need.</h3>
+            <p>Our full-text search helps you find an update that was shared 3 months ago in seconds.</p>
+        </div>
+        <div>
+            <svg width="30" height="30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="15" r="10" stroke="lightgreen" fill="transparent" stroke-width="3"/>
+            </svg>
+            <h3>See what anyone has been up to.</h3>
+            <p>Cuiff lets you click on a profile to see all updates shared by a team member throughout the year.</p>
+        </div>
+        <div>
+            <svg width="30" height="30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="15" r="10" stroke="lightgreen" fill="transparent" stroke-width="3"/>
+            </svg>
+            <h3>View and share demos and screenshares from Loom.</h3>
+            <p>For when written communication is not enough.</p>
+        </div>
+        <div>
+            <svg width="30" height="30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="15" r="10" stroke="lightgreen" fill="transparent" stroke-width="3"/>
+            </svg>
+            <h3>Get updates via email.</h3>
+            <p>You can be notified any time a teammate shares an update.</p>
+        </div>
+        <div>
+            <svg width="30" height="30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="15" r="10" stroke="lightgreen" fill="transparent" stroke-width="3"/>
+            </svg>
+            <h3>See what other teams are working on within your company.</h3>
+        </div>
+
     </section>
 </main>
 </body>
