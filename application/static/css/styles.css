@@ -83,7 +83,7 @@ body {
 }
 
 ::selection {
-  background-color: #BDFBB4;
+  background-color: #a1ddec93;
 }
 
 h1 {
@@ -99,6 +99,7 @@ h2 {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 a:visited {
@@ -107,7 +108,7 @@ a:visited {
 
 
 .primary-link, .primary-link:visited {
-  color: #c196d8;
+  color: #A1DDEC;
 }
 
 
@@ -173,7 +174,7 @@ h2.section {
 }
 
 .primary {
-  background-color: #c196d8;
+  background-color: #A1DDEC;
   color: #ffffff;
   border-radius: 5px;
   font-size: 14px;
@@ -272,9 +273,8 @@ form.settings-form {
 }
 
 .navbar_navigation_item {
-  margin-left: 5px;
   font-size: 16px;
-  padding: 8px 12px;
+  padding: 8px 8px;
 }
 
 .navbar_navigation_item:hover {
@@ -327,7 +327,7 @@ form.settings-form {
 }
 
 .primary:hover {
-  background-color: #c196d8f0;
+  opacity: 80%;
 }
 
 *::placeholder {
@@ -459,14 +459,14 @@ form.settings-form {
 }
 
 .board-page-item {
-  background-color: #f9f9fe;
+  background-color: #F5FDFC;
   padding: 20px 22px;
   border-radius: 8px;
   transition: background-color 0.8s ease 0.1s;
 }
 
 .board-page-item:hover {
-  background-color: #f4e0ff;
+  opacity: 80%;
 }
 
 .modal-form {
@@ -607,7 +607,7 @@ textarea:focus, input:focus{
 }
 
 .text-editor-btn {
-  background-color: #90ee90;
+  background-color: #A1DDEC;
   color: #000000;
   font-weight: 400;
   border-radius: 6px;
@@ -620,7 +620,6 @@ textarea:focus, input:focus{
 }
 
 .text-editor-btn:hover {
-  background-color: rgb(56 191 121);
   opacity: 0.5;
 }
 
@@ -637,7 +636,7 @@ textarea:focus, input:focus{
 }
 
 .landing {
-  background-color: rgb(247 253 243);
+  background-color: #F5FDFC;
   color: #021411;
   display: flex;
   flex-direction: column;
@@ -686,13 +685,8 @@ textarea:focus, input:focus{
   box-shadow: 0px 5px 5px #e3e3e3;
 }
 
-.landing::after {
-  height: 200px;
-  background-color: red;
-}
-
 .landing-cta {
-  background-color: #90ee90;
+  background-color: #A1DDEC;
 }
 
 .headline-sub {
