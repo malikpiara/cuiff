@@ -2,81 +2,13 @@ from crypt import methods
 from bson.errors import BSONError
 from flask import Blueprint, render_template, redirect, url_for, session, flash
 from flask.globals import request
-from .forms import ChangePasswordReal, Entry, SignIn, SignUp, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard, NewSpace, InviteToSpace
-from werkzeug.security import check_password_hash
-from .models import create_board, get_space, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_user, create_entry, get_entry, update_user, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id, create_invite_to_space, check_invites, get_user
+from .forms import ChangePasswordReal, Entry, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard, NewSpace, InviteToSpace
+from .models import create_board, get_space, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_entry, get_entry, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id, create_invite_to_space, get_user
 from .emails import send_email
 from bson.objectid import ObjectId
 import datetime
 
 bp = Blueprint('main', __name__)
-
-
-@bp.route("/login", methods=["GET", "POST"])
-def login():
-    form = SignIn()
-    # If username is already stored in the session
-    # redirect user to the homepage.
-    if session.get("username"):
-        return redirect(url_for('main.home'))
-
-    if form.validate_on_submit():
-        email = form.email_address.data
-        password = form.password.data
-        user = find_user_by_email(email)
-
-        if user:
-            check = check_password_hash(user["password"], password)
-            # If user is found, store the email and id in session.
-            if check:
-                session["username"] = email
-                session["user_id"] = str(user["_id"])
-                return redirect(url_for('main.home'))
-
-    return render_template("login.html", form=form)
-
-
-@bp.route("/signup", methods=["GET", "POST"])
-def signup():
-    form = SignUp()
-    if session.get("username"):
-        return redirect(url_for('main.home'))
-    if form.validate_on_submit():
-        user_email = form.email_address.data
-        user_name = form.name.data
-        create_user(user_email,
-                    user_name, password=form.password.data)
-
-        #######################
-
-        # I want to check if the email inserted is in the invites collection.
-        # If the email is there, I want to add the user to the spaces with the space_id
-        # in the database.
-
-        # Add the new user to all the spaces that are returned (space_id)
-
-        invites = check_invites(user_email)
-
-        list_of_space_invites = []
-
-        for s in range(len(invites)):
-            if invites[s]["invite_recipient"]:
-                list_of_space_invites.append(
-                    (
-                        invites[s]["space"]
-                    )
-                )
-
-        print(list_of_space_invites)
-
-        #######################
-
-        send_email("Fuzzboard | New signup", "malikpiara@gmail.com",
-                   "mail/email", user_email, user_name)
-        send_email("Welcome to Fuzzboard", user_email,
-                   "mail/new_signup", user_email, user_name)
-        return redirect(url_for('main.home'))
-    return render_template("signup.html", form=form)
 
 
 @bp.route("/settings", methods=["GET", "POST"])
@@ -134,12 +66,6 @@ def settings():
                            change_name=change_name, change_email=change_email,
                            change_password=change_password,
                            change_password_real=change_password_real)
-
-
-@bp.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/login")
 
 
 @bp.route("/", methods=["GET", "POST"])
