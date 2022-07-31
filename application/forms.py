@@ -3,9 +3,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField, ValidationError
 from wtforms.fields import SelectField
 from wtforms.fields import EmailField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms.validators import DataRequired, Regexp, Email, EqualTo
 from werkzeug.security import check_password_hash
-from .models import find_user_by_email, find_space_by_owner_id
+from .models import find_user_by_email
 
 
 class Entry(FlaskForm):
@@ -27,8 +27,8 @@ class SignUp(FlaskForm):
         "password2", message="Passwords must match.")])
     password2 = PasswordField("Confirm password", validators=[DataRequired()])
     # Have to build the invite code properly!
-    invite_code = StringField("Invite code", validators=[DataRequired(), EqualTo(
-        "password2", message="Passwords must match.")])
+    invite_code = StringField("Invite code", validators=[DataRequired(), Regexp(
+        regex='calmworkplace', message='The invite code is not valid.')])
     submit = SubmitField("Create Account")
 
     def validate_email_address(self, field):

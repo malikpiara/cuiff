@@ -106,7 +106,7 @@ def get_boards():
 
 
 def create_board(owner_id, question, space_id):
-    client.standups.boards.insert(
+    client.standups.boards.insert_one(
         {
             "owner_id": owner_id,
             "question": question,
@@ -130,15 +130,14 @@ def create_space(name, owner_id, type):
 def create_user(email_address, name, password):
     hashed_pass = generate_password_hash(
         password)
-    new_user = client.standups.users.insert(
-        {
-            "email": email_address,
-            "name": name,
-            "password": hashed_pass
-        }
-    )
+    new_user = {
+        "email": email_address,
+        "name": name,
+        "password": hashed_pass
+    }
+    client.standups.users.insert_one(new_user)
 
-    create_space("Personal Boards", new_user, "personal")
+    create_space("Personal Boards", new_user['_id'], "personal")
 
 
 def check_invites(email_address):
@@ -241,7 +240,7 @@ def delete_entry(_id):
 
 
 def create_invite_to_space(space_id, sender_id, recipient_email):
-    client.standups.user_invites.insert(
+    client.standups.user_invites.insert_one(
         {
             "space_id": space_id,
             "invite_sender": sender_id,
