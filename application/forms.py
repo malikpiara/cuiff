@@ -1,8 +1,8 @@
 from flask import flash, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField, ValidationError
-from wtforms.fields.core import SelectField
-from wtforms.fields.html5 import EmailField
+from wtforms.fields import SelectField
+from wtforms.fields import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo
 from werkzeug.security import check_password_hash
 from .models import find_user_by_email, find_space_by_owner_id
