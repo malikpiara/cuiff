@@ -11,6 +11,51 @@ import datetime
 bp = Blueprint('main', __name__)
 
 
+@bp.route("/", methods=["GET", "POST"])
+def home():
+    if not session.get("user_id"):
+        return render_template('landing_page.html')
+
+    user_id = ObjectId(session["user_id"])
+    boards = get_boards()
+
+    # TODO: Replace space_ function with spaces.
+    #space_ = find_space_by_owner_id(user_id, "personal")
+    spaces = get_space_by_member_id(user_id)
+
+    new_list = []
+
+    for s in range(len(spaces)):
+        if spaces[s]["name"]:
+            new_list.append(
+                (
+                    spaces[s]["_id"],
+                    spaces[s]["name"]
+                )
+            )
+
+    form = NewBoard()
+    new_space_form = NewSpace()
+
+    form.space.choices = new_list
+
+    if form.validate_on_submit():
+        create_board(user_id,
+                     form.question.data,
+                     ObjectId(form.space.data))
+        return redirect("/")
+
+    if new_space_form.validate_on_submit():
+        create_space(new_space_form.name.data,
+                     user_id,
+                     "team",)
+        return redirect("/")
+
+    return render_template("page.html", user_id=user_id,
+                           boards=boards, spaces=spaces,
+                           form=form, new_space_form=new_space_form)
+
+
 @bp.route("/settings", methods=["GET", "POST"])
 def settings():
     form = UserSettings()
@@ -68,51 +113,6 @@ def settings():
                            change_password_real=change_password_real)
 
 
-@bp.route("/", methods=["GET", "POST"])
-def home():
-    if not session.get("user_id"):
-        return redirect("/landing")
-
-    user_id = ObjectId(session["user_id"])
-    boards = get_boards()
-
-    # TODO: Replace space_ function with spaces.
-    #space_ = find_space_by_owner_id(user_id, "personal")
-    spaces = get_space_by_member_id(user_id)
-
-    new_list = []
-
-    for s in range(len(spaces)):
-        if spaces[s]["name"]:
-            new_list.append(
-                (
-                    spaces[s]["_id"],
-                    spaces[s]["name"]
-                )
-            )
-
-    form = NewBoard()
-    new_space_form = NewSpace()
-
-    form.space.choices = new_list
-
-    if form.validate_on_submit():
-        create_board(user_id,
-                     form.question.data,
-                     ObjectId(form.space.data))
-        return redirect("/")
-
-    if new_space_form.validate_on_submit():
-        create_space(new_space_form.name.data,
-                     user_id,
-                     "team",)
-        return redirect("/")
-
-    return render_template("page.html", user_id=user_id,
-                           boards=boards, spaces=spaces,
-                           form=form, new_space_form=new_space_form)
-
-
 @bp.route("/invite", methods=["GET", "POST"])
 # We cannot append the email address in the form to a database because we're using ids.
 # Instead, we have to do something like storing the email address in an invites collection,
@@ -135,7 +135,7 @@ def invitePeople():
     return render_template("invite.html", form=form)
 
 
-@bp.route("/entries/<entry_id>", methods=["DELETE", "POST"])
+@bp.post("/entries/<entry_id>")
 def deleteEntry(entry_id):
     user_id = ObjectId(session["user_id"])
     entry = get_entry(ObjectId(entry_id))
@@ -149,7 +149,7 @@ def deleteEntry(entry_id):
     return redirect(request.referrer)
 
 
-@bp.route("/boards/<board_number>", methods=["GET"])
+@bp.get("/boards/<board_number>")
 def board(board_number):
     try:
         # NOTE: converting board_number from string to ObjectId
@@ -174,7 +174,7 @@ def board(board_number):
                            board=board, user_id=user_id, space=space)
 
 
-@bp.route("/boards/<board_number>/<author>")
+@bp.get("/boards/<board_number>/<author>")
 def progress(author, board_number):
     try:
         # NOTE: converting board_number from string to ObjectId
@@ -195,7 +195,7 @@ def progress(author, board_number):
                            boards=boards)
 
 
-@bp.route("/boards/<board_number>", methods=["POST"])
+@bp.post("/boards/<board_number>")
 def name_create(board_number):
 
     form = Entry()
@@ -253,7 +253,7 @@ def name_create(board_number):
     return response
 
 
-@bp.route("/<space_id>", methods=["GET"])
+@bp.get("/<space_id>")
 def workspace_home(space_id):
     try:
         # NOTE: converting board_number from string to ObjectId
@@ -274,7 +274,7 @@ def workspace_home(space_id):
                            space=space)
 
 
-@bp.route("/<space_id>/settings", methods=["GET"])
+@bp.get("/<space_id>/settings")
 def space_settings(space_id):
     try:
         # NOTE: converting board_number from string to ObjectId
@@ -293,8 +293,3 @@ def space_settings(space_id):
     return render_template("space_settings.html",
                            boards=boards, user_id=user_id, space_id=space_id,
                            space=space)
-
-
-@bp.route("/landing", methods=['GET', 'POST'])
-def landing_page():
-    return render_template('landing_page.html')
