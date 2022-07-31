@@ -26,7 +26,6 @@ class SignUp(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired(), EqualTo(
         "password2", message="Passwords must match.")])
     password2 = PasswordField("Confirm password", validators=[DataRequired()])
-    # Have to build the invite code properly!
     invite_code = StringField("Invite code", validators=[DataRequired(), Regexp(
         regex='calmworkplace', message='The invite code is not valid.')])
     submit = SubmitField("Create Account")

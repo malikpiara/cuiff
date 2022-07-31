@@ -144,9 +144,9 @@ def deleteEntry(entry_id):
         delete_entry(entry_id)
 
     else:
-        return redirect(url_for('main.home'))
+        return redirect(request.referrer)
 
-    return redirect(url_for('main.home'))
+    return redirect(request.referrer)
 
 
 @bp.route("/boards/<board_number>", methods=["GET"])
