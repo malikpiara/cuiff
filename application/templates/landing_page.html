@@ -21,7 +21,7 @@
 </head>
 <body>
 <main class="landing">
-    <nav class="nav-landing">
+    <nav class="nav-landing animate__animated animate__fadeIn animate__delay-1s">
         <div>
             <p>Cuiff</p>
         </div>
@@ -33,7 +33,7 @@
         </div>
     </nav>
     <section class="landing-header">
-        <div>
+        <div class="animate__animated animate__fadeIn">
             <h1 class="headline">Know what your team is up to. Anywhere. Anytime.</h1>
             <p class="headline-sub">Meetings feel unproductive. Slack notifications are crippling. It's getting harder to do work you can be proud of. With Cuiff, everyone feels more calm and aligned. And your attention is free to invest in strategy.</p><br/>
             <div>
@@ -41,12 +41,12 @@
                 <input class="landing-cta" type="submit" value="Get updates">
             </div>
         </div>
-        <div class="landing-screnshot">
+        <div class="landing-screnshot animate__animated animate__fadeInUp">
             <img src="{{ url_for('static', filename='images/cuiff_screen1.png') }}">
             <img src="{{ url_for('static', filename='images/cuiff_screen2.png') }}">
         </div>
     </section>
-    <section class="feature-grid" id="features">
+    <section class="feature-grid animate__animated animate__fadeInUp animate__delay-1s" id="features">
         <div>
             <svg width="30" height="30" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="15" r="10" stroke="#A1DDEC" fill="transparent" stroke-width="3"/>
