@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, render_template, redirect, url_for, session
 from werkzeug.security import check_password_hash
 from .forms import SignIn, SignUp
@@ -71,7 +72,7 @@ def signup():
 
         #######################
 
-        send_email("Cuiff | New signup", "malikpiara@gmail.com",
+        send_email("Cuiff | New signup", os.environ.get('MAIL_DEFAULT_SENDER'),
                    "mail/email", user_email, user_name)
         send_email("Welcome to Cuiff", user_email,
                    "mail/new_signup", user_email, user_name)

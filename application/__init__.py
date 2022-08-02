@@ -36,12 +36,12 @@ app.config["SESSION_MONGODB_COLLECT"] = "sessions"
 app.config["FUZZBOARD_ADMIN"] = os.environ.get("FUZZBOARD_ADMIN")
 
 # Email setup
-app.config["MAIL_DEFAULT_SENDER"] = "malikpiara@gmail.com"
-app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+app.config["MAIL_SERVER"] = 'smtp.sendgrid.net'
 app.config["MAIL_PORT"] = 587
 app.config["MAIL_USE_TLS"] = True
 app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
 app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
+app.config["MAIL_DEFAULT_SENDER"] = os.environ.get('MAIL_DEFAULT_SENDER')
 
 
 mail.init_app(app)
