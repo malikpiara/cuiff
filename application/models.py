@@ -131,12 +131,14 @@ def create_space(name, owner_id, type):
 
 
 def create_user(email_address, name, password):
+    # The active workspace should be the personal space that is created for the user.
     hashed_pass = generate_password_hash(
         password)
     new_user = {
         "email": email_address,
         "name": name,
-        "password": hashed_pass
+        "password": hashed_pass,
+        "active_workspace": ""
     }
     client.standups.users.insert_one(new_user)
 
@@ -205,6 +207,17 @@ def update_user(email_address, name, new_email):
         },
         {
             "$set": {'name': name, 'email': new_email}
+        }
+    )
+
+
+def update_active_workspace(workspace):
+    client.standups.users.update_one(
+        {
+            'active_workspace': workspace
+        },
+        {
+            '$set': {'active_workspace': workspace}
         }
     )
 
@@ -280,3 +293,22 @@ def set_password(id, password):
             '$set': {'password': password_hash}
         }
     )
+
+# Temporary Functions used to update my models
+
+
+def add_active_workspace_to_user():
+    for user in client.standups.users.find({'active_workspace': {"$exists": False}}):
+
+        client.standups.users.update_one(
+            {
+                '_id': user["_id"]
+            },
+
+            {
+                '$set':
+                    {
+                        'active_workspace': ''
+                    }
+            }
+        )
