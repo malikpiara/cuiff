@@ -3,6 +3,9 @@ from werkzeug.security import generate_password_hash
 from .database import client
 from werkzeug.security import check_password_hash
 from bson.objectid import ObjectId
+import jwt
+import os
+from time import time
 
 
 def get_entries(board_id):
@@ -245,5 +248,35 @@ def create_invite_to_space(space_id, sender_id, recipient_email):
             "space_id": space_id,
             "invite_sender": sender_id,
             "invite_recipient": recipient_email,
+        }
+    )
+
+
+def get_reset_password_token(user_id, expires_in=3600):
+    # BUG: When the password is reset, the token apparently still works.
+    return jwt.encode(
+        {'reset_password':
+            user_id, 'exp': time() + expires_in},
+        os.environ.get('SECRET_KEY'), algorithm='HS256')
+
+
+def verify_reset_password_token(token):
+    try:
+        id = jwt.decode(token, os.environ.get('SECRET_KEY'),
+                        algorithms=['HS256'])['reset_password']
+    except:
+        return
+    return client.standups.users.find_one({'_id': ObjectId(id)})
+
+
+def set_password(id, password):
+    password_hash = generate_password_hash(password)
+
+    return client.standups.users.find_one_and_update(
+        {
+            '_id': ObjectId(id)
+        },
+        {
+            '$set': {'password': password_hash}
         }
     )

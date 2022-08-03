@@ -114,6 +114,13 @@ a:visited {
 
 /* TODO: Create wrapper for the app and remove this.  */
 
+.flex {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
 
 label {
   display: block;
@@ -719,4 +726,8 @@ textarea:focus, input:focus{
 .feature-grid p {
   color: gray;
   margin-top: 10px;
+}
+
+.dropdown-icon {
+  max-width: 20px;
 }

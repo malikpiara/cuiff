@@ -33,8 +33,6 @@ app.config["SESSION_MONGODB"] = client
 app.config["SESSION_MONGODB_DB"] = "standups"
 app.config["SESSION_MONGODB_COLLECT"] = "sessions"
 
-app.config["FUZZBOARD_ADMIN"] = os.environ.get("FUZZBOARD_ADMIN")
-
 # Email setup
 app.config["MAIL_SERVER"] = 'smtp.sendgrid.net'
 app.config["MAIL_PORT"] = 587

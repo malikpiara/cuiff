@@ -27,6 +27,7 @@ pip-review==1.1.1
 pycodestyle==2.9.0
 pycparser==2.21
 pyflakes==2.5.0
+PyJWT==2.4.0
 pymongo==4.2.0
 pyOpenSSL==22.0.0
 pyparsing==3.0.9
