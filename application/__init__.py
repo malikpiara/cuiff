@@ -6,12 +6,14 @@ from .views import bp
 from .auth import auth
 from .database import client
 from .emails import mail
+from .admin import admin
 
 load_dotenv()
 
 app = Flask(__name__)
 app.register_blueprint(bp)
 app.register_blueprint(auth)
+app.register_blueprint(admin)
 
 csp = {
     'default-src': [

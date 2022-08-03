@@ -11,6 +11,13 @@ import datetime
 bp = Blueprint('main', __name__)
 
 
+@bp.context_processor
+def inject_user():
+    user = find_user_by_email(session["username"])
+    spacer = get_space_by_member_id(user['_id'])
+    return dict(user=user, spacer=spacer)
+
+
 @bp.route("/", methods=["GET", "POST"])
 def home():
     if not session.get("user_id"):

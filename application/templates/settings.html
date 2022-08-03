@@ -12,7 +12,7 @@
                 <form class="settings-form" method="POST">
                     {{ change_name.hidden_tag() }}
                     {{ change_name.name.label }}
-                    {{ change_name.name(class="settings-field", id="name-field", value=user_information["name"], placeholder="Name", disabled=True) }}
+                    {{ change_name.name(class="settings-field", id="name-field", value=user.name, placeholder="Name", disabled=True) }}
                     <button class="form-btn" id="edit-name-button" type="button">Edit</button>
                     <button class="form-btn" id="cancel-name-button" type="button">Cancel</button>
                     {{ change_name.save(class="form-btn", id="save-name-button") }}
