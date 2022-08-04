@@ -1,9 +1,10 @@
 from crypt import methods
+from urllib import response
 from bson.errors import BSONError
-from flask import Blueprint, render_template, redirect, url_for, session, flash
+from flask import Blueprint, make_response, render_template, redirect, url_for, session, flash
 from flask.globals import request
 from .forms import ChangePasswordReal, Entry, UserSettings, DeleteUser, ChangeName, ChangeEmail, ChangePassword, ChangePasswordReal, NewBoard, NewSpace, InviteToSpace
-from .models import create_board, get_space, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_entry, get_entry, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id, create_invite_to_space, get_user
+from .models import create_board, get_space, create_space, delete_entry, get_boards, get_entries, find_user_by_email, create_entry, get_entry, delete_user, update_email, update_name, update_password, get_board, find_space_by_owner_id, get_spaces, get_space_by_member_id, create_invite_to_space, get_user, update_active_workspace
 from .emails import send_email
 from bson.objectid import ObjectId
 import datetime
@@ -13,11 +14,25 @@ bp = Blueprint('main', __name__)
 
 @bp.context_processor
 def inject_user():
+    # TODO: Create a user + space aggregation to access the name of the active space.
     if session.get('username') is None:
         return ""
     user = find_user_by_email(session["username"])
     spacer = get_space_by_member_id(user['_id'])
+
+    print("active_workspace:" + user['active_workspace'])
+    for space in spacer:
+        print(space['_id'])
+
     return dict(user=user, spacer=spacer)
+
+
+@bp.post("/set_active_workspace/<workspace_id>")
+def set_active_workspace(workspace_id, user_id=None):
+    user = find_user_by_email(session["username"])
+    update_active_workspace(user['_id'], workspace_id)
+
+    return response
 
 
 @bp.route("/", methods=["GET", "POST"])
@@ -29,7 +44,7 @@ def home():
     boards = get_boards()
 
     # TODO: Replace space_ function with spaces.
-    #space_ = find_space_by_owner_id(user_id, "personal")
+    # space_ = find_space_by_owner_id(user_id, "personal")
     spaces = get_space_by_member_id(user_id)
 
     new_list = []

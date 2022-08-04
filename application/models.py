@@ -211,10 +211,10 @@ def update_user(email_address, name, new_email):
     )
 
 
-def update_active_workspace(workspace):
-    client.standups.users.update_one(
+def update_active_workspace(id, workspace):
+    return client.standups.users.find_one_and_update(
         {
-            'active_workspace': workspace
+            '_id': ObjectId(id)
         },
         {
             '$set': {'active_workspace': workspace}
