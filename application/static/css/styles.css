@@ -743,6 +743,7 @@ textarea:focus, input:focus{
 }
 
 .dropdown {
+  display: none;
   background-color: #ffffff;
   width: 270px;
   border-radius: 8px;

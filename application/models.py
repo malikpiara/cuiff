@@ -312,3 +312,24 @@ def add_active_workspace_to_user():
                     }
             }
         )
+
+# Aggregation
+
+
+db = client["standups"]
+user_collection = db["users"]
+workspace_collection = db["spaces"]
+
+
+def aggregation_test(workspace_id):
+    pipeline = [
+        {
+            '$match': {
+                '_id': ObjectId(workspace_id)
+            }
+        }
+    ]
+    results = workspace_collection.aggregate(pipeline)
+
+    for entry in results:
+        return entry['name']
