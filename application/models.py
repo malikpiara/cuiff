@@ -211,10 +211,10 @@ def update_user(email_address, name, new_email):
     )
 
 
-def update_active_workspace(workspace):
-    client.standups.users.update_one(
+def update_active_workspace(id, workspace):
+    return client.standups.users.find_one_and_update(
         {
-            'active_workspace': workspace
+            '_id': ObjectId(id)
         },
         {
             '$set': {'active_workspace': workspace}
@@ -312,3 +312,24 @@ def add_active_workspace_to_user():
                     }
             }
         )
+
+# Aggregation
+
+
+db = client["standups"]
+user_collection = db["users"]
+workspace_collection = db["spaces"]
+
+
+def aggregation_test(workspace_id):
+    pipeline = [
+        {
+            '$match': {
+                '_id': ObjectId(workspace_id)
+            }
+        }
+    ]
+    results = workspace_collection.aggregate(pipeline)
+
+    for entry in results:
+        return entry['name']

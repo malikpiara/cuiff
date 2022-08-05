@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/static/css/styles.css"/>
 
     <link rel="icon" href="/static/images/icon.svg"/>
+
+   
     
     <!-- Web app manifest -->
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
@@ -29,9 +31,9 @@
             
              <section class="vertical-nav-items">
 
-                    <div class="workspace-selector navbar_navigation nav-title">
+                    <div id="workspace-selector" class="workspace-selector navbar_navigation nav-title">
                         <div class="flex space-between">
-                            <a href="{{ url_for('main.home') }}">{{ spacer[0]["name"] }}</a>
+                            <a href="{{ url_for('main.workspace_home', space_id=user['active_workspace']) }}">{{ active_workspace_name }}</a>
                             
                         <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.29289 9.29289C6.68342 8.90237 7.31658 8.90237 7.70711 9.29289L12 13.5858L16.2929 9.29289C16.6834 8.90237 17.3166 8.90237 17.7071 9.29289C18.0976 9.68342 18.0976 10.3166 17.7071 10.7071L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L6.29289 10.7071C5.90237 10.3166 5.90237 9.68342 6.29289 9.29289Z" fill="currentColor"></path></svg>
                         </div>
@@ -42,10 +44,10 @@
 
                 <!-- Workspace Dropdown -->
                 
-                    <div class="dropdown navbar_navigation nav-title">
+                    <div id="workspace-dropdown" class="dropdown navbar_navigation nav-title">
                         {% for space in spacer %}
                         <div class="workspace-container">
-                            <div class="flex space-between">
+                            <div class="flex space-between" hx-post="/set_active_workspace/{{space._id}}">
                                 <a href="{{ url_for('main.workspace_home', space_id=space._id) }}">{{ space.name }}</a>
                             
                             </div>
@@ -77,5 +79,7 @@
     {% endblock %}
     </div>
     <footer></footer>
+    <script src="{{url_for('static', filename='htmx.min.js')}}"></script>
+    <script src="{{url_for('static', filename='main.js')}}"></script>
 </body>
 </html>
