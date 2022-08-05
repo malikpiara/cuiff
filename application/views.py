@@ -20,7 +20,9 @@ def inject_user():
     spacer = get_space_by_member_id(user['_id'])
 
     # TODO: Create a user + space aggregation to access the name of the active space.
-    if user['active_workspace'] != '':
+    if user['active_workspace'] == '':
+        active_workspace_name = "Personal"
+    else:
         active_workspace_name = aggregation_test(user['active_workspace'])
 
     """ print("active_workspace:" + user['active_workspace'])
