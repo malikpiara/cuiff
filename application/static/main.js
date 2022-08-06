@@ -1,15 +1,3 @@
-/* Start of Workspace Dropdown */
-
-// Get the element that opens the workspace dropdown
-var workspace_dropdown = document.getElementById('workspace-dropdown')
-var workspace_selector = document.getElementById('workspace-selector')
-
-// When the user clicks the element, open the dropdown
-workspace_selector.onclick = function() {
-  workspace_dropdown.style.display = "block";
-}
-
-/* End of Workspace dropdown */
 
 // Get the modal
 var modal = document.getElementById("new-board-modal");
@@ -24,9 +12,11 @@ var new_board_span = document.getElementsByClassName("close")[0];
 var new_space_span = document.getElementsByClassName("close")[1];
 
 // When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
+
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
 
 new_space_btn.onclick = function() {
   new_space_modal.style.display = "block";
@@ -66,12 +56,5 @@ document.addEventListener("click", function(event) {
   if (!event.target.closest("#create-btn"))
     box.classList.add("js-is-hidden");
 
-  // If user clicks on the element, display workspace dropdown
-	if (event.target.closest("#workspace-selector"))
-    workspace_dropdown.style.display = "block";
-    workspace_dropdown.classList.remove("js-is-hidden");
-
-  if (!event.target.closest("#workspace-selector"))
-  workspace_dropdown.classList.add("js-is-hidden");
   return;
 });

@@ -294,24 +294,24 @@ def set_password(id, password):
         }
     )
 
-# Temporary Functions used to update my models
 
+class DB_Update():
+    # Temporary Functions used to update my models
+    def add_active_workspace_to_user():
+        for user in client.standups.users.find({'active_workspace': {"$exists": False}}):
 
-def add_active_workspace_to_user():
-    for user in client.standups.users.find({'active_workspace': {"$exists": False}}):
+            client.standups.users.update_one(
+                {
+                    '_id': user["_id"]
+                },
 
-        client.standups.users.update_one(
-            {
-                '_id': user["_id"]
-            },
-
-            {
-                '$set':
-                    {
-                        'active_workspace': ''
-                    }
-            }
-        )
+                {
+                    '$set':
+                        {
+                            'active_workspace': ''
+                        }
+                }
+            )
 
 # Aggregation
 
