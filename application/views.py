@@ -1,4 +1,3 @@
-from crypt import methods
 from urllib import response
 from bson.errors import BSONError
 from flask import Blueprint, make_response, render_template, redirect, url_for, session, flash
