@@ -338,21 +338,31 @@ def aggregation_test(workspace_id):
 
 # START OF LEMON ZEST
 
+""" 
+TODO: Implement function.
+Maybe create an abstraction so that the function can be used
+for deleting and editing workspaces, entries, boards?
+
+def can_user_delete_workspace()
+
+"""
+
+
 def delete_board(board_id):
     # TODO: Write a wrapper function to check if user can delete the board.
-    # Shouldn't I also be recording a timestamp for when the board was deleted?
+    # Replace boolean with timestamp.
 
     client.standups.boards.update_one(
         {
             '_id': ObjectId(board_id)
         },
         {
-            "$set": {'is_deleted': True}
+            "$set": {'is_deleted': datetime.datetime.today()}
         }
     )
 
 
-def delete_all_boards_in_a_workspace(workspace_id):
+def delete_all_boards_in_workspace(workspace_id):
     # TODO: Write a wrapper function to check if user can delete the workspace.
 
     client.standups.boards.update_many(
@@ -360,7 +370,7 @@ def delete_all_boards_in_a_workspace(workspace_id):
             '_id': {"$exists": True}
         },
         {
-            "$set": {'is_deleted': True}
+            "$set": {'is_deleted': datetime.datetime.today()}
         }
     )
 
@@ -368,14 +378,14 @@ def delete_all_boards_in_a_workspace(workspace_id):
 def delete_workspace(workspace_id):
     # TODO: Write a wrapper function to check if user can delete the workspace.
 
-    delete_all_boards_in_a_workspace(workspace_id)
+    delete_all_boards_in_workspace(workspace_id)
 
     client.standups.spaces.update_one(
         {
             '_id': ObjectId(workspace_id)
         },
         {
-            "$set": {'is_deleted': True}
+            "$set": {'is_deleted': datetime.datetime.today()}
         }
     )
 
@@ -402,5 +412,18 @@ def rename_workspace(workspace_id, new_name):
         },
         {
             '$set': {'name': new_name}
+        }
+    )
+
+
+def edit_entry(id, new_content):
+    # TODO: Write a wrapper function to check if user can edit the entry.
+    # Should I be storing a timestamp of when the entry was edited?
+    client.standups.entries.update_one(
+        {
+            '_id': ObjectId(id)
+        },
+        {
+            '$set': {'content': new_content}
         }
     )
