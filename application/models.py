@@ -1,4 +1,5 @@
 import datetime
+from typing import DefaultDict
 from werkzeug.security import generate_password_hash
 from .database import client
 from werkzeug.security import check_password_hash
@@ -333,3 +334,48 @@ def aggregation_test(workspace_id):
 
     for entry in results:
         return entry['name']
+
+
+"""
+START OF LEMON ZEST
+
+def delete_board(board_id):
+    #TODO: Write a wrapper function to check if user can delete the board.
+    # Shouldn't I also be recording a timestamp for when the board was deleted?
+
+    client.standups.boards.update_one(
+        {
+            '_id': ObjectId(board_id)
+        },
+        {
+            "$set": {'is_deleted': True}
+        }
+    )
+
+def delete_all_boards_in_a_workspace(workspace_id):
+    #TODO: Write a wrapper function to check if user can delete the workspace.
+    
+    client.standups.boards.update_many(
+        {
+            '_id': {"$exists": True}
+        },
+        {
+            "$set": {'is_deleted': True}
+        }
+    )
+
+def delete_workspace(workspace_id):
+    #TODO: Write a wrapper function to check if user can delete the workspace.
+
+    delete_all_boards_in_a_workspace(workspace_id)
+    
+    client.standups.spaces.update_one(
+        {
+            '_id': ObjectId(workspace_id)
+        },
+        {
+            "$set": {'is_deleted': True}
+        }
+    )
+
+"""
