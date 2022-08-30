@@ -1,6 +1,8 @@
 import datetime
 from typing import DefaultDict
 from werkzeug.security import generate_password_hash
+
+from application.views import board
 from .database import client
 from werkzeug.security import check_password_hash
 from bson.objectid import ObjectId
@@ -362,15 +364,29 @@ def delete_board(board_id):
     )
 
 
+def delete_all_entries_in_board(board_id):
+    # TODO: Write a wrapper function to check if user can delete the workspace.
+    # Right now I'm targeting all entries that have an id. I need to target all entries whose id is equal to the board_id
+
+    client.standups.entries.update_many(
+        {
+            'board_id': ObjectId(board_id)
+        },
+        {
+            "$set": {'deleted_at': datetime.datetime.today()}
+        }
+    )
+
+
 def delete_all_boards_in_workspace(workspace_id):
     # TODO: Write a wrapper function to check if user can delete the workspace.
 
     client.standups.boards.update_many(
         {
-            '_id': {"$exists": True}
+            'space_id': workspace_id
         },
         {
-            "$set": {'is_deleted': datetime.datetime.today()}
+            "$set": {'deleted_at': datetime.datetime.today()}
         }
     )
 
@@ -385,7 +401,7 @@ def delete_workspace(workspace_id):
             '_id': ObjectId(workspace_id)
         },
         {
-            "$set": {'is_deleted': datetime.datetime.today()}
+            "$set": {'deleted_at': datetime.datetime.today()}
         }
     )
 
