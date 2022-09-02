@@ -332,6 +332,9 @@ def aggregation_test(workspace_id):
 
 # START OF LEMON ZEST
 # Should I add updated_at, modified_by and created_at to my DB?
+# TODO: Write methods to check if user can edit.
+# TODO: Call methods that check if user can edit.
+# TODO: Update check methods to include workspace admins so they can also edit?
 
 def can_user_delete_entry(user_id, entry_id):
     entry = get_entry(entry_id)
