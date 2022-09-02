@@ -1,8 +1,5 @@
 import datetime
-from typing import DefaultDict
 from werkzeug.security import generate_password_hash
-
-from application.views import board
 from .database import client
 from werkzeug.security import check_password_hash
 from bson.objectid import ObjectId
@@ -253,11 +250,6 @@ def get_entry(_id):
     return client.standups.entries.find_one({"_id": _id})
 
 
-def delete_entry(_id):
-    # You should only be able to delete if your id is the author id
-    client.standups.entries.delete_one({"_id": ObjectId(_id)})
-
-
 def create_invite_to_space(space_id, sender_id, recipient_email):
     client.standups.user_invites.insert_one(
         {
@@ -339,35 +331,50 @@ def aggregation_test(workspace_id):
 
 
 # START OF LEMON ZEST
+# Should I add updated_at, modified_by and created_at to my DB?
 
-""" 
-TODO: Implement function.
-Maybe create an abstraction so that the function can be used
-for deleting and editing workspaces, entries, boards?
+def can_user_delete_entry(user_id, entry_id):
+    entry = get_entry(entry_id)
 
-def can_user_delete_workspace()
+    if entry["user_id"] == ObjectId(user_id):
+        return True
+    else:
+        return False
 
-"""
+
+def can_user_delete_board(user_id, board_id):
+    board = get_board(board_id)
+
+    if board["owner_id"] == ObjectId(user_id):
+        return True
+    else:
+        return False
 
 
-def delete_board(board_id):
-    # TODO: Write a wrapper function to check if user can delete the board.
-    # Replace boolean with timestamp.
+def can_user_delete_workspace(user_id, workspace_id):
+    workspace = get_space(workspace_id)
 
-    client.standups.boards.update_one(
+    if workspace["owner_id"] == ObjectId(user_id):
+        return True
+    else:
+        return False
+
+
+def delete_entry(entry_id, user_id):
+    if not can_user_delete_entry(user_id, entry_id):
+        return
+
+    client.standups.entries.update_one(
         {
-            '_id': ObjectId(board_id)
+            "_id": ObjectId(entry_id)
         },
         {
-            "$set": {'is_deleted': datetime.datetime.today()}
+            "$set": {'deleted_at': datetime.datetime.today()}
         }
     )
 
 
 def delete_all_entries_in_board(board_id):
-    # TODO: Write a wrapper function to check if user can delete the workspace.
-    # Right now I'm targeting all entries that have an id. I need to target all entries whose id is equal to the board_id
-
     client.standups.entries.update_many(
         {
             'board_id': ObjectId(board_id)
@@ -378,12 +385,15 @@ def delete_all_entries_in_board(board_id):
     )
 
 
-def delete_all_boards_in_workspace(workspace_id):
-    # TODO: Write a wrapper function to check if user can delete the workspace.
+def delete_board(board_id, user_id):
+    if not can_user_delete_board(user_id, board_id):
+        return
 
-    client.standups.boards.update_many(
+    delete_all_entries_in_board(board_id)
+
+    client.standups.boards.update_one(
         {
-            'space_id': workspace_id
+            '_id': ObjectId(board_id)
         },
         {
             "$set": {'deleted_at': datetime.datetime.today()}
@@ -391,8 +401,20 @@ def delete_all_boards_in_workspace(workspace_id):
     )
 
 
-def delete_workspace(workspace_id):
-    # TODO: Write a wrapper function to check if user can delete the workspace.
+def delete_all_boards_in_workspace(workspace_id):
+    client.standups.boards.update_many(
+        {
+            'space_id': ObjectId(workspace_id)
+        },
+        {
+            "$set": {'deleted_at': datetime.datetime.today()}
+        }
+    )
+
+
+def delete_workspace(workspace_id, user_id):
+    if not can_user_delete_workspace(user_id, workspace_id):
+        return
 
     delete_all_boards_in_workspace(workspace_id)
 
@@ -406,12 +428,12 @@ def delete_workspace(workspace_id):
     )
 
 
-def rename_board(board_id, new_question):
+def rename_board(_id, new_question):
     # TODO: Write a wrapper function to check if user can rename the board.
 
     client.standups.boards.update_one(
         {
-            '_id': ObjectId(board_id)
+            '_id': ObjectId(_id)
         },
         {
             '$set': {'question': new_question}
@@ -419,12 +441,12 @@ def rename_board(board_id, new_question):
     )
 
 
-def rename_workspace(workspace_id, new_name):
+def rename_workspace(_id, new_name):
     # TODO: Write a wrapper function to check if user can rename the workspace.
 
     client.standups.spaces.update_one(
         {
-            '_id': ObjectId(workspace_id)
+            '_id': ObjectId(_id)
         },
         {
             '$set': {'name': new_name}
