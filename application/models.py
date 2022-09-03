@@ -332,9 +332,7 @@ def aggregation_test(workspace_id):
 
 # START OF LEMON ZEST
 # Should I add updated_at, modified_by and created_at to my DB?
-# TODO: Write methods to check if user can edit.
-# TODO: Call methods that check if user can edit.
-# TODO: Update check methods to include workspace admins so they can also edit?
+# TODO: Update "can user" methods to include workspace admins so they can also edit?
 
 def can_user_delete_entry(user_id, entry_id):
     entry = get_entry(entry_id)
@@ -358,6 +356,32 @@ def can_user_delete_workspace(user_id, workspace_id):
     workspace = get_space(workspace_id)
 
     if workspace["owner_id"] == ObjectId(user_id):
+        return True
+    else:
+        return False
+
+
+def can_user_edit_entry(user_id, entry_id):
+    # Since boolean seems to return False by default, do I need an else statement?
+    entry = get_entry(entry_id)
+
+    if entry["user_id"] == user_id:
+        return True
+    else:
+        return False
+
+
+def can_user_edit_board(user_id, board_id):
+    board = get_board(board_id)
+    if board["owner_id"] == user_id:
+        return True
+    else:
+        return False
+
+
+def can_user_change_workspace(user_id, workspace_id):
+    workspace = get_space(workspace_id)
+    if workspace["owner_id"] == user_id:
         return True
     else:
         return False
@@ -431,12 +455,13 @@ def delete_workspace(workspace_id, user_id):
     )
 
 
-def rename_board(_id, new_question):
-    # TODO: Write a wrapper function to check if user can rename the board.
+def rename_board(board_id, user_id, new_question):
+    if not can_user_edit_board(user_id, board_id):
+        return
 
     client.standups.boards.update_one(
         {
-            '_id': ObjectId(_id)
+            '_id': ObjectId(board_id)
         },
         {
             '$set': {'question': new_question}
@@ -444,12 +469,13 @@ def rename_board(_id, new_question):
     )
 
 
-def rename_workspace(_id, new_name):
-    # TODO: Write a wrapper function to check if user can rename the workspace.
+def rename_workspace(workspace_id, user_id, new_name):
+    if not can_user_change_workspace(user_id, workspace_id):
+        return
 
     client.standups.spaces.update_one(
         {
-            '_id': ObjectId(_id)
+            '_id': ObjectId(workspace_id)
         },
         {
             '$set': {'name': new_name}
@@ -457,14 +483,22 @@ def rename_workspace(_id, new_name):
     )
 
 
-def edit_entry(id, new_content):
-    # TODO: Write a wrapper function to check if user can edit the entry.
-    # Should I be storing a timestamp of when the entry was edited?
+def edit_entry(entry_id, user_id, new_content):
+    # TODO: Timezone differences? How are we going to go about that?
+    # Should modified_at and modified_by be nested in a list?
+
+    if not can_user_edit_entry(user_id, entry_id):
+        return
+
     client.standups.entries.update_one(
         {
             '_id': ObjectId(id)
         },
         {
-            '$set': {'content': new_content}
+            '$set': {
+                'content': new_content,
+                'modified_at': datetime.datetime.now(),
+                'modified_by': ObjectId(user_id)
+            }
         }
     )
