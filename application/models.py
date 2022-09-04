@@ -1,4 +1,5 @@
 import datetime
+from datetime import timezone
 from werkzeug.security import generate_password_hash
 from .database import client
 from werkzeug.security import check_password_hash
@@ -230,7 +231,8 @@ def delete_user(user_id, email_address):
 
 
 def create_entry(_id, content, user_id, board_id):
-    formatted_date = datetime.datetime.today().strftime("%Y-%m-%d %H-%M-%S")
+    formatted_date = datetime.datetime.now(
+        timezone.utc).strftime("%Y-%m-%d %H-%M-%S")
     client.standups.entries.insert_one(
         {
             "_id": _id,
@@ -374,7 +376,7 @@ def delete_entry(entry_id, user_id):
         },
         {
             "$set": {
-                'deleted_at': datetime.datetime.today(),
+                'deleted_at': datetime.datetime.now(timezone.utc),
                 'modified_by': ObjectId(user_id)
             }
         }
@@ -388,7 +390,7 @@ def delete_all_entries_in_board(board_id, user_id):
         },
         {
             "$set": {
-                'deleted_at': datetime.datetime.today(),
+                'deleted_at': datetime.datetime.now(timezone.utc),
                 'modified_by': ObjectId(user_id)
             }
         }
@@ -407,7 +409,7 @@ def delete_board(board_id, user_id):
         },
         {
             "$set": {
-                'deleted_at': datetime.datetime.today(),
+                'deleted_at': datetime.datetime.now(timezone.utc),
                 'modified_by': ObjectId(user_id)
             }
         }
@@ -421,7 +423,7 @@ def delete_all_boards_in_workspace(workspace_id, user_id):
         },
         {
             "$set": {
-                'deleted_at': datetime.datetime.today(),
+                'deleted_at': datetime.datetime.now(timezone.utc),
                 'modified_by': ObjectId(user_id)
             }
         }
@@ -440,7 +442,7 @@ def delete_workspace(workspace_id, user_id):
         },
         {
             "$set": {
-                'deleted_at': datetime.datetime.today(),
+                'deleted_at': datetime.datetime.now(timezone.utc),
                 'modified_by': ObjectId(user_id)
             }
         }
@@ -458,7 +460,7 @@ def rename_board(board_id, user_id, new_question):
         {
             '$set': {
                 'question': new_question,
-                'modified_at': datetime.datetime.now(),
+                'modified_at': datetime.datetime.now(timezone.utc),
                 'modified_by': ObjectId(user_id)
             }
         }
@@ -476,7 +478,7 @@ def rename_workspace(workspace_id, user_id, new_name):
         {
             '$set': {
                 'name': new_name,
-                'modified_at': datetime.datetime.now(),
+                'modified_at': datetime.datetime.now(timezone.utc),
                 'modified_by': ObjectId(user_id)
             }
         }
@@ -484,7 +486,6 @@ def rename_workspace(workspace_id, user_id, new_name):
 
 
 def edit_entry(entry_id, user_id, new_content):
-    # TODO: Timezone differences? How are we going to go about that?
     # Should modified_at and modified_by be nested in a list?
 
     if not can_user_edit_entry(user_id, entry_id):
@@ -497,7 +498,7 @@ def edit_entry(entry_id, user_id, new_content):
         {
             '$set': {
                 'content': new_content,
-                'modified_at': datetime.datetime.now(),
+                'modified_at': datetime.datetime.now(timezone.utc),
                 'modified_by': ObjectId(user_id)
             }
         }
