@@ -373,18 +373,24 @@ def delete_entry(entry_id, user_id):
             "_id": ObjectId(entry_id)
         },
         {
-            "$set": {'deleted_at': datetime.datetime.today()}
+            "$set": {
+                'deleted_at': datetime.datetime.today(),
+                'modified_by': ObjectId(user_id)
+            }
         }
     )
 
 
-def delete_all_entries_in_board(board_id):
+def delete_all_entries_in_board(board_id, user_id):
     client.standups.entries.update_many(
         {
             'board_id': ObjectId(board_id)
         },
         {
-            "$set": {'deleted_at': datetime.datetime.today()}
+            "$set": {
+                'deleted_at': datetime.datetime.today(),
+                'modified_by': ObjectId(user_id)
+            }
         }
     )
 
@@ -393,25 +399,31 @@ def delete_board(board_id, user_id):
     if not can_user_delete_board(user_id, board_id):
         return
 
-    delete_all_entries_in_board(board_id)
+    delete_all_entries_in_board(board_id, user_id)
 
     client.standups.boards.update_one(
         {
             '_id': ObjectId(board_id)
         },
         {
-            "$set": {'deleted_at': datetime.datetime.today()}
+            "$set": {
+                'deleted_at': datetime.datetime.today(),
+                'modified_by': ObjectId(user_id)
+            }
         }
     )
 
 
-def delete_all_boards_in_workspace(workspace_id):
+def delete_all_boards_in_workspace(workspace_id, user_id):
     client.standups.boards.update_many(
         {
             'space_id': ObjectId(workspace_id)
         },
         {
-            "$set": {'deleted_at': datetime.datetime.today()}
+            "$set": {
+                'deleted_at': datetime.datetime.today(),
+                'modified_by': ObjectId(user_id)
+            }
         }
     )
 
@@ -420,14 +432,17 @@ def delete_workspace(workspace_id, user_id):
     if not can_user_delete_workspace(user_id, workspace_id):
         return
 
-    delete_all_boards_in_workspace(workspace_id)
+    delete_all_boards_in_workspace(workspace_id, user_id)
 
     client.standups.spaces.update_one(
         {
             '_id': ObjectId(workspace_id)
         },
         {
-            "$set": {'deleted_at': datetime.datetime.today()}
+            "$set": {
+                'deleted_at': datetime.datetime.today(),
+                'modified_by': ObjectId(user_id)
+            }
         }
     )
 
@@ -441,7 +456,11 @@ def rename_board(board_id, user_id, new_question):
             '_id': ObjectId(board_id)
         },
         {
-            '$set': {'question': new_question}
+            '$set': {
+                'question': new_question,
+                'modified_at': datetime.datetime.now(),
+                'modified_by': ObjectId(user_id)
+            }
         }
     )
 
@@ -455,7 +474,11 @@ def rename_workspace(workspace_id, user_id, new_name):
             '_id': ObjectId(workspace_id)
         },
         {
-            '$set': {'name': new_name}
+            '$set': {
+                'name': new_name,
+                'modified_at': datetime.datetime.now(),
+                'modified_by': ObjectId(user_id)
+            }
         }
     )
 
