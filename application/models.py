@@ -336,55 +336,32 @@ def aggregation_test(workspace_id):
 
 def can_user_delete_entry(user_id, entry_id):
     entry = get_entry(entry_id)
-
-    if entry["user_id"] == ObjectId(user_id):
-        return True
-    else:
-        return False
+    return entry["user_id"] == ObjectId(user_id)
 
 
 def can_user_delete_board(user_id, board_id):
     board = get_board(board_id)
-
-    if board["owner_id"] == ObjectId(user_id):
-        return True
-    else:
-        return False
+    return board["owner_id"] == ObjectId(user_id)
 
 
 def can_user_delete_workspace(user_id, workspace_id):
     workspace = get_space(workspace_id)
-
-    if workspace["owner_id"] == ObjectId(user_id):
-        return True
-    else:
-        return False
+    return workspace["owner_id"] == ObjectId(user_id)
 
 
 def can_user_edit_entry(user_id, entry_id):
-    # Since boolean seems to return False by default, do I need an else statement?
     entry = get_entry(entry_id)
-
-    if entry["user_id"] == user_id:
-        return True
-    else:
-        return False
+    return entry["user_id"] == user_id
 
 
 def can_user_edit_board(user_id, board_id):
     board = get_board(board_id)
-    if board["owner_id"] == user_id:
-        return True
-    else:
-        return False
+    return board["owner_id"] == user_id
 
 
 def can_user_change_workspace(user_id, workspace_id):
     workspace = get_space(workspace_id)
-    if workspace["owner_id"] == user_id:
-        return True
-    else:
-        return False
+    return workspace["owner_id"] == user_id
 
 
 def delete_entry(entry_id, user_id):
