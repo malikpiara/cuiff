@@ -446,24 +446,23 @@ def board_entries(workspace_id):
     selected_entries = []
 
     for entry in results:
-        selected_entries.append(entry["board_entries"]['_id'])
+        selected_entries.append(ObjectId(entry["board_entries"]['_id']))
 
     return selected_entries
 
 
 def delete_all_entries_in_workspace(workspace_id, user_id):
-    for entry in board_entries(workspace_id):
-        client.standups.entries.update_one(
-            {
-                '_id': ObjectId(entry)
-            },
-            {
-                "$set": {
-                    'deleted_at': datetime.datetime.now(timezone.utc),
-                    'modified_by': ObjectId(user_id)
-                }
+    client.standups.entries.update_many(
+        {
+            '_id': {'$in': board_entries(workspace_id)}
+        },
+        {
+            "$set": {
+                'deleted_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
             }
-        )
+        }
+    )
 
 
 def delete_all_boards_in_workspace(workspace_id, user_id):
