@@ -224,8 +224,13 @@ def update_active_workspace(id, workspace):
 
 
 def delete_user(user_id, email_address):
-    # Deleting all of the entries posted by the user.
-    # Then, deleting the user from the DB.
+    """
+    Deleting all of the entries posted by the user.
+    Then, deleting the user from the DB.
+
+    TODO: Turn hard delete into soft delete.
+    """
+
     client.standups.entries.delete_many({'user_id': user_id})
     client.standups.users.delete_one({'email': email_address})
 
@@ -334,9 +339,12 @@ def aggregation_test(workspace_id):
         return entry['name']
 
 
+"""
 # START OF LEMON ZEST
-# Should I add updated_at, modified_by and created_at to my DB?
-# TODO: Update "can user" methods to include workspace admins so they can also edit?
+
+TODO: Update "can user" methods to include workspace admins so they can also edit?
+"""
+
 
 def can_user_delete_entry(user_id, entry_id):
     entry = get_entry(entry_id)
@@ -370,7 +378,7 @@ def can_user_change_workspace(user_id, workspace_id):
 
 def delete_entry(entry_id, user_id):
     if not can_user_delete_entry(user_id, entry_id):
-        return
+        raise Exception("User doesn't have permission to delete this entry.")
 
     client.standups.entries.update_one(
         {
@@ -401,7 +409,7 @@ def delete_all_entries_in_board(board_id, user_id):
 
 def delete_board(board_id, user_id):
     if not can_user_delete_board(user_id, board_id):
-        return
+        raise Exception("User doesn't have permission to delete this board.")
 
     delete_all_entries_in_board(board_id, user_id)
 
@@ -483,7 +491,8 @@ def delete_all_boards_in_workspace(workspace_id, user_id):
 
 def delete_workspace(workspace_id, user_id):
     if not can_user_delete_workspace(user_id, workspace_id):
-        return
+        raise Exception(
+            "User doesn't have permission to delete this workspace.")
 
     delete_all_boards_in_workspace(workspace_id, user_id)
 
@@ -502,7 +511,7 @@ def delete_workspace(workspace_id, user_id):
 
 def rename_board(board_id, user_id, new_question):
     if not can_user_edit_board(user_id, board_id):
-        return
+        raise Exception("User doesn't have permission to rename this board.")
 
     client.standups.boards.update_one(
         {
@@ -520,7 +529,8 @@ def rename_board(board_id, user_id, new_question):
 
 def rename_workspace(workspace_id, user_id, new_name):
     if not can_user_change_workspace(user_id, workspace_id):
-        return
+        raise Exception(
+            "User doesn't have permission to rename this workspace.")
 
     client.standups.spaces.update_one(
         {
@@ -540,7 +550,7 @@ def edit_entry(entry_id, user_id, new_content):
     # Should modified_at and modified_by be nested in a list?
 
     if not can_user_edit_entry(user_id, entry_id):
-        return
+        raise Exception("User doesn't have permission to edit this entry.")
 
     client.standups.entries.update_one(
         {
