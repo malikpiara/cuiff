@@ -315,6 +315,8 @@ class DB_Update():
 
 db = client["standups"]
 user_collection = db["users"]
+boards_collection = db["boards"]
+entries_collection = db["entries"]
 workspace_collection = db["spaces"]
 
 
@@ -416,7 +418,57 @@ def delete_board(board_id, user_id):
     )
 
 
+def board_entries(workspace_id):
+    # This is returning the id of all entries in a given workspace.
+    pipeline = [
+        {
+            '$match': {
+                'space_id': ObjectId(workspace_id)
+            }
+        },
+        {
+            '$lookup': {
+                'from': 'entries',
+                'localField': '_id',
+                'foreignField': 'board_id',
+                'as': 'board_entries'
+            }
+        },
+        {
+            '$unwind': '$board_entries'
+        },
+        {
+            '$project': {'board_entries._id': 1}
+        }
+    ]
+    results = boards_collection.aggregate(pipeline)
+
+    selected_entries = []
+
+    for entry in results:
+        selected_entries.append(entry["board_entries"]['_id'])
+
+    return selected_entries
+
+
+def delete_all_entries_in_workspace(workspace_id, user_id):
+    for entry in board_entries(workspace_id):
+        client.standups.entries.update_one(
+            {
+                '_id': ObjectId(entry)
+            },
+            {
+                "$set": {
+                    'deleted_at': datetime.datetime.now(timezone.utc),
+                    'modified_by': ObjectId(user_id)
+                }
+            }
+        )
+
+
 def delete_all_boards_in_workspace(workspace_id, user_id):
+    delete_all_entries_in_workspace(workspace_id, user_id)
+
     client.standups.boards.update_many(
         {
             'space_id': ObjectId(workspace_id)
