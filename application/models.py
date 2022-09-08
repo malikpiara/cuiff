@@ -1,4 +1,5 @@
 import datetime
+from datetime import timezone
 from werkzeug.security import generate_password_hash
 from .database import client
 from werkzeug.security import check_password_hash
@@ -223,14 +224,20 @@ def update_active_workspace(id, workspace):
 
 
 def delete_user(user_id, email_address):
-    # Deleting all of the entries posted by the user.
-    # Then, deleting the user from the DB.
+    """
+    Deleting all of the entries posted by the user.
+    Then, deleting the user from the DB.
+
+    TODO: Turn hard delete into soft delete.
+    """
+
     client.standups.entries.delete_many({'user_id': user_id})
     client.standups.users.delete_one({'email': email_address})
 
 
 def create_entry(_id, content, user_id, board_id):
-    formatted_date = datetime.datetime.today().strftime("%Y-%m-%d %H-%M-%S")
+    formatted_date = datetime.datetime.now(
+        timezone.utc).strftime("%Y-%m-%d %H-%M-%S")
     client.standups.entries.insert_one(
         {
             "_id": _id,
@@ -248,11 +255,6 @@ def get_user(_id):
 
 def get_entry(_id):
     return client.standups.entries.find_one({"_id": _id})
-
-
-def delete_entry(_id):
-    # You should only be able to delete if your id is the author id
-    client.standups.entries.delete_one({"_id": ObjectId(_id)})
 
 
 def create_invite_to_space(space_id, sender_id, recipient_email):
@@ -318,6 +320,8 @@ class DB_Update():
 
 db = client["standups"]
 user_collection = db["users"]
+boards_collection = db["boards"]
+entries_collection = db["entries"]
 workspace_collection = db["spaces"]
 
 
@@ -333,3 +337,230 @@ def aggregation_test(workspace_id):
 
     for entry in results:
         return entry['name']
+
+
+"""
+# START OF LEMON ZEST
+
+TODO: Update "can user" methods to include workspace admins so they can also edit?
+"""
+
+
+def can_user_delete_entry(user_id, entry_id):
+    entry = get_entry(entry_id)
+    return entry["user_id"] == ObjectId(user_id)
+
+
+def can_user_delete_board(user_id, board_id):
+    board = get_board(board_id)
+    return board["owner_id"] == ObjectId(user_id)
+
+
+def can_user_delete_workspace(user_id, workspace_id):
+    workspace = get_space(workspace_id)
+    return workspace["owner_id"] == ObjectId(user_id)
+
+
+def can_user_edit_entry(user_id, entry_id):
+    entry = get_entry(entry_id)
+    return entry["user_id"] == user_id
+
+
+def can_user_edit_board(user_id, board_id):
+    board = get_board(board_id)
+    return board["owner_id"] == user_id
+
+
+def can_user_change_workspace(user_id, workspace_id):
+    workspace = get_space(workspace_id)
+    return workspace["owner_id"] == user_id
+
+
+def delete_entry(entry_id, user_id):
+    if not can_user_delete_entry(user_id, entry_id):
+        raise Exception("User doesn't have permission to delete this entry.")
+
+    client.standups.entries.update_one(
+        {
+            "_id": ObjectId(entry_id)
+        },
+        {
+            "$set": {
+                'deleted_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
+
+
+def delete_all_entries_in_board(board_id, user_id):
+    client.standups.entries.update_many(
+        {
+            'board_id': ObjectId(board_id)
+        },
+        {
+            "$set": {
+                'deleted_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
+
+
+def delete_board(board_id, user_id):
+    if not can_user_delete_board(user_id, board_id):
+        raise Exception("User doesn't have permission to delete this board.")
+
+    delete_all_entries_in_board(board_id, user_id)
+
+    client.standups.boards.update_one(
+        {
+            '_id': ObjectId(board_id)
+        },
+        {
+            "$set": {
+                'deleted_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
+
+
+def board_entries(workspace_id):
+    # This is returning the id of all entries in a given workspace.
+    pipeline = [
+        {
+            '$match': {
+                'space_id': ObjectId(workspace_id)
+            }
+        },
+        {
+            '$lookup': {
+                'from': 'entries',
+                'localField': '_id',
+                'foreignField': 'board_id',
+                'as': 'board_entries'
+            }
+        },
+        {
+            '$unwind': '$board_entries'
+        },
+        {
+            '$project': {'board_entries._id': 1}
+        }
+    ]
+    results = boards_collection.aggregate(pipeline)
+
+    selected_entries = []
+
+    for entry in results:
+        selected_entries.append(ObjectId(entry["board_entries"]['_id']))
+
+    return selected_entries
+
+
+def delete_all_entries_in_workspace(workspace_id, user_id):
+    client.standups.entries.update_many(
+        {
+            '_id': {'$in': board_entries(workspace_id)}
+        },
+        {
+            "$set": {
+                'deleted_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
+
+
+def delete_all_boards_in_workspace(workspace_id, user_id):
+    delete_all_entries_in_workspace(workspace_id, user_id)
+
+    client.standups.boards.update_many(
+        {
+            'space_id': ObjectId(workspace_id)
+        },
+        {
+            "$set": {
+                'deleted_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
+
+
+def delete_workspace(workspace_id, user_id):
+    if not can_user_delete_workspace(user_id, workspace_id):
+        raise Exception(
+            "User doesn't have permission to delete this workspace.")
+
+    delete_all_boards_in_workspace(workspace_id, user_id)
+
+    client.standups.spaces.update_one(
+        {
+            '_id': ObjectId(workspace_id)
+        },
+        {
+            "$set": {
+                'deleted_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
+
+
+def rename_board(board_id, user_id, new_question):
+    if not can_user_edit_board(user_id, board_id):
+        raise Exception("User doesn't have permission to rename this board.")
+
+    client.standups.boards.update_one(
+        {
+            '_id': ObjectId(board_id)
+        },
+        {
+            '$set': {
+                'question': new_question,
+                'modified_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
+
+
+def rename_workspace(workspace_id, user_id, new_name):
+    if not can_user_change_workspace(user_id, workspace_id):
+        raise Exception(
+            "User doesn't have permission to rename this workspace.")
+
+    client.standups.spaces.update_one(
+        {
+            '_id': ObjectId(workspace_id)
+        },
+        {
+            '$set': {
+                'name': new_name,
+                'modified_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
+
+
+def edit_entry(entry_id, user_id, new_content):
+    # Should modified_at and modified_by be nested in a list?
+
+    if not can_user_edit_entry(user_id, entry_id):
+        raise Exception("User doesn't have permission to edit this entry.")
+
+    client.standups.entries.update_one(
+        {
+            '_id': ObjectId(id)
+        },
+        {
+            '$set': {
+                'content': new_content,
+                'modified_at': datetime.datetime.now(timezone.utc),
+                'modified_by': ObjectId(user_id)
+            }
+        }
+    )
